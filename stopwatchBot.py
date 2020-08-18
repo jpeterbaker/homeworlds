@@ -1,12 +1,13 @@
 #!/usr/bin/python3.7
+# Use !go and !stop to start and stop a stopwatch
 from datetime import datetime
 import discord
 from asyncio import sleep
 
-with open('token.txt','r') as fin:
+with open('private/token.txt','r') as fin:
     TOKEN = fin.readline().strip()
 
-with open('guildID.txt','r') as fin:
+with open('private/guildID.txt','r') as fin:
     GUILD = int(fin.readline().strip())
 
 client = discord.Client()

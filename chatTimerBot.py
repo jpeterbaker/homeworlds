@@ -1,10 +1,13 @@
 #!/usr/bin/python3.7
+# A bot that makes simple observations about who sends chat messages
+# and the elapsed time between the same user sending two consecutive messages
+
 import discord
 
-with open('token.txt','r') as fin:
+with open('private/token.txt','r') as fin:
     TOKEN = fin.readline().strip()
 
-with open('guildID.txt','r') as fin:
+with open('private/guildID.txt','r') as fin:
     GUILD = int(fin.readline().strip())
 
 client = discord.Client()
