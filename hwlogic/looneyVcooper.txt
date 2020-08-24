@@ -1,0 +1,53 @@
+homeworld b1 r2 g3 Wunderland
+homeworld g3 r1 b3 Jome
+build g1 Wunderland
+build b1 Jome
+trade g1 b1 Wunderland
+build b2 Jome
+build b2 Wunderland
+trade b2 y2 Jome
+trade b1 y1 Wunderland
+discover b1 Jome y2 HSOJ
+discover b2 Wunderland g3 Pepperland
+build b1 Jome
+build b2 Pepperland
+discover b1 Jome g2 JOHS
+trade b2 y2 Pepperland
+build b2 JOHS
+build y1 Wunderland
+build b2 Jome
+build b3 Pepperland
+sacrifice y2 Jome move b1 JOHS Pepperland move b1 HSOJ Pepperland catastrophe Pepperland b
+trade y1 b1 Wunderland
+build b1 JOHS
+move b1 Wunderland Pepperland
+trade b2 y2 Jome
+build b2 Pepperland
+build b2 Jome
+discover b2 Pepperland y2 Narnia
+trade b2 r2 Jome
+trade b1 r1 Pepperland
+build b1 Jome
+build g1 Wunderland
+discover b1 Jome g2 J?
+build g1 Wunderland
+trade b2 g2 JOHS
+discover g1 Wunderland y3 Neverland
+build b2 JOHS
+build g1 Neverland
+sacrifice g2 JOHS build b2 Jome build b3 J?
+sacrifice g3 Wunderland build g2 Neverland build b3 Narnia build g3 Wunderland
+trade b3 y3 Jome
+trade b3 y3 Narnia
+move y2 Jome J?
+sacrifice g3 Wunderland build g3 Wunderland build y1 Wunderland build y1 Pepperland
+move b3 J? Pepperland
+sacrifice y2 Pepperland discover y1 Pepperland y2 MiddleEarth move r1 Pepperland MiddleEarth
+build b3 Pepperland
+sacrifice g3 Wunderland build g3 Wunderland build r1 MiddleEarth build b3 Narnia
+trade b3 r3 Pepperland
+discover y1 Wunderland b3 Pern
+sacrifice y2 J? move r3 Pepperland Wunderland move b3 Pepperland Wunderland
+sacrifice y3 Narnia move r1 MiddleEarth Jome move r1 MiddleEarth Jome pass catastrophe Jome r
+sacrifice r3 Wunderland attack g3 0 Wunderland attack y1 0 Wunderland attack g1 0 Wunderland
+
