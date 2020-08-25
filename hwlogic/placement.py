@@ -19,7 +19,7 @@ def sysKey(system):
     k = 0
     for ship in system.ships:
         k += (2*ship.player-1)*ship.piece.size
-    return key
+    return (k,system.name)
 
 def systemSort(systems):
     '''
@@ -47,7 +47,8 @@ def systemSort(systems):
     for i in range(len(rows)):
         if homes[0] is not None and rows[i][0].connectsTo(homes[0]):
             rows[i],rows[0] = rows[0],rows[i]
-        elif homes[1] is not None and rows[i][0].connectsTo(homes[1]):
+    for i in range(len(rows)):
+        if homes[1] is not None and rows[i][0].connectsTo(homes[1]):
             rows[i],rows[-1] = rows[-1],rows[i]
 
     # Rearrange systems within rows to emphasize player control

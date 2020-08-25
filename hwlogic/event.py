@@ -134,9 +134,13 @@ class YellowAction(Action):
         if self.isDiscovery:
             # This system is just being discovered
             # TODO if we ever need to discover binary systems, a StashOutException on the second request will keep first piece from being put back
+
+            # Adding the ship first is useful
+            # If a stashoutexception occurs with the marker,
+            # then the resulting undo by state.addEvent will succeed
+            state.addSystem(self.newsystem)
             for p in self.newsystem.markers:
                 state.stash.request(p)
-            state.addSystem(self.newsystem)
         self.system.removeShip(self.ship)
         self.newsystem.addShip(self.ship)
     def undo(self,state):

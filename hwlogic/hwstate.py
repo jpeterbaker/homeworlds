@@ -91,13 +91,19 @@ class HWState:
 
     def addEvent(self,e):
         # Event should be a Creation, Action, Catastrophe, or Pass
-        # Fade events are checked for and triggered here
+        # Fade and Elimination events are checked for and triggered here
 
-        # The order of these two commands is important
-        # Enacting events can raise exceptions,
-        # and bad events shouldn't be added to the turn
-        e.enact(self)
         self.curTurn.addEvent(e)
+        try:
+            e.enact(self)
+        except Exception as ex:
+            # Signal the turn that the event is cancelled
+            # This affects the turn's understanding of whether a sacrifice is occurring
+            try:
+                self.curTurn.undoLast()
+            except:
+                print('A problem occurred while resetting the turn. This should be handled better.')
+            raise ex
 
         # Check for Fades (but not for home systems)
         sys = e.getThreatenedSystem()

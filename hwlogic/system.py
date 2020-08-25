@@ -76,7 +76,6 @@ class System:
         # returns true if given player has at least one ship in this system
         #                 and that ship is the specified color, or a system marker is that color
         # if c=None, a ship of any color counts
-
         if not c is None:
             # If a specific color is desired, remove that requirement if a system marker has it
             for m in self.markers:
