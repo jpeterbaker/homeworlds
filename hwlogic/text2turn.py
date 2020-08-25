@@ -32,16 +32,39 @@ def getSystem(name,state):
     for sys in state.systems:
         if sys.name == name:
             return sys
-    print(state)
-    raise Exception('No such system: "%s"'%name)
+    return None
 
-def getShip(cs,sysName,player,state):
+def getShip(cs,sysName,player,state,opponent=None):
+    # If the owner (player) is not known, this function will attempt to infer the ship
+    # from a provided opponent. If multiple opponents of "opponent" have a cs ship
+    # in the system, this function raises an exception
     sys = getSystem(sysName,state)
     p = getPiece(cs)
+    if player is not None:
+        for s in sys.ships:
+            if s.piece == p and s.player == player:
+                return s
+        raise Exception('Player {} does not own a {} ship in {}'.format(
+            player,cs.lower(),sysName))
+
+    # Player was not specified
+    # Find a ship that that is an opponent of "opponent"
+    if opponent is None:
+        raise Exception('You must specify the player or an opponent')
+    candidate = None
     for s in sys.ships:
-        if s.piece == p and s.player == player:
-            return s
-    raise Exception('You do not own a %s ship in %s'%(cs.lower(),sysName))
+        if s.piece == p and s.player != opponent:
+            # Found an opponent's ship that matches the description
+            if candidate is None:
+                candidate = s
+            elif candidate.player != s.player:
+                # Two opponents have ships of this type
+                raise Exception('Multiple opponents have a {} ship in {}'.format(
+                    cs,sysName))
+    if candidate is None:
+        raise Exception('No opponents have a {} ship in {}'.format(
+            cs,sysName))
+            
 
 def applyTextTurn(s,state):
     # This applies a complete turn to state
@@ -49,7 +72,6 @@ def applyTextTurn(s,state):
     # If you want the turn object, take state.curTurn
 
     # TODO check for duplicate system names
-    print(s)
     w = wordre.findall(s)
     n = len(w)
 
@@ -86,9 +108,12 @@ def applyTextTurn(s,state):
             i += 4
         elif w[i] in discoverTerms:
             # discover ship fromSystem newStar newName
+            newName = w[i+4]
+            if getSystem(newName,state) is not None:
+                raise Exception('The {} system already exists.'.format(newName))
             fromSystem = getSystem(w[i+2],state)
             s = getShip(w[i+1],w[i+2],player,state)
-            newSys = system.System([getPiece(w[i+3])],None,w[i+4])
+            newSys = system.System([getPiece(w[i+3])],None,newName)
             state.addEvent(event.YellowAction(s,fromSystem,newSys))
             i += 5
         elif w[i] in tradeTerms:
@@ -102,11 +127,19 @@ def applyTextTurn(s,state):
             state.addEvent(event.BlueAction(s,newColor,sys))
             i += 4
         elif w[i] in attackTerms:
-            # attack ship owner inSystem
-            sys = getSystem(w[i+3],state)
-            s = getShip(w[i+1],w[i+3],int(w[i+2]),state)
+            # attack ship[owner] inSystem
+            sys = getSystem(w[i+2],state)
+            if len(w[i+1]) == 2:
+                # Owner of opposing ship has not been specified
+                # getShip will try to infer it
+                s = getShip(w[i+1],w[i+2],None,state,opponent=player)
+            elif len(w[i+1]) == 3:
+                # Owner of ship is specified by an int appended to ship name
+                s = getShip(w[i+1],w[i+2],int(w[i+1][2]),state)
+            else:
+                raise Exception('Bad target ship specifier')
             state.addEvent(event.RedAction(s,player,sys))
-            i += 4
+            i += 3
         elif w[i] in sacTerms:
             # sacrifice ship inSystem
             sys = getSystem(w[i+2],state)
@@ -127,13 +160,16 @@ def applyTextTurn(s,state):
             i += 1
         elif w[i] in hwTerms:
             # homeworld star1 star2 ship name
+            name = w[i+4]
+            if getSystem(name,state) is not None:
+                raise Exception('The {} system already exists.'.format(name))
             sys = system.System(
                 [
                     getPiece(w[i+1]),
                     getPiece(w[i+2])
                 ],
                 player,
-                w[i+4]
+                name
             )
             s = ship.Ship(getPiece(w[i+3]),player)
             state.addEvent(event.Creation(sys,s))

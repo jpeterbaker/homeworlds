@@ -93,8 +93,11 @@ class HWState:
         # Event should be a Creation, Action, Catastrophe, or Pass
         # Fade events are checked for and triggered here
 
-        self.curTurn.addEvent(e)
+        # The order of these two commands is important
+        # Enacting events can raise exceptions,
+        # and bad events shouldn't be added to the turn
         e.enact(self)
+        self.curTurn.addEvent(e)
 
         # Check for Fades (but not for home systems)
         sys = e.getThreatenedSystem()
@@ -105,7 +108,6 @@ class HWState:
 
     def finishTurn(self):
         # Checks for home system fades and eliminations
-        print('Finishing turn')
         if not self.curTurn.isCompleted():
             raise TurnNotOverException('Turn does not appear to be complete (did you mean to pass?)')
 
@@ -154,6 +156,8 @@ class HWState:
         return (self.onmove,tuple(self.alive),tuple(stuples))
 
     def tuplify(self):
+        # Does not include system names, but systems are sorted
+        # Appropriate for comparing states
         if not self.tupled is None:
             return self.tupled
         stuples = [s.tuplify() for s in self.systems]
@@ -203,39 +207,4 @@ class HWState:
                         connects.append(System([p]))
         return connects
 
-    def getKey(self,child):
-        # Get the turn that produces child
-        pairs =  self.curTurn.getContinuations(getTurn=True)
-        for c,t in pairs:
-            if c == child:
-                return t
-        raise NoSuchChildException('Child not found')
-
-    def _getChildren(self):
-#        print('\nGetting children of\n',self)
-#        print(self.curTurn)
-        c = self.curTurn.getContinuations()
-#        print('\n\nRECEIVED CONTINUATIONS\n\n')
-#        for child in c:
-#            print(child)
-#            print('\n#############\n#############\n')
-        return c
-    def _getChild(self,key):
-        applyTextTurn(key,self)
-        self.advanceOnmove(1)
-        copy = self.deepCopy()
-        self.advanceOnmove(-1)
-        self.curTurn.undoAll()
-        return copy
-        # TODO when not debugging, catch errors gracefully (version below)
-#        try:
-#            applyTextTurn(key,self)
-#            copy = self.deepCopy()
-#        except Exception as e:
-#            raise e
-#        finally:
-#            self.curTurn.undoAll()
-#        return copy
-
-        
 

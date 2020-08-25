@@ -24,7 +24,7 @@ class Piece:
     def __repr__(self):
         return str(self)
     def tuplify(self):
-        return (self.color,self.size)
+        return (self.size,self.color)
     def deepCopy(self):
 #        return Piece(self.size,self.color)
         return self
