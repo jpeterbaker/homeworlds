@@ -178,7 +178,7 @@ class HWState:
     def calcHash(self):
         return hash(self.tuplify())
 
-    def _isEnd(self):
+    def isEnd(self):
         # TODO implement other win conditions
         return self.alive.count(True) == 1 and self.creationOver()
 

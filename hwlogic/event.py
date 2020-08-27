@@ -80,7 +80,7 @@ class Creation(Event):
         return 'homeworld {} {} {} {}'.format(
             self.system.markers[0],
             self.system.markers[1],
-            self.ship,
+            self.ship.piece,
             self.system.name
         )
 
@@ -253,7 +253,7 @@ class Catastrophe(Event):
     def __str__(self):
         return 'catastrophe {} {}'.format(
             self.system.name,
-            self.color
+            color.names[self.color]
         )
 
 ######################################

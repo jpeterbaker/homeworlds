@@ -10,6 +10,7 @@ path.append('hwlogic/')
 from text2turn import applyTextTurn as att
 from hwstate import HWState
 from draw import drawState
+from match import Match
 
 from os import path as ospath
 imgSaveDir = ospath.join(ospath.dirname(__file__), 'stateImages/')
@@ -17,8 +18,14 @@ imgSaveDir = ospath.join(ospath.dirname(__file__), 'stateImages/')
 with open('private/token.txt','r') as fin:
     TOKEN = fin.readline().strip()
 
-with open('private/guildID.txt','r') as fin:
-    GUILD = int(fin.readline().strip())
+if 1:
+    # Main HW server
+    with open('private/guildID.txt','r') as fin:
+        GUILD = int(fin.readline().strip())
+else:
+    # Testing server
+    with open('private/testID.txt','r') as fin:
+        GUILD = int(fin.readline().strip())
 
 client = discord.Client()
 
@@ -29,10 +36,8 @@ async def on_ready():
         f'{client.user} is connected guild "{guild.name}"'
     )
 
-# map Channel to its respective ChannelTimer
-channel2timer = {}
-# map Channel to Homeworlds state
-channel2state = {}
+# Map each channel to the match that is happening there
+channel2match = {}
 
 async def parseRegistration(message,ctimer):
     words = message.content.split()
@@ -52,9 +57,10 @@ async def parseRegistration(message,ctimer):
 async def processTurn(message):
     # Check that this person should be making a move at all
     channel = message.channel
-    ctimer = channel2timer[channel]
+    match = channel2match[channel]
+    ctimer = match.ctimer
     ctimer.confirmTurn(message)
-    state = channel2state[channel]
+    state = match.state
     # The move command
     cmd = message.content[1:]
     if cmd[0] == 'h':
@@ -63,6 +69,7 @@ async def processTurn(message):
         # append user name so that text2turn knows what to call the system
         cmd = '{} {}'.format(cmd,message.author.name)
     att(cmd,state)
+    match.addTurn(cmd)
 
     fname = ospath.join(imgSaveDir,'{}.png'.format(channel.id))
     drawState(state,fname)
@@ -70,13 +77,20 @@ async def processTurn(message):
     with open(fname,'rb') as fin:
         df = discord.File(fin)
         await channel.send('',file=df)
+    if state.isEnd():
+        await channel.send('Game has ended:')
+        await channel.send(match.getHistStr())
+        await ctimer.stop(message)
+        match.reset()
+    else:
+        await ctimer.addPly(message)
 
 async def processCommand(message):
     channel = message.channel
-    if not channel in channel2timer:
-        channel2timer[channel] = ct.ChannelTimer(channel)
-        channel2state[channel] = None
-    ctimer = channel2timer[channel]
+    if not channel in channel2match:
+        channel2match[channel] = Match(ct.ChannelTimer(channel))
+    match = channel2match[channel]
+    ctimer = match.ctimer
     if message.content == '!p':
         await ctimer.togglePause(message)
     elif message.content == '!pause':
@@ -84,19 +98,23 @@ async def processCommand(message):
     elif message.content.startswith('!begin'):
         if ctimer.timing:
             raise Exception('Game is already running')
-        channel2state[channel] = HWState()
+        channel2match[channel].state = HWState()
         await ctimer.begin(message)
     elif message.content == '!unpause':
         await ctimer.unpause(message)
     elif message.content == '!stop':
+        if not ctimer.timing:
+            await channel.send('Game is not running.')
+            return
+        await channel.send(match.getHistStr())
         await ctimer.stop(message)
-        channel2state[channel] = None
+        match.reset()
+        await channel.send('Game cancelled. Please report anyone abusing this feature to Babamots.')
     elif message.content.startswith('!register'):
         await parseRegistration(message,ctimer)
     else:
         # It isn't a timer command, so it should be a game move
         await processTurn(message)
-        await ctimer.addPly(message)
 
 @client.event
 async def on_message(message):
@@ -112,9 +130,12 @@ async def on_message(message):
     except ct.InvalidTimerIteraction as e:
         await message.channel.send(str(e))
 #        raise(e)
-    except Exception as e:
+    except IndexError as e:
         # Make sure that any partial turn got cancelled
-        channel2state[message.channel].cancelTurn()
+        channel2match[message.channel].state.cancelTurn()
+        await message.channel.send('{}\n\nYou probably typed your move wrong.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
+    except Exception as e:
+        channel2match[message.channel].state.cancelTurn()
         await message.channel.send('{}\n\nPlease check the instructions in the message pinned in the lobby channels.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
         raise e
 

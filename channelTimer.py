@@ -89,10 +89,16 @@ class ChannelTimer:
         self.clock = cc.ChessClock([self.reg2userTimePair[key][1] for key in reglist])
         self.names = [self.reg2userTimePair[key][0].name for key in reglist]
 
+        newreg2pair = {}
         # Replace registration numbers (which could be 1,2 for example)
         # With player numbers 0,1
         for i in range(len(reglist)):
-            self.player2reg[self.reg2userTimePair[reglist[i]][0]] = i
+            oldreg = reglist[i]
+            # User,time tuple
+            pair = self.reg2userTimePair[oldreg]
+            self.player2reg[pair[0]] = i
+            newreg2pair[i] = pair
+        self.reg2userTimePair = newreg2pair
 #        t = message.created_at
         t = cc.datetime.utcnow()
         self.clock.unpause(t)
@@ -124,6 +130,8 @@ class ChannelTimer:
             await sleep(1)
         if self.clock is None or self.clock.expired:
             # Game is over, so don't delete the old message anymore
+            await self.channel.send('Timer has expired\n!stop the game to see report')
+            self.timing = False
             self.timerMessage = None
 
     async def stop(self,message):
@@ -133,12 +141,11 @@ class ChannelTimer:
         self.clock = None
         self.timing = False
         self.names = None
-        await self.channel.send('Game cancelled. Please report anyone abusing this feature to Babamots.')
 
     def confirmTurn(self,message):
         # Raise an exception if player may not move
         if not self.timing:
-            raise InvalidTimerIteraction('Game has not started yet')
+            raise InvalidTimerIteraction('Game is not in progress')
         user = message.author
         self.playerCheck(user)
         if not user in self.player2reg:
@@ -155,7 +162,7 @@ class ChannelTimer:
             
     async def togglePause(self,message):
         if not self.timing:
-            raise InvalidTimerIteraction('Game has not started yet')
+            raise InvalidTimerIteraction('Game is not in progress')
         if self.clock.paused:
             await self.unpause(message)
         else:
@@ -163,7 +170,7 @@ class ChannelTimer:
 
     async def pause(self,message):
         if not self.timing:
-            raise InvalidTimerIteraction('Game has not started yet')
+            raise InvalidTimerIteraction('Game is not in progress')
         user = message.author
         self.playerCheck(user)
 #        t = message.created_at
@@ -173,7 +180,7 @@ class ChannelTimer:
 
     async def unpause(self,message):
         if not self.timing:
-            raise InvalidTimerIteraction('Game has not started yet')
+            raise InvalidTimerIteraction('Game is not in progress')
         user = message.author
         self.playerCheck(user)
 #        t = message.created_at
@@ -286,6 +293,3 @@ if __name__=='__main__':
     except cc.ChessClockException as e:
         print(e)
 
-
-
-        

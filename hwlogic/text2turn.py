@@ -81,8 +81,6 @@ def applyTextTurn(s,state):
 
     i = 0
 
-    print('Processing the command',s)
-
     while i < n:
         w[i] = w[i].lower()
         if w[i] in buildTerms:
@@ -142,7 +140,6 @@ def applyTextTurn(s,state):
                 s = getShip(w[i+1],w[i+2],int(w[i+1][2]),state)
             else:
                 raise Exception('Bad target ship specifier')
-            print(s,'attacked by',player,'in',sys.name)
             state.addEvent(event.RedAction(s,player,sys))
             i += 3
         elif w[i] in sacTerms:
