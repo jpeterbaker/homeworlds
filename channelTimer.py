@@ -24,6 +24,9 @@ class ChannelTimer:
         self.timing = False
         self.names = None
 
+    def getNusers(self):
+        return len(self.player2reg)
+
     async def register(self,user,i=None,dt=None):
         # Add a user as player i in a game with time bank dt (number of seconds)
         # i does not need to be an int, only comparable with all other registrations
@@ -49,6 +52,7 @@ class ChannelTimer:
             await self.channel.send('{} was player {} but will now be player {}'.format(
                 user.name,oldi,i
             ))
+            self.player2reg.pop(user)
             self.reg2userTimePair.pop(oldi)
 
         if i is None:
@@ -61,6 +65,7 @@ class ChannelTimer:
                 user.name,other.name,i
             ))
             self.player2reg.pop(other)
+            self.reg2userTimePair.pop(i)
 
         if len(self.reg2userTimePair) >= maxPlayers or len(self.player2reg) >= maxPlayers:
             raise InvalidTimerIteraction('Registration cancelled: max players reached')
@@ -84,9 +89,10 @@ class ChannelTimer:
         self.clock = cc.ChessClock([self.reg2userTimePair[key][1] for key in reglist])
         self.names = [self.reg2userTimePair[key][0].name for key in reglist]
 
-        # Map each user to their index in the play order
+        # Replace registration numbers (which could be 1,2 for example)
+        # With player numbers 0,1
         for i in range(len(reglist)):
-            self.player2reg[reglist[i]] = i
+            self.player2reg[self.reg2userTimePair[reglist[i]][0]] = i
 #        t = message.created_at
         t = cc.datetime.utcnow()
         self.clock.unpause(t)
@@ -109,8 +115,12 @@ class ChannelTimer:
             try:
                 await self.timerMessage.edit(content=self.strAt(t))
             except Exception as e:
-                print('An exception in main loop')
-                print(e)
+                # Hopefully, this isn't needed
+                # The message has sometimes been deleted because of commands,
+                # but I don't anticipate other exceptions happening
+#                print('An exception in main loop')
+#                print(e)
+                pass
             await sleep(1)
         if self.clock is None or self.clock.expired:
             # Game is over, so don't delete the old message anymore
@@ -125,14 +135,20 @@ class ChannelTimer:
         self.names = None
         await self.channel.send('Game cancelled. Please report anyone abusing this feature to Babamots.')
 
-    async def addPly(self,message):
+    def confirmTurn(self,message):
+        # Raise an exception if player may not move
         if not self.timing:
             raise InvalidTimerIteraction('Game has not started yet')
         user = message.author
         self.playerCheck(user)
+        if not user in self.player2reg:
+            raise InvalidTimerIteraction('{} is not a player'.format(user.name))
         if self.player2reg[user] != self.clock.onmove:
-            raise InvalidTimerIteraction('You can only switch the timer on your turn')
+            raise InvalidTimerIteraction('It is not your turn')
+
+    async def addPly(self,message):
 #        t = message.created_at
+        self.confirmTurn(message)
         t = cc.datetime.utcnow()
         self.clock.addPly(t)
         await self.sendTimerMessage()

@@ -1,4 +1,4 @@
 private/*
 __pycache__/*
 *.pyc
-hwlogic/stateImages/*.png
+stateImages/*.png

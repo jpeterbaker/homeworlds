@@ -29,8 +29,9 @@ def getPiece(cs):
         raise Exception('Not a valid ship identifier: "%s"'%cs)
 
 def getSystem(name,state):
+    name = name.upper()
     for sys in state.systems:
-        if sys.name == name:
+        if sys.name.upper() == name:
             return sys
     return None
 
@@ -160,7 +161,10 @@ def applyTextTurn(s,state):
             i += 1
         elif w[i] in hwTerms:
             # homeworld star1 star2 ship name
-            name = w[i+4]
+            try:
+                name = w[i+4]
+            except IndexError:
+                raise Exception('You must give a name to your homeworld.')
             if getSystem(name,state) is not None:
                 raise Exception('The {} system already exists.'.format(name))
             sys = system.System(
