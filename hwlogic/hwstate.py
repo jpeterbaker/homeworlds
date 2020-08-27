@@ -115,7 +115,8 @@ class HWState:
     def finishTurn(self):
         # Checks for home system fades and eliminations
         if not self.curTurn.isCompleted():
-            raise TurnNotOverException('Turn does not appear to be complete (did you mean to pass?)')
+            self.cancelTurn()
+            raise TurnNotOverException('Turn is not complete. Did you forget to pass an unwanted sacrifice action?')
 
         # Check for elimination
         # TODO this is better for huge numbers of players, but slower otherwise

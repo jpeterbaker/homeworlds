@@ -65,6 +65,7 @@ def getShip(cs,sysName,player,state,opponent=None):
     if candidate is None:
         raise Exception('No opponents have a {} ship in {}'.format(
             cs,sysName))
+    return candidate
             
 
 def applyTextTurn(s,state):
@@ -79,6 +80,8 @@ def applyTextTurn(s,state):
     player = state.onmove
 
     i = 0
+
+    print('Processing the command',s)
 
     while i < n:
         w[i] = w[i].lower()
@@ -139,6 +142,7 @@ def applyTextTurn(s,state):
                 s = getShip(w[i+1],w[i+2],int(w[i+1][2]),state)
             else:
                 raise Exception('Bad target ship specifier')
+            print(s,'attacked by',player,'in',sys.name)
             state.addEvent(event.RedAction(s,player,sys))
             i += 3
         elif w[i] in sacTerms:
@@ -182,9 +186,6 @@ def applyTextTurn(s,state):
             # There's a problem
             state.cancelTurn()
             raise Exception('Invalid command: "%s"'%w[i])
-    if not state.curTurn.isCompleted():
-        raise TurnNotOverException('Turn is not complete. Did you forget to pass?')
-
     state.finishTurn()
     turn = state.curTurn
     state.startNewTurn()
@@ -205,16 +206,6 @@ if __name__=='__main__':
     assert(state._isEnd())
     print('GAME OVER')
 
-#    toprint = set([1,5,9,10,15,19,20,23,24,25])
-#    # Now try undoing it all
-#    for i in range(26,0,-1):
-#        if i in toprint:
-#            print(i)
-#            print(state)
-#            print(state.stash)
-#        print('Undoing',i)
-#        for j in [0,1]:
-#            history.pop().undoAll()
     while len(history) > 0:
         print(state)
         history.pop().undoAll()

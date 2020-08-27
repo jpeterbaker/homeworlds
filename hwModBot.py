@@ -113,6 +113,8 @@ async def on_message(message):
         await message.channel.send(str(e))
 #        raise(e)
     except Exception as e:
+        # Make sure that any partial turn got cancelled
+        channel2state[message.channel].cancelTurn()
         await message.channel.send('{}\n\nPlease check the instructions in the message pinned in the lobby channels.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
         raise e
 

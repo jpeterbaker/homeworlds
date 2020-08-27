@@ -52,5 +52,24 @@ except:
     pass
 
 att('build g1 Alice',state)
+att('build g1 Bob',state)
 
+####################
+# Testing whatever #
+####################
+
+att('trade g1 y1 Alice',state)
+att('trade g1 y1 Bob',state)
+
+att('build g1 Alice',state)
+att('build g1 Bob',state)
+
+att('trade g1 r1 Alice',state)
+att('trade g1 r1 Bob',state)
+
+att('discover y1 Alice g3 Ferenginar',state)
+att('discover y1 Bob g1 Billy',state)
+
+att('move y1 Ferenginar Billy',state)
+att('sacrifice r1 Bob attack y1 Billy',state)
 
