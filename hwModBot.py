@@ -102,7 +102,7 @@ async def processCommand(message):
 async def on_message(message):
     if message.author == client.user:
         return
-    if message.content[0] != '!':
+    if message.content == '' or message.content[0] != '!':
         return
     try:
         await processCommand(message)
