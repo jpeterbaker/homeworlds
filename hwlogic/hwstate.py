@@ -18,7 +18,6 @@ def fromTuple(t):
     alive = list(t[1])
     nplayers = len(alive)
     systems = [systemFromTuple(s) for s in t[2]]
-    #TODO somehow, this puts two states in rem
     return HWState(nplayers,onmove,systems,alive=alive)
 
 class HWState:
@@ -155,6 +154,15 @@ class HWState:
             i = (i+d)%self.nplayers
         return i
 
+    def getScores(self):
+        if not self.isEnd():
+            raise Exception('Game is not over.')
+        if self.alive.count(True) == 0:
+            return [1/self.nplayers]*self.nplayers
+        scores = [0]*self.nplayers
+        scores[self.alive.index(True)] = 1
+        return scores
+
     def saveTuple(self):
         # Returns a tuple appropriate for saving the game
         # Systems are not sorted, so not appropriate for comparing states
@@ -180,7 +188,9 @@ class HWState:
 
     def isEnd(self):
         # TODO implement other win conditions
-        return self.alive.count(True) == 1 and self.creationOver()
+        if not self.creationOver():
+            return False
+        return self.alive.count(True) <= 1
 
     def __eq__(self,other):
         return self.tuplify() == other.tuplify()
@@ -213,5 +223,4 @@ class HWState:
                         p = piece.Piece(size,c)
                         connects.append(System([p]))
         return connects
-
 

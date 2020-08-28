@@ -1,19 +1,12 @@
 #!/usr/bin/python3.7
 # Homeworlds moderation and timer
-# Displays the game state and keeps time control
-import chessClock as cc
+# Initializes server
+# Cleans inputs for GameMaster
+# Displays the game state
 import discord
 from asyncio import sleep
-import channelTimer as ct
+from gameMaster import GameMaster
 from sys import path
-path.append('hwlogic/')
-from text2turn import applyTextTurn as att
-from hwstate import HWState
-from draw import drawState
-from match import Match
-
-from os import path as ospath
-imgSaveDir = ospath.join(ospath.dirname(__file__), 'stateImages/')
 
 with open('private/token.txt','r') as fin:
     TOKEN = fin.readline().strip()
@@ -36,10 +29,12 @@ async def on_ready():
         f'{client.user} is connected guild "{guild.name}"'
     )
 
-# Map each channel to the match that is happening there
-channel2match = {}
+# Map each channel to the corresponding GameMaster
+channel2master = {}
 
-async def parseRegistration(message,ctimer):
+async def parseRegistration(message):
+    channel = message.channel
+    master = channel2master[channel]
     words = message.content.split()
     n = len(words)
     if n == 1:
@@ -49,72 +44,32 @@ async def parseRegistration(message,ctimer):
         i = int(words[1])
         dt = int(words[2])
     else:
-        await channel.send('Wrong number of arguments. See pinned message for instructions.')
-        ctimer.register(message.author,int(words[1]),int(words[2]))
+        await channel.send('Wrong number of arguments.\nSee "bot_instructions" channel for help.')
         return
-    await ctimer.register(message.author,i,dt)
-
-async def processTurn(message):
-    # Check that this person should be making a move at all
-    channel = message.channel
-    match = channel2match[channel]
-    ctimer = match.ctimer
-    ctimer.confirmTurn(message)
-    state = match.state
-    # The move command
-    cmd = message.content[1:]
-    if cmd[0] == 'h':
-        # Yes, this is kind of a sloppy way to do this
-        # It's a homeworld creation:
-        # append user name so that text2turn knows what to call the system
-        cmd = '{} {}'.format(cmd,message.author.name)
-    att(cmd,state)
-    match.addTurn(cmd)
-
-    fname = ospath.join(imgSaveDir,'{}.png'.format(channel.id))
-    drawState(state,fname)
-    # Upload the image
-    with open(fname,'rb') as fin:
-        df = discord.File(fin)
-        await channel.send('',file=df)
-    if state.isEnd():
-        await channel.send('Game has ended:')
-        await channel.send(match.getHistStr())
-        await ctimer.stop(message)
-        match.reset()
-    else:
-        await ctimer.addPly(message)
+    await master.register(message.author,i,dt)
 
 async def processCommand(message):
     channel = message.channel
-    if not channel in channel2match:
-        channel2match[channel] = Match(ct.ChannelTimer(channel))
-    match = channel2match[channel]
-    ctimer = match.ctimer
+    if not channel in channel2master:
+        channel2master[channel] = GameMaster(channel)
+    master = channel2master[channel]
     if message.content == '!p':
-        await ctimer.togglePause(message)
+        await master.togglePause(message)
     elif message.content == '!pause':
-        await ctimer.pause(message)
+        await master.pause(message)
     elif message.content.startswith('!begin'):
-        if ctimer.timing:
-            raise Exception('Game is already running')
-        channel2match[channel].state = HWState()
-        await ctimer.begin(message)
+        await master.begin(message)
     elif message.content == '!unpause':
-        await ctimer.unpause(message)
-    elif message.content == '!stop':
-        if not ctimer.timing:
-            await channel.send('Game is not running.')
-            return
-        await channel.send(match.getHistStr())
-        await ctimer.stop(message)
-        match.reset()
-        await channel.send('Game cancelled. Please report anyone abusing this feature to Babamots.')
+        await master.unpause(message)
     elif message.content.startswith('!register'):
-        await parseRegistration(message,ctimer)
+        await parseRegistration(message)
+    elif message.content == '!unregister':
+        await master.unregister(message)
+    elif message.content == '!stop':
+        await master.stop(message)
     else:
         # It isn't a timer command, so it should be a game move
-        await processTurn(message)
+        await master.addTurn(message)
 
 @client.event
 async def on_message(message):
@@ -124,21 +79,18 @@ async def on_message(message):
         return
     try:
         await processCommand(message)
-    except cc.ChessClockException as e:
-        await message.channel.send(str(e))
-#        raise(e)
-    except ct.InvalidTimerIteraction as e:
-        await message.channel.send(str(e))
-#        raise(e)
     except IndexError as e:
         # Make sure that any partial turn got cancelled
-        channel2match[message.channel].state.cancelTurn()
-        await message.channel.send('{}\n\nYou probably typed your move wrong.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
+        channel = message.channel
+        master = channel2master[channel]
+        master.cancelTurn()
+        await channel.send('{}\n\nYou probably typed your move incorrectly.\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
     except Exception as e:
-        channel2match[message.channel].state.cancelTurn()
-        await message.channel.send('{}\n\nPlease check the instructions in the message pinned in the lobby channels.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
+        channel = message.channel
+        master = channel2master[channel]
+        master.cancelTurn()
+        await channel.send('{}\n\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
         raise e
 
 client.run(TOKEN)
-
 

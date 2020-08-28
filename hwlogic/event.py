@@ -1,4 +1,5 @@
 
+from system import System
 from ship import Ship
 from piece import Piece
 import color
@@ -44,9 +45,11 @@ class Pass(Event):
 
 class Creation(Event):
     # creation of a homeworld
-    def __init__(self,system,ship):
+    def __init__(self,markers,ship,name):
         self.ship = ship
-        self.system = system
+        # The markers tracked by the system can change over time, so save the original
+        self.markers = markers
+        self.system = System(markers,ship.player,name)
     def enact(self,state):
         if state.creationOver():
             raise CreationException('Homeworld creation only takes place on your first turn.')

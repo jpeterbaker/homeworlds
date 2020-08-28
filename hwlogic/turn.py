@@ -1,7 +1,6 @@
 
 import event
 from itertools import chain,combinations
-import findChoices
 from hwExceptions import SelfEliminationException,StashOutException
 import traceback
 
@@ -41,6 +40,7 @@ class Turn:
     def addEvent(self,e):
         # Remember that this event is part of the turn,
         # but its effects are not applied here
+        # This method is mostly for tracking whether a sacrifice could occur this turn
         if self.isSac is None:
             # We don't know if this is a sacrifice yet
             if isinstance(e,event.Action):
@@ -166,127 +166,8 @@ class Turn:
         copy.events = list(self.events)
         return copy
 
-    def getFinalizedStateCopy(self,getTurn=False):
-        # Assume all further actions are passed
-        if self.isSac:
-            npass = self.nSac
-        elif self.isSac is None:
-            npass = 1
-        else:
-            npass = 0
-        for i in range(npass):
-            self.addEvent(THEPASS)
-        try:
-            self.state.finishTurn()
-        except SelfEliminationException as e:
-            for i in range(npass):
-                self.undoLast()
-            raise e
-        if getTurn:
-            turn = self.deepCopy()
-        self.state.advanceOnmove(1)
-        copy = self.state.deepCopy()
-        self.state.advanceOnmove(-1)
-        for i in range(npass):
-            self.undoLast()
-        if getTurn:
-            return copy,turn
-        return copy
-
     def isEmpty(self):
         return len(self.events) == 0
-
-    def getContinuations(self,offerCat=True,getTurn=False):
-        '''
-        Recursively generate every possible child state
-        offerCat should be True at every other level of recursion
-            when True, subsets of possible catastrophes will be triggered
-            when False, catastrophes will not be considered
-        If getTurn is True, the returned list will be (state,turn) pairs
-        '''
-        states = []
-        ##################
-        # Creation phase #
-        ##################
-        if not self.state.creationOver():
-            acts = findChoices.getCreations(self.state)
-            for act in acts:
-                try:
-                    self.state.addEvent(act)
-                    states.append(self.getFinalizedStateCopy(getTurn))
-                except StashOutException:
-                    # A piece type ran out during creations
-                    self.events.pop()
-                    # Reset memory of having taken a free action
-                    self.undoAll()
-                    continue
-                self.undoAll()
-            return states
-
-        ###################
-        # Do catastrophes #
-        ###################
-        if offerCat:
-            cats = []
-            i = 0
-            # Find all catastrophes, remove systems without catastrophes
-            for sys in self.state.systems:
-                cats.extend(sys.getCatastrophes())
-            # Try every combination of catastrophes
-            origlen = len(self.events)
-            for todo in powerset(cats):
-                for cat in todo:
-                    self.state.addEvent(cat)
-                states.extend(self.getContinuations(False,getTurn))
-                # Undo the catastrophes
-                # TODO this could be a little faster with Gray-code:
-                # Only do or undo one catastrophe at a time
-                for i in range(len(todo)):
-                    self.undoLast()
-            return states
-        #######################
-        # Do non-catastrophes #
-        #######################
-        # One option is to pass on all remaining actions
-        try:
-#            s = self.getFinalizedStateCopy(getTurn)
-            s,t = self.getFinalizedStateCopy(True)
-            # TODO there is in fact an empty Bob system at this point
-            states.append(s)
-        except SelfEliminationException:
-            pass
-
-        if self.isCompleted():
-            # Since offerCat is False, all catastrophes have had their chance
-            return states
-
-        if self.isSac is None:
-            # Free actions and sacrifices
-            acts = findChoices.getActions(self.state) \
-                + findChoices.getSacrifices(self.state)
-        else:
-            # Actions of the color of the sacrifice
-            # TODO remove this and other assertions after testing I guess
-            assert(self.isSac and self.nSac>0)
-            acts = findChoices.getActions(self.state,self.colSac)
-
-        for act in acts:
-            origlen = len(self.events)
-            try:
-                self.state.addEvent(act)
-            except Exception as e:
-                print('\n\n\n')
-                print('PROBLEM TURN SO FAR')
-                print(self)
-                print('IN THE STATE')
-                print(self.state)
-                raise e
-            toextend = self.getContinuations(True,getTurn)
-            states.extend(toextend)
-            self.undoLast()
-            assert(len(self.events) == origlen)
-
-        return states
 
     def __str__(self):
         if len(self.events) == 0:

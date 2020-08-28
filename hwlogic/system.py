@@ -1,5 +1,5 @@
 
-from event import Fade,Catastrophe
+import event
 from color import colors
 from piece import fromTuple as pieceFromTuple
 from ship import fromTuple as shipFromTuple
@@ -121,7 +121,7 @@ class System:
         cats = []
         for c in colors:
             if self.concentration[c] >= 4:
-                cats.append(Catastrophe(self,c))
+                cats.append(event.Catastrophe(self,c))
         return cats
 
     def getFade(self):
@@ -130,7 +130,7 @@ class System:
         # We just need a list of additional things that disappear as a result
         if not self.isVoid():
             return None
-        return Fade(self)
+        return event.Fade(self)
 
     def __str__(self):
         if not self.home is None:

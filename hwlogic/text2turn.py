@@ -168,16 +168,9 @@ def applyTextTurn(s,state):
                 raise Exception('You must give a name to your homeworld.')
             if getSystem(name,state) is not None:
                 raise Exception('The {} system already exists.'.format(name))
-            sys = system.System(
-                [
-                    getPiece(w[i+1]),
-                    getPiece(w[i+2])
-                ],
-                player,
-                name
-            )
+            markers = [ getPiece(w[i+1]), getPiece(w[i+2]) ]
             s = ship.Ship(getPiece(w[i+3]),player)
-            state.addEvent(event.Creation(sys,s))
+            state.addEvent(event.Creation(markers,s,name))
             i += 5
         else:
             # There's a problem
