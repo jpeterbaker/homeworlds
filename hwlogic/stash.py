@@ -30,14 +30,15 @@ class Stash:
             s = c.size
             c = c.color
         if not s is None:
-            if self.pieces[c][s]>0:
-                self.pieces[c][s] -= 1
-                return piece.Piece(s,c)
-            raise StashOutException('No such pieces remain')
+            p = piece.Piece(s,c)
+            if self.pieces[c][s]<=0:
+                raise StashOutException('No {} pieces remain.'.format(p))
+            self.pieces[c][s] -= 1
+            return p
         
         s = self.querySmallest(c)
         if s is None:
-            raise StashOutException('No pieces of this color remain')
+            raise StashOutException('No {} pieces remain.'.format(color.names[c]))
 
         self.pieces[c][s] -= 1
         return piece.Piece(s,c)

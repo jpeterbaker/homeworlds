@@ -28,9 +28,9 @@ class ChessClock:
     def addPly(self,t):
         # Pause current player's timer and start the next one
         if self.paused:
-            raise ChessClockException('Button disabled while timer is paused')
+            raise ChessClockException('Button disabled while timer is paused.')
         if self.expired:
-            raise ChessClockException('Timer is expired')
+            raise ChessClockException('Timer is expired.')
         self._takeTime(t)
         self.onmove = (self.onmove+1)%self.n
         self.lastPress = t
@@ -38,17 +38,17 @@ class ChessClock:
     def unpause(self,t):
         # Begin countdown either for the first time or after a pause
         if self.expired:
-            raise ChessClockException('Timer is expired')
+            raise ChessClockException('Timer is expired.')
         if self.paused:
             self.lastPress = t
         if self.lastPress is not None and t < self.lastPress:
-            raise ChessClockException('Reverse time travel not allowed')
+            raise ChessClockException('Reverse time travel not allowed.')
         self.paused = False
 
     def pause(self,t):
         # Pause the countdown
         if self.expired:
-            raise ChessClockException('Timer is expired')
+            raise ChessClockException('Timer is expired.')
         if self.lastPress is None:
             return
         # Subtract elapsed time from current player
@@ -67,9 +67,9 @@ class ChessClock:
         # This does not affect lastPress, which is a little unintuitive
         # so the function is being hidden with an underscore name
         if t < self.lastPress:
-            raise ChessClockException('Reverse time travel not allowed')
+            raise ChessClockException('Reverse time travel not allowed.')
         if self.paused:
-            raise ChessClockException('Time may not be taken away while paused')
+            raise ChessClockException('Time may not be taken away while paused.')
         self.times[self.onmove] -= t - self.lastPress
         if self.times[self.onmove] < notime:
             self.expired = True
@@ -81,7 +81,7 @@ class ChessClock:
         # UNLESS a player has timed out, in which case,
         # expired flag is set and the time list is updated
         if self.lastPress is not None and t < self.lastPress:
-            raise ChessClockException('Reverse time travel not allowed')
+            raise ChessClockException('Reverse time travel not allowed.')
         times = list(self.times)
         if self.paused:
             return times
@@ -98,7 +98,7 @@ class ChessClock:
         for i in range(self.n):
             if self.times[i] <= notime:
                 return i
-        raise Exception('Somehow, expired flag is set but no player is out of time')
+        raise Exception('Somehow, expired flag is set but no player is out of time.')
 
     def strAt(self,t,names=None):
         # Represent chess clock as string

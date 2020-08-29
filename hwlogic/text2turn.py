@@ -51,7 +51,7 @@ def getShip(cs,sysName,player,state,opponent=None):
     # Player was not specified
     # Find a ship that that is an opponent of "opponent"
     if opponent is None:
-        raise Exception('You must specify the player or an opponent')
+        raise Exception('You must specify the player or an opponent.')
     candidate = None
     for s in sys.ships:
         if s.piece == p and s.player != opponent:
@@ -94,7 +94,7 @@ def applyTextTurn(s,state):
             else:
                 # Loop exited normally: no ship of the right color found
                 state.cancelTurn()
-                raise Exception('You must already own a piece of that color in that system before building one')
+                raise Exception('You must already own a piece of that color in that system before building one.')
 
             state.addEvent(e)
             if p.size != e.newship.piece.size:
@@ -125,7 +125,7 @@ def applyTextTurn(s,state):
             newColor = char2color[w[i+2][0].lower()]
             if int(w[i+2][1]) != s.piece.size:
                 state.cancelTurn()
-                raise Exception('Traded piece must be the same size')
+                raise Exception('Traded piece must be the same size.')
             state.addEvent(event.BlueAction(s,newColor,sys))
             i += 4
         elif w[i] in attackTerms:
@@ -139,7 +139,7 @@ def applyTextTurn(s,state):
                 # Owner of ship is specified by an int appended to ship name
                 s = getShip(w[i+1],w[i+2],int(w[i+1][2]),state)
             else:
-                raise Exception('Bad target ship specifier')
+                raise Exception('Bad target ship specifier.')
             state.addEvent(event.RedAction(s,player,sys))
             i += 3
         elif w[i] in sacTerms:
@@ -147,8 +147,6 @@ def applyTextTurn(s,state):
             sys = getSystem(w[i+2],state)
             s = getShip(w[i+1],w[i+2],player,state)
             state.addEvent(event.Sacrifice(s,sys))
-#            print('after sacrifice')
-#            print(state.stash)
             i += 3
         elif w[i] in catTerms:
             # catastrophe inSystem color

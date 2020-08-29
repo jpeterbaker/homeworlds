@@ -259,9 +259,10 @@ class GameMaster:
     async def stop(self,message):
         if not self.inProgress:
             raise Exception('Game is not in progress.')
-        await self.channel.send(self.getHistStr())
+        report = self.getHistStr()
+        await self.channel.send('{}\nGame was cancelled by {}.'.format(report,message.author.name))
         self.reset()
-        await self.channel.send('Game cancelled.\nPlease report anyone abusing this feature to Babamots.')
+        await self.channel.send('If {} is abusing the game cancellation feature, please tell Babamots.'.format(message.author.name))
 
 if __name__=='__main__':
     class TestMessage:

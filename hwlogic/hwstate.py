@@ -102,6 +102,7 @@ class HWState:
                 self.curTurn.undoLast()
             except:
                 print('A problem occurred while resetting the turn. This should be handled better.')
+                print(str(ex))
             raise ex
 
         # Check for Fades (but not for home systems)
@@ -127,8 +128,6 @@ class HWState:
                 continue
             # Player is believed to be alive but may have just been eliminated
             home = self.findHome(player)
-            if home is None:
-                raise Exception('WTF!')
             if not home.hasPresence(player):
                 # This player is now dead
                 elim = event.Elimination(player,self.onmove)

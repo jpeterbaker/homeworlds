@@ -102,7 +102,7 @@ class RedAction(Action):
     def enact(self,state):
         aggsize = self.system.getLargestShip(self.newShip.player).piece.size
         if aggsize < self.ship.piece.size:
-            raise Exception('Attacker must have larger ship in same system')
+            raise Exception('Attacker must have larger ship in same system.')
         self.system.removeShip(self.ship)
         self.system.addShip(self.newShip)
     def undo(self,state):
@@ -126,7 +126,7 @@ class YellowAction(Action):
         # Home systems may be void without being discoveries
         self.isDiscovery = newsystem.isEmpty() and newsystem.home is None
         if not self.system.connectsTo(self.newsystem):
-            raise Exception('Systems are not connected')
+            raise Exception('Systems are not connected.')
     def getThreatenedSystem(self):
         # Player may have abandoned the system
         return self.system
@@ -226,7 +226,7 @@ class Catastrophe(Event):
         self.markers = [m for m in sys.markers if m.color == c]
 
         if len(self.ships) + len(self.markers) < 4:
-            raise MissingOverpopulationException('Catastrophes require overpopulation (four or more pieces of the same color)')
+            raise MissingOverpopulationException('Catastrophes require overpopulation (four or more pieces of the same color).')
 
     def enact(self,state):
         for ship in self.ships:

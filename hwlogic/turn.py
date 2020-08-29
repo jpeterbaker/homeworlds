@@ -50,7 +50,7 @@ class Turn:
                 if not e.system.hasPresence(self.state.onmove,e.color):
                     print('It is the turn of player',self.state.onmove)
                     print('Who does not have',e.color,'in',e.system.name)
-                    raise Exception('In order to take a free action, you must have a ship or system marker of that color')
+                    raise Exception('In order to take a free action, you must have a ship or system marker of that color.')
 
             if(
                 isinstance(e,event.Pass) or
@@ -67,13 +67,13 @@ class Turn:
         elif self.isSac:
             if isinstance(e,event.Pass):
                 if self.nSac <= 0:
-                    raise Exception('The number of actions (including passes) must be exactly the size of the sacrificed ship')
+                    raise Exception('The number of actions (including passes) must be exactly the size of the sacrificed ship.')
                 self.nSac -= 1
             elif isinstance(e,event.Action):
                 if e.color != self.colSac:
-                    raise Exception('Action must correspond to color of sacrificed ship')
+                    raise Exception('Action must correspond to color of sacrificed ship.')
                 elif self.nSac <= 0:
-                    raise Exception('The number of actions (including passes) must be exactly the size of the sacrificed ship')
+                    raise Exception('The number of actions (including passes) must be exactly the size of the sacrificed ship.')
                 self.nSac -= 1
         else:
             # This turn is known to be not a sacrifice,
@@ -84,11 +84,7 @@ class Turn:
                 isinstance(e,event.Fade) or
                 isinstance(e,event.Elimination)
             ):
-                print('The turn stands at')
-                print(self)
-                print('And the attempted event is')
-                print(e)
-                raise Exception('You have already used a free action or passed')
+                raise Exception('You have already used a free action or passed.')
         self.events.append(e)
 
     def getThreatenedPlayers(self):
