@@ -172,7 +172,12 @@ class Turn:
     def __str__(self):
         if len(self.events) == 0:
             return '[No events have been added to this turn]'
-        return '\n   '.join([str(e) for e in self.events])
+        # Don't list the Eliminations and Fades since they are just side effects
+        return '\n   '.join([
+            str(e)
+            for e in self.events
+            if  not isinstance(e,event.Fade)
+            and not isinstance(e,event.Elimination)])
         
 
 

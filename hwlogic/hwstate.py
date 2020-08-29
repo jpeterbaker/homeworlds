@@ -120,25 +120,29 @@ class HWState:
         # Check for elimination
         # TODO this is better for huge numbers of players, but slower otherwise
 #        players = self.curTurn.getThreatenedPlayers()
-#        for player in players:
         for player in range(self.nplayers):
+            # Check if player has been eliminated
             if self.alive[player] != True:
                 # Player is either already known to be dead or hasn't created a home
                 continue
             # Player is believed to be alive but may have just been eliminated
             home = self.findHome(player)
+            if home is None:
+                raise Exception('WTF!')
             if not home.hasPresence(player):
                 # This player is now dead
                 elim = event.Elimination(player,self.onmove)
                 self.curTurn.addEvent(elim)
                 elim.enact(self)
-            # If this home is empty, it was prevented from fading immediately
-            if home.isVoid():
-                fade = home.getFade()
-                self.curTurn.addEvent(fade)
-                fade.enact(self)
+                # If this home is empty, it was prevented from fading immediately
+                if home.isVoid():
+                    fade = home.getFade()
+                    self.curTurn.addEvent(fade)
+                    fade.enact(self)
 
     def startNewTurn(self):
+        if self.isEnd():
+            raise Exception('State is at endpoint.')
         self.advanceOnmove()
         self.curTurn = Turn(self)
 

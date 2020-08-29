@@ -11,22 +11,21 @@ from sys import path
 with open('private/token.txt','r') as fin:
     TOKEN = fin.readline().strip()
 
-if 1:
-    # Main HW server
-    with open('private/guildID.txt','r') as fin:
-        GUILD = int(fin.readline().strip())
-else:
-    # Testing server
-    with open('private/testID.txt','r') as fin:
-        GUILD = int(fin.readline().strip())
-
 client = discord.Client()
+
+"""
+# THIS ONLY SEEMS TO BE NECESSARY IF A REFERENCE TO THE GUILD IS NEEDED
+# Main HW server
+with open('private/guildID.txt','r') as fin:
+    GUILD = int(fin.readline().strip())
+
+"""
 
 @client.event
 async def on_ready():
-    guild = discord.utils.get(client.guilds,id=GUILD)
+#    guild = discord.utils.get(client.guilds,id=GUILD)
     print(
-        f'{client.user} is connected guild "{guild.name}"'
+        f'{client.user} is connected"'
     )
 
 # Map each channel to the corresponding GameMaster
@@ -53,7 +52,7 @@ async def processCommand(message):
     if not channel in channel2master:
         channel2master[channel] = GameMaster(channel)
     master = channel2master[channel]
-    if message.content == '!p':
+    if message.content == '!':
         await master.togglePause(message)
     elif message.content == '!pause':
         await master.pause(message)
@@ -85,12 +84,13 @@ async def on_message(message):
         master = channel2master[channel]
         master.cancelTurn()
         await channel.send('{}\n\nYou probably typed your move incorrectly.\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
+#        raise e
     except Exception as e:
         channel = message.channel
         master = channel2master[channel]
         master.cancelTurn()
         await channel.send('{}\n\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-        raise e
+#        raise e
 
 client.run(TOKEN)
 

@@ -158,7 +158,8 @@ def drawState(state,fname=None):
         token = None
     # Start with width of stash
     width = 4+2*buffin
-    width = max(width,drawRow(rows[0],(nrows-0.5)*rowHeight,token))
+    if nrows > 0:
+        width = max(width,drawRow(rows[0],(nrows-0.5)*rowHeight,token))
     for i in range(1,nrows-1):
         width = max(width,drawRow(rows[i],(nrows-i-0.5)*rowHeight))
     # Determine if token should be drawn for player 1
@@ -166,7 +167,8 @@ def drawState(state,fname=None):
         token = 1
     else:
         token = None
-    width = max(width,drawRow(rows[nrows-1],rowHeight/2,token))
+    if nrows > 0:
+        width = max(width,drawRow(rows[nrows-1],rowHeight/2,token))
 
     height = 5+nrows*rowHeight
     plt.xlim(-width/2-margin,width/2+margin)

@@ -42,7 +42,7 @@ class GameMaster:
         self.names = None
 
     async def sendReport(self):
-        s = '{}\n\n{}'
+        s = '{}\n{}'
         if self.clock.expired:
             result = '{} ran out of time.'.format(self.names[self.clock.getLoser()])
         elif self.state.isEnd():
@@ -60,7 +60,7 @@ class GameMaster:
         x = []
         playernames = [self.reg2userTimePair[k][0].name for k in range(2)]
         for i in range(len(self.history)):
-            x.append('{}:\n{}\n'.format(playernames[i%2],self.history[i]))
+            x.append('{} {}.\n{}\n'.format(playernames[i%2],i//2+1,self.history[i]))
         return '\n'.join(x)
 
     def nPlayers(self):

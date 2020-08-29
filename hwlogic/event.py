@@ -248,9 +248,7 @@ class Catastrophe(Event):
         return self.system
     def getThreatenedPlayer(self):
         if self.system.home is None:
-            print('system is not a home')
             return None
-        print('system IS a home')
         return self.system.home
 
     def __str__(self):

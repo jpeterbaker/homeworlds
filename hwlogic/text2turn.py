@@ -178,7 +178,8 @@ def applyTextTurn(s,state):
             raise Exception('Invalid command: "%s"'%w[i])
     state.finishTurn()
     turn = state.curTurn
-    state.startNewTurn()
+    if not state.isEnd():
+        state.startNewTurn()
     return turn
 
 if __name__=='__main__':
