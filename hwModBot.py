@@ -8,8 +8,10 @@ from asyncio import sleep
 from gameMaster import GameMaster
 from sys import path
 
-with open('private/token.txt','r') as fin:
+with open('private/TESTINGtoken.txt','r') as fin:
     TOKEN = fin.readline().strip()
+with open('private/adminID.txt','r') as fin:
+    ADMIN = int(fin.readline().strip())
 
 client = discord.Client()
 
@@ -31,29 +33,15 @@ async def on_ready():
 # Map each channel to the corresponding GameMaster
 channel2master = {}
 
-async def parseRegistration(message):
-    channel = message.channel
-    master = channel2master[channel]
-    words = message.content.split()
-    n = len(words)
-    if n == 1:
-        i = None
-        dt = None
-    elif n == 3:
-        i = int(words[1])
-        dt = int(words[2])
-    else:
-        await channel.send('Wrong number of arguments.\nSee "bot_instructions" channel for help.')
-        return
-    await master.register(message.author,i,dt)
-
 async def processCommand(message):
     channel = message.channel
     if not channel in channel2master:
-        channel2master[channel] = GameMaster(channel)
+        channel2master[channel] = GameMaster(channel,ADMIN)
     master = channel2master[channel]
     if message.content == '!':
         await master.togglePause(message)
+    elif message.content == '!stop':
+        await master.stop(message)
     elif message.content == '!pause':
         await master.pause(message)
     elif message.content.startswith('!begin'):
@@ -61,11 +49,11 @@ async def processCommand(message):
     elif message.content == '!unpause':
         await master.unpause(message)
     elif message.content.startswith('!register'):
-        await parseRegistration(message)
+        await master.register(message)
     elif message.content == '!unregister':
         await master.unregister(message)
-    elif message.content == '!stop':
-        await master.stop(message)
+    elif message.content.startswith('!resume'):
+        await master.resume(message)
     else:
         # It isn't a timer command, so it should be a game move
         await master.addTurn(message)
@@ -84,13 +72,13 @@ async def on_message(message):
         master = channel2master[channel]
         master.cancelTurn()
         await channel.send('{}\n\nYou probably typed your move incorrectly.\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-#        raise e
+        raise e
     except Exception as e:
         channel = message.channel
         master = channel2master[channel]
         master.cancelTurn()
         await channel.send('{}\n\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-#        raise e
+        raise e
 
 client.run(TOKEN)
 

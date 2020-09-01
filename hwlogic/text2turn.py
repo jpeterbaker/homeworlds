@@ -4,13 +4,13 @@
 import color,event,system,piece,ship
 import re
 
-wordre = re.compile(r'[\w]+')
+wordre = re.compile(r'\w+')
 
 char2color = {'r':color.RED,'y':color.YELLOW,'g':color.GREEN,'b':color.BLUE}
 
 buildTerms = set(['build','b'])
 tradeTerms = set(['trade','t'])
-attackTerms = set(['attack','a'])
+attackTerms = set(['attack','a','capture','conquer'])
 moveTerms = set(['move','m'])
 discoverTerms = set(['discover','d'])
 catTerms = set(['catastrophe','c','cat'])
@@ -67,6 +67,11 @@ def getShip(cs,sysName,player,state,opponent=None):
             cs,sysName))
     return candidate
             
+def genLetters():
+    # Generate single-letter system names
+    a = ord('A')
+    for i in range(26):
+        yield chr(a+i)
 
 def applyTextTurn(s,state):
     # This applies a complete turn to state
@@ -110,7 +115,16 @@ def applyTextTurn(s,state):
             i += 4
         elif w[i] in discoverTerms:
             # discover ship fromSystem newStar newName
-            newName = w[i+4]
+            try:
+                newName = w[i+4]
+            except IndexError:
+                # User did not provide a name. Find one that isn't already on the board
+                for newName in genLetters():
+                    if getSystem(newName,state) is None:
+                        break
+                else:
+                    # Loop exited normally, we ran out of letters
+                    raise Exception('Ran out of letters. You\'ll have to name the system yourself.')
             if getSystem(newName,state) is not None:
                 raise Exception('The {} system already exists.'.format(newName))
             fromSystem = getSystem(w[i+2],state)
@@ -169,7 +183,9 @@ def applyTextTurn(s,state):
             markers = [ getPiece(w[i+1]), getPiece(w[i+2]) ]
             s = ship.Ship(getPiece(w[i+3]),player)
             state.addEvent(event.Creation(markers,s,name))
-            i += 5
+            # Forget about checking for other attempted commands
+            # This will allow people to name their homeworld if they're clever enough
+            break
         else:
             # There's a problem
             state.cancelTurn()

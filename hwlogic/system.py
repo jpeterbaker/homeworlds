@@ -143,3 +143,18 @@ class System:
             homestr, \
             '\n\t'.join(['']+[str(s) for s in self.ships]))
 
+    def buildStr(self,n):
+        # System needs to know the number of players so it can put in the correct number of dashes
+        homestr = ''
+        if self.home is not None:
+            homestr = '{},'.format(self.home)
+
+        markerstr = ''.join([str(m) for m in self.markers])
+
+        p2ships = [[] for i in range(n)]
+        for s in self.ships:
+            p2ships[s.player].append(str(s.piece))
+        shipstr = '-'.join([''.join(x) for x in p2ships])
+
+        return '{}({}{}){}'.format(self.name,homestr,markerstr,shipstr)
+

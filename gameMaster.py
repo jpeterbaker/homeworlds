@@ -6,7 +6,7 @@ from asyncio import sleep
 from sys import path
 path.append('hwlogic/')
 from draw import drawState
-from hwstate import HWState
+from buildState import HWState,buildState
 from text2turn import applyTextTurn as att
 from os import path as ospath
 
@@ -20,9 +20,10 @@ class InvalidTimerIteraction(Exception):
     pass
 
 class GameMaster:
-    def __init__(self,channel):
+    def __init__(self,channel,admin):
         self.channel = channel
         self.state = None
+        self.admin = admin
         self.reset()
 
     def reset(self):
@@ -63,6 +64,32 @@ class GameMaster:
             x.append('{} {}.\n{}\n'.format(playernames[i%2],i//2+1,self.history[i]))
         return '\n'.join(x)
 
+    async def resume(self,message):
+        # Resume command was issued
+        if self.inProgress:
+            raise Exception('Stop the game in progress before resuming a different one.')
+        # Skip the "!resume"
+        statestr = message.content[7:]
+        try:
+            state = buildState(statestr)
+        except Exception as e:
+            await self.channel.send('There was a problem processing your state string.')
+            raise e
+        self.state = state
+        await self.showState()
+        await self.startup(message)
+        self.state = state # This needs to be done again because a new state is created by startup
+        self.clock.onmove = state.onmove
+        await self.loopUpdate()
+
+    async def showState(self):
+        fname = ospath.join(imgSaveDir,'{}.png'.format(self.channel.id))
+        drawState(self.state,fname)
+        # Upload the image
+        with open(fname,'rb') as fin:
+            df = File(fin)
+            await self.channel.send('',file=df)
+
     def nPlayers(self):
         return len(self.player2reg)
 
@@ -72,11 +99,24 @@ class GameMaster:
         self.reg2userTimePair.pop(reg)
         await self.channel.send('{} removed from game.'.format(user.name))
 
-    async def register(self,user,i=None,dt=None):
+    async def register(self,message):
         # Add a user as player i in a game with time bank dt (number of seconds)
         # i does not need to be an int, only comparable with all other registrations
         if self.inProgress:
             raise InvalidTimerIteraction('Users cannot be added after game has started.')
+
+        # Throw away the exclamation point
+        words = message.content[1:].split()
+        n = len(words)
+        if n == 1:
+            i = None
+            dt = None
+        elif n == 3:
+            i = int(words[1])
+            dt = int(words[2])
+        else:
+            await self.channel.send('Wrong number of arguments.\nSee "bot_instructions" channel for help.')
+            return
         
         if dt is None:
             await self.channel.send('Using default time bank of {} seconds.'.format(
@@ -90,6 +130,8 @@ class GameMaster:
             raise InvalidTimerIteraction('Maximum time for a player is {} seconds.'.format(
                 int(maxTime.total_seconds())
             ))
+
+        user = message.author
 
         if user in self.player2reg:
             # Same user, new number
@@ -122,12 +164,12 @@ class GameMaster:
         self.reg2userTimePair[i] = (user,dt)
         self.player2reg[user] = i
 
-    async def begin(self,message):
-        # Start with the players we have
+    async def startup(self,message):
+        # Begin a new game, but don't run the loop
         if self.nPlayers() < 2:
             raise Exception('Two players need to register before game can start.')
         user = message.author
-        self.playerCheck(user)
+        self.confirmPlayer(user)
         self.inProgress = True
 
         reglist = list(self.reg2userTimePair)
@@ -149,6 +191,10 @@ class GameMaster:
         self.clock.unpause(t)
         self.state = HWState()
         await self.sendTimerMessage()
+
+    async def begin(self,message):
+        # Start with the players we have
+        await self.startup(message)
         await self.loopUpdate()
 
     async def loopUpdate(self):
@@ -195,12 +241,7 @@ class GameMaster:
         t = cc.datetime.utcnow()
         self.clock.addPly(t)
 
-        fname = ospath.join(imgSaveDir,'{}.png'.format(self.channel.id))
-        drawState(self.state,fname)
-        # Upload the image
-        with open(fname,'rb') as fin:
-            df = File(fin)
-            await self.channel.send('',file=df)
+        await self.showState()
 
         if self.state.isEnd():
             await self.sendReport()
@@ -218,10 +259,8 @@ class GameMaster:
         if not self.inProgress:
             raise InvalidTimerIteraction('Game is not in progress.')
         user = message.author
-        self.playerCheck(user)
-        if not user in self.player2reg:
-            raise InvalidTimerIteraction('{} is not a player.'.format(user.name))
-        if self.player2reg[user] != self.clock.onmove:
+        self.confirmPlayer(user)
+        if self.player2reg[user] != self.clock.onmove and user.id != self.admin:
             raise InvalidTimerIteraction('It is not your turn.')
 
     async def togglePause(self,message):
@@ -236,7 +275,7 @@ class GameMaster:
         if not self.inProgress:
             raise InvalidTimerIteraction('Game is not in progress.')
         user = message.author
-        self.playerCheck(user)
+        self.confirmPlayer(user)
         t = cc.datetime.utcnow()
         self.clock.pause(t)
         await self.sendTimerMessage()
@@ -245,24 +284,30 @@ class GameMaster:
         if not self.inProgress:
             raise InvalidTimerIteraction('Game is not in progress.')
         user = message.author
-        self.playerCheck(user)
+        self.confirmPlayer(user)
         t = cc.datetime.utcnow()
         self.clock.unpause(t)
 
         await self.sendTimerMessage()
         await self.loopUpdate()
         
-    def playerCheck(self,user):
-        if not user in self.player2reg:
+    def confirmPlayer(self,user):
+        if not user in self.player2reg and not user.id == self.admin:
             raise InvalidTimerIteraction('Only players may interact with the timer.')
 
     async def stop(self,message):
-        if not self.inProgress:
-            raise Exception('Game is not in progress.')
-        report = self.getHistStr()
-        await self.channel.send('{}\nGame was cancelled by {}.'.format(report,message.author.name))
+        user = message.author
+        if self.inProgress:
+            self.confirmPlayer(user)
+            report = self.getHistStr()
+            await self.channel.send('{}\nGame was cancelled by {}.'.format(report,user.name))
+            await self.channel.send('If you would like to continue this game later, you can re-register and then provide the game state to the !resume command as printed below.\n\n!resume {}'.format(self.state.buildStr()))
+        elif len(self.player2reg) > 0:
+            self.confirmPlayer(user)
+            await self.channel.send('Game setup cancelled. Clearing registration.')
+        else:
+            await self.channel.send('No game running, no users registered.')
         self.reset()
-        await self.channel.send('If {} is abusing the game cancellation feature, please tell Babamots.'.format(message.author.name))
 
 if __name__=='__main__':
     class TestMessage:

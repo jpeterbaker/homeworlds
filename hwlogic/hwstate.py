@@ -205,6 +205,9 @@ class HWState:
         sysStr = ('\n%s\n'%divideSysStr).join([str(s) for s in self.systems])
         return '%s\n%s\n%s\n%s\n%s'%(divider,movestr,stashStr,sysStr,divider)
 
+    def buildStr(self):
+        return '<{}>;\n{}'.format(self.onmove,';\n'.join([sys.buildStr(self.nplayers) for sys in self.systems]))
+
     def getConnections(self,sys):
         # Return a list of systems connected to sys INCLUDING DISCOVERIES
         # TODO remember connections so this doesn't have to keep getting called
