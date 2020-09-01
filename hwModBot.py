@@ -5,7 +5,7 @@
 # Displays the game state
 import discord
 from asyncio import sleep
-from gameMaster import GameMaster
+from gameMaster import GameMaster,showState,buildState
 from sys import path
 
 with open('private/TESTINGtoken.txt','r') as fin:
@@ -54,6 +54,12 @@ async def processCommand(message):
         await master.unregister(message)
     elif message.content.startswith('!resume'):
         await master.resume(message)
+    elif message.content.startswith('!draw'):
+        try:
+            await showState(buildState(message.content[5:]),channel)
+        except Exception as e:
+            await channel.send('There was a problem processing your state string.')
+            raise e
     else:
         # It isn't a timer command, so it should be a game move
         await master.addTurn(message)
@@ -72,13 +78,13 @@ async def on_message(message):
         master = channel2master[channel]
         master.cancelTurn()
         await channel.send('{}\n\nYou probably typed your move incorrectly.\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-        raise e
+#        raise e
     except Exception as e:
         channel = message.channel
         master = channel2master[channel]
         master.cancelTurn()
         await channel.send('{}\n\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-        raise e
+#        raise e
 
 client.run(TOKEN)
 

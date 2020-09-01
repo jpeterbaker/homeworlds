@@ -19,6 +19,14 @@ maxPlayers = 2
 class InvalidTimerIteraction(Exception):
     pass
 
+async def showState(state,channel):
+    fname = ospath.join(imgSaveDir,'{}.png'.format(channel.id))
+    drawState(state,fname)
+    # Upload the image
+    with open(fname,'rb') as fin:
+        df = File(fin)
+        await channel.send('',file=df)
+
 class GameMaster:
     def __init__(self,channel,admin):
         self.channel = channel
@@ -76,19 +84,11 @@ class GameMaster:
             await self.channel.send('There was a problem processing your state string.')
             raise e
         self.state = state
-        await self.showState()
+        await showState(self.state,self.channel)
         await self.startup(message)
         self.state = state # This needs to be done again because a new state is created by startup
         self.clock.onmove = state.onmove
         await self.loopUpdate()
-
-    async def showState(self):
-        fname = ospath.join(imgSaveDir,'{}.png'.format(self.channel.id))
-        drawState(self.state,fname)
-        # Upload the image
-        with open(fname,'rb') as fin:
-            df = File(fin)
-            await self.channel.send('',file=df)
 
     def nPlayers(self):
         return len(self.player2reg)
@@ -241,7 +241,7 @@ class GameMaster:
         t = cc.datetime.utcnow()
         self.clock.addPly(t)
 
-        await self.showState()
+        await showState(self.state,self.channel)
 
         if self.state.isEnd():
             await self.sendReport()
