@@ -29,6 +29,8 @@ def getPiece(cs):
         raise Exception('Not a valid ship identifier: "%s"'%cs)
 
 def getSystem(name,state):
+    if len(name) > 15:
+        raise Exception('Sorry, system names are limited to 15 characters')
     name = name.upper()
     for sys in state.systems:
         if sys.name.upper() == name:
@@ -66,24 +68,31 @@ def getShip(cs,sysName,player,state,opponent=None):
         raise Exception('No opponents have a {} ship in {}'.format(
             cs,sysName))
     return candidate
-            
-def genLetters():
-    # Generate single-letter system names
-    a = ord('A')
-    for i in range(26):
-        yield chr(a+i)
 
+a = ord('A')
+alphabet = [chr(a+i) for i in range(26)]
+            
 def applyTextTurn(s,state):
     # This applies a complete turn to state
     # This does NOT start a new turn or advance the onmove player
-    # If you want the turn object, take state.curTurn
+    # Returns the resulting turn object
+    try:
+        textTurnMain(s,state)
+    except Exception as e:
+        state.cancelTurn()
+        raise e
+    state.finishTurn()
+    turn = state.curTurn
+    if not state.isEnd():
+        state.startNewTurn()
+    return turn
 
-    # TODO check for duplicate system names
+def textTurnMain(s,state):
+    # Main routine for applying text turn
     w = wordre.findall(s)
     n = len(w)
 
     player = state.onmove
-
     i = 0
 
     while i < n:
@@ -119,7 +128,7 @@ def applyTextTurn(s,state):
                 newName = w[i+4]
             except IndexError:
                 # User did not provide a name. Find one that isn't already on the board
-                for newName in genLetters():
+                for newName in alphabet:
                     if getSystem(newName,state) is None:
                         break
                 else:
@@ -129,8 +138,7 @@ def applyTextTurn(s,state):
                 raise Exception('The {} system already exists.'.format(newName))
             fromSystem = getSystem(w[i+2],state)
             s = getShip(w[i+1],w[i+2],player,state)
-            newSys = system.System([getPiece(w[i+3])],None,newName)
-            state.addEvent(event.YellowAction(s,fromSystem,newSys))
+            state.addEvent(event.Discovery(s,fromSystem,[getPiece(w[i+3])],newName))
             i += 5
         elif w[i] in tradeTerms:
             # trade oldShip newShip inSystem
@@ -190,11 +198,6 @@ def applyTextTurn(s,state):
             # There's a problem
             state.cancelTurn()
             raise Exception('Invalid command: "%s"'%w[i])
-    state.finishTurn()
-    turn = state.curTurn
-    if not state.isEnd():
-        state.startNewTurn()
-    return turn
 
 if __name__=='__main__':
     import hwstate

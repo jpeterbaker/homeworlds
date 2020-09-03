@@ -1,5 +1,5 @@
 #!/usr/bin/python3.7
-# Tools for drawing a state
+# Tools for drawing a state HORIZONTALLY
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,11 +14,17 @@ turnTokenColor = '#D4AF37'
 
 pipsize = 4
 
-# Vertex coordinates of triangle template
-tri = np.array([
+# Vertex coordinates of vertical triangle template
+vtri = np.array([
     [-1/2 , -7/8],
     [ 0   ,  7/8],
     [ 1/2 , -7/8],
+])
+# Horizontal triangle
+htri = np.array([
+    [-7/8 , -1/2],
+    [ 7/8 ,  0  ],
+    [-7/8 ,  1/2],
 ])
 # Vertex coordinates of square template
 sqr = np.array([
@@ -36,8 +42,8 @@ thickness = 1/3
 buffin = 1/8
 # Horizontal space between objects in different systems
 buffout = 1
-# Vertical space allocated for each row
-rowHeight = 2.75
+# Vertical space allocated for each col
+colWidth = 2.75
 # Space to leave at the top and bottom
 margin = 0.5
 
@@ -46,16 +52,16 @@ turnTokenRadius = 0.75
 bankHeight = 6*thickness + sum(scales[1:])*1.75 + 4*buffin
 bankWidth  = 4+5*buffin
 bankBounds = np.array([
-    [-bankWidth/2,          0],
-    [ bankWidth/2,          0],
-    [ bankWidth/2,-bankHeight],
-    [-bankWidth/2,-bankHeight],
+    [-bankWidth ,  bankHeight/2],
+    [        0  ,  bankHeight/2],
+    [        0  , -bankHeight/2],
+    [-bankWidth , -bankHeight/2],
 ])
 # y coordinates of the bottoms of the stacks
 bankYbots = [None,
-    -3*(buffin+2*thickness)-1.75*(scales[1]/2+scales[2]+scales[3]),
-    -2*(buffin+2*thickness)-1.75*(scales[2]/2+scales[3]),
-    -1*(buffin+2*thickness)-1.75*(scales[3]/2)
+    bankHeight/2-3*(buffin+2*thickness)-1.75*(scales[1]/2+scales[3]+scales[2]),
+    bankHeight/2-2*(buffin+2*thickness)-1.75*(scales[2]/2+scales[3]),
+    bankHeight/2-1*(buffin+2*thickness)-1.75*(scales[3]/2)
 ]
 
 def drawTurnToken(x,y):
@@ -69,19 +75,32 @@ def drawTurnToken(x,y):
     plt.text(x,y,'MY\nTURN',ha='center',va='center',fontsize=20)
 
 def drawShip(ship,x,y):
-    # Draw the given ship centered at x,y
+    # Draw a horizontal ship centered at x,y
+    # with orientation matching the owner
     scale = scales[ship.piece.size]
-    if ship.player == 0:
+    if ship.player == 1:
         scale *= -1
     plt.gca().add_patch(plt.Polygon(
-        scale*tri+[x,y] ,
+        scale*htri+[x,y] ,
         facecolor=rgb[ship.piece.color],
         edgecolor='k',
         linewidth=2,
     ))
-    sgn = 2*ship.player-1
+    sgn = 2*(ship.player==1) - 1
     for i in range(ship.piece.size):
-        plt.plot(x-i*sgn/6,y-scale*7/8+sgn*0.2,'ko',markersize=pipsize)
+        plt.plot(x-scale*7/8-sgn*0.2,y-sgn*i/6,'ko',markersize=pipsize)
+
+def drawPiece(piece,x,y):
+    # Draw a piece centered at x,y vertically (sitting in the bank)
+    scale = scales[piece.size]
+    plt.gca().add_patch(plt.Polygon(
+        scale*vtri+[x,y] ,
+        facecolor=rgb[piece.color],
+        edgecolor='k',
+        linewidth=2,
+    ))
+    for i in range(piece.size):
+        plt.plot(x-i/6,y-scale*7/8+0.2,'ko',markersize=pipsize)
 
 def drawMarker(piece,x,y):
     # Draw the given marker centered at x,y
@@ -95,84 +114,87 @@ def drawMarker(piece,x,y):
     for i in range(piece.size):
         plt.plot(x-i/6,y-scale/2+0.2,'ko',markersize=pipsize)
 
-def drawRow(row,y,homeOnMove=None):
+def drawCol(col,x,homeOnMove=None):
     # list of systems to draw
-    # y coordinate at which to draw
+    # x coordinate at which to draw
     # homeOnMove 0 or 1 if this is a home row and that player is on-move
-    # Returns the width of the row
-    wid = 0
-    for sys in row:
+    # Returns the height of the col
+    height = 0
+    for sys in col:
         for ship in sys.ships:
-            wid += scales[ship.piece.size]
+            height += scales[ship.piece.size]
         for marker in sys.markers:
-            wid += scales[marker.size]
-        wid += buffin*(len(sys.ships)+len(sys.markers)-1)
-    wid += buffout*(len(row)-1)
+            height += scales[marker.size]
+        # A little extra for the system label
+        height += buffin*(len(sys.ships)+len(sys.markers))
+    height += buffout*(len(col)-1)
     if homeOnMove is not None:
-        wid += 2*turnTokenRadius + buffin
-    x = -wid/2
+        height += 2*turnTokenRadius + buffin
+    # y is the bottom of the next object to draw
+    y = -height/2
     if homeOnMove == 0:
-        # Draw the token on the left
-        drawTurnToken(x+turnTokenRadius,y)
-        x += 2*turnTokenRadius + buffin
-    for sys in row:
+        # Draw the token on bottom
+        drawTurnToken(x,y+turnTokenRadius)
+        y += 2*turnTokenRadius + buffin
+    for sys in col:
         # Ships on the left
         ships = [s for s in sys.ships if s.player == 0]
 #        placement.shipSort(ships)
         ships.sort()
         for ship in ships:
             scale = scales[ship.piece.size]
-            drawShip(ship,x+scale/2,y)
-            x += scale+buffin
+            drawShip(ship,x,y+scale/2)
+            y += scale+buffin
         markers = sys.markers
         markers.sort(reverse=True)
         label = sys.name
-        plt.text(x,y+1,label,fontsize=14)
         for marker in sys.markers:
             scale = scales[marker.size]
-            drawMarker(marker,x+scale/2,y)
-            x += scale+buffin
+            drawMarker(marker,x,y+scale/2)
+            y += scale+buffin
+        plt.text(x,y,label,fontsize=14,ha='center',va='center')
+        y += buffin
         ships = [s for s in sys.ships if s.player == 1]
         ships.sort(reverse=True)
         for ship in ships:
             scale = scales[ship.piece.size]
-            drawShip(ship,x+scale/2,y)
-            x += scale + buffin
-        x += buffout - buffin
+            drawShip(ship,x,y+scale/2)
+            y += scale + buffin
+        y += buffout - buffin
     if homeOnMove == 1:
         # Draw the token on the right
-        x -= buffout - buffin
-        drawTurnToken(x+turnTokenRadius,y)
-        x += 2*turnTokenRadius + buffin
-    return wid
+        y -= buffout - buffin
+        drawTurnToken(x,y+turnTokenRadius)
+    return height
 
 def drawState(state,fname=None):
     # Draws the currents state of a Binary HW game
     drawStash(state.stash)
-    rows = placement.systemSort(state.systems)
-    nrows = len(rows)
+    cols = placement.systemSort(state.systems)
+    ncols = len(cols)
     # Determine if token should be drawn for player 0
-    if nrows > 1 and state.onmove == 0:
+    if ncols > 1 and state.onmove == 0:
         token = 0
     else:
         token = None
-    # Start with width of stash
-    width = 4+2*buffin
-    if nrows > 0:
-        width = max(width,drawRow(rows[0],(nrows-0.5)*rowHeight,token))
-    for i in range(1,nrows-1):
-        width = max(width,drawRow(rows[i],(nrows-i-0.5)*rowHeight))
+    # Start with height of stash
+    height = bankHeight
+    if ncols > 0:
+        height = max(height,drawCol(cols[ncols-1],(ncols-0.5)*colWidth,token))
+    for i in range(ncols-2,0,-1):
+        height = max(height,drawCol(cols[i],(ncols-i-0.5)*colWidth))
     # Determine if token should be drawn for player 1
-    if nrows > 1 and state.onmove == 1:
+    if ncols > 1 and state.onmove == 1:
         token = 1
     else:
         token = None
-    if nrows > 0:
-        width = max(width,drawRow(rows[nrows-1],rowHeight/2,token))
+    if ncols > 1:
+        height = max(height,drawCol(cols[0],colWidth/2,token))
+    height += 2*margin
 
-    height = 5+nrows*rowHeight
-    plt.xlim(-width/2-margin,width/2+margin)
-    plt.ylim(-6.75,height-4)
+    width = 4+5*buffin+ncols*colWidth
+    plt.xlim(-bankWidth,width-bankWidth)
+    plt.ylim(-height/2,height/2)
     plt.axis('off')
 
     plt.gcf().set_size_inches(width,height)
@@ -189,14 +211,13 @@ def drawStash(stash):
         facecolor=bankBackground,
     ))
     for c in color.colors:
-        x = c*(1+buffin) - 2 - buffin*1.5 + scales[3]/2
+        x = c*(1+buffin) - 3.5 - buffin*4
         for size in range(1,4):
             # y coord of center of bottom piece in this stack
             boty = bankYbots[size]
             piece = Piece(size,c)
-            ship = Ship(piece,1)
             for i in range(stash.pieces[c][size]):
-                drawShip(ship,x,boty+i*thickness)
+                drawPiece(piece,x,boty+i*thickness)
 
 if __name__=='__main__':
     if 0:
@@ -205,23 +226,16 @@ if __name__=='__main__':
         drawShip(s,0,0)
         plt.show()
     if 0:
-        # Ship test
+        # Star marker test
         marker = Piece(3,color.BLUE)
         drawMarker(marker,0,0)
-        plt.show()
-    if 0:
-        # Stash test
-        from stash import Stash
-        stash = Stash(3)
-        drawStash(stash)
-        plt.xlim([-1,5])
-        plt.ylim([-2,8])
         plt.show()
     if 1:
         from hwstate import HWState
         from text2turn import applyTextTurn as att
         state = HWState()
         i=0
+        drawState(state,"../stateImages/game{}.png".format(i))
         att('homeworld r2 b1 g3 Alice',state);        i+=1; drawState(state,"../stateImages/game{}.png".format(i))
         att('homeworld b3 y1 g3 Bob',state);          i+=1; drawState(state,"../stateImages/game{}.png".format(i))
 

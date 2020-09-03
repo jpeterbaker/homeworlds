@@ -33,6 +33,49 @@ async def on_ready():
 # Map each channel to the corresponding GameMaster
 channel2master = {}
 
+async def parseTime(message):
+    words = message.content[1:].split()
+    n = len(words)
+    if n != 2:
+        await message.channel.send('The "!time" command takes one parameter in the form "minutes:seconds".')
+        return
+    if len(words[1]) > 10:
+        await message.channel.send('Maximum time for a player is {} seconds.'.format(int(maxTime.total_seconds())))
+        return
+    ms = [int(x) for x in words[1].split(':')]
+    if len(ms) == 1:
+        m = 0
+        s = ms[0]
+    elif len(ms) == 2:
+        m = ms[0]
+        s = ms[1]
+    else:
+        await message.channel.send('The "!time" command takes one parameter in the form "minutes:seconds".')
+        return
+        
+    master = channel2master[message.channel]
+    user = message.author
+    await master.setTime(user,m,s)
+
+async def parseRegistration(message):
+    # Throw away the exclamation point
+    words = message.content[1:].split()
+    n = len(words)
+    if n == 1:
+        pos = None
+    elif n == 2:
+        if not words[1].strip() in '01':
+            await message.channel.send('The "!register" command takes at most one parameter ("0" for first move or "1" for second).')
+            return
+        pos = int(words[1])
+    else:
+        await message.channel.send('The "!register" command takes at most one parameter ("0" for first move or "1" for second).')
+        return
+
+    master = channel2master[message.channel]
+    user = message.author
+    await master.register(user,pos)
+    
 async def processCommand(message):
     channel = message.channel
     if not channel in channel2master:
@@ -45,16 +88,24 @@ async def processCommand(message):
     elif message.content == '!pause':
         await master.pause(message)
     elif message.content.startswith('!begin'):
-        await master.begin(message)
+        if 'r' in message.content:
+            await master.begin(message,random=True)
+        else:
+            await master.begin(message,random=False)
     elif message.content == '!unpause':
         await master.unpause(message)
     elif message.content.startswith('!register'):
-        await master.register(message)
+        await parseRegistration(message)
     elif message.content == '!unregister':
         await master.unregister(message)
+    elif message.content.startswith('!time'):
+        await parseTime(message)
     elif message.content.startswith('!resume'):
         await master.resume(message)
     elif message.content.startswith('!draw'):
+        if master.inProgress:
+            await channel.send('Drawing states during the game is likely to be confusing.\nPlease use a different channel.')
+            return
         try:
             await showState(buildState(message.content[5:]),channel)
         except Exception as e:
@@ -73,18 +124,13 @@ async def on_message(message):
     try:
         await processCommand(message)
     except IndexError as e:
-        # Make sure that any partial turn got cancelled
         channel = message.channel
-        master = channel2master[channel]
-        master.cancelTurn()
         await channel.send('{}\n\nYou probably typed your move incorrectly.\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-#        raise e
+        raise e
     except Exception as e:
         channel = message.channel
-        master = channel2master[channel]
-        master.cancelTurn()
         await channel.send('{}\n\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-#        raise e
+        raise e
 
 client.run(TOKEN)
 

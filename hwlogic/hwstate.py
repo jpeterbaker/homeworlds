@@ -101,7 +101,7 @@ class HWState:
             try:
                 self.curTurn.undoLast()
             except:
-                print('A problem occurred while resetting the turn. This should be handled better.')
+                print('A problem occurred while resetting the turn. This could be a serious problem.')
                 print(str(ex))
             raise ex
 

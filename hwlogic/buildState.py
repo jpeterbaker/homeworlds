@@ -72,7 +72,10 @@ def buildState(s):
     for ss in systemStrs[1:]:
         sys = addSystem(ss,state)
         if sys.home is not None:
-            state.alive[sys.home] = True
+            if sys.hasPresence(sys.home):
+                state.alive[sys.home] = True
+            else:
+                state.alive[sys.home] = False
     return state
 
 if __name__=='__main__':

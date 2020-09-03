@@ -5,16 +5,18 @@ import chessClock as cc
 from asyncio import sleep
 from sys import path
 path.append('hwlogic/')
-from draw import drawState
+from drawH import drawState
 from buildState import HWState,buildState
 from text2turn import applyTextTurn as att
 from os import path as ospath
+from numpy.random import randint
 
 imgSaveDir = ospath.join(ospath.dirname(__file__), 'stateImages/')
 
+maxPlayers = 2
+
 maxTime = cc.timedelta(hours=6)
 defaultTime = cc.timedelta(minutes=45)
-maxPlayers = 2
 
 class InvalidTimerIteraction(Exception):
     pass
@@ -29,6 +31,7 @@ async def showState(state,channel):
 
 class GameMaster:
     def __init__(self,channel,admin):
+        # admin is an int: user with this id may interact with timer while out of game
         self.channel = channel
         self.state = None
         self.admin = admin
@@ -40,15 +43,12 @@ class GameMaster:
         self.inProgress = False
         self.history = []
 
-        # map registration number requests to user,time-allocation pairs
-        # registration numbers don't  have to be 0,1 or 1,2
-        self.reg2userTimePair = {}
-        # map users to their registration
-        # later, registration number will be replaced with index of player order
-        self.player2reg = {}
+        # map players to their initial time bank
+        self.player2time = {}
+        # players in their play order
+        self.players = [None]*2
 
         self.timerMessage = None
-        self.names = None
 
     async def sendReport(self):
         s = '{}\n{}'
@@ -63,13 +63,15 @@ class GameMaster:
                 result = 'The game was a draw.'
         await self.channel.send(s.format(self.getHistStr(),result))
 
+    async def sendBuildStr(self):
+        await self.channel.send('If you would like to continue this game later, you can re-register and then provide the game state to the !resume command as printed below.\n\n!resume {}'.format(self.state.buildStr()))
+
     def getHistStr(self):
         if len(self.history) == 0:
             return 'NO MOVES WERE MADE'
         x = []
-        playernames = [self.reg2userTimePair[k][0].name for k in range(2)]
         for i in range(len(self.history)):
-            x.append('{} {}.\n{}\n'.format(playernames[i%2],i//2+1,self.history[i]))
+            x.append('{} {}.\n{}\n'.format(self.names[i%2],i//2+1,self.history[i]))
         return '\n'.join(x)
 
     async def resume(self,message):
@@ -91,78 +93,53 @@ class GameMaster:
         await self.loopUpdate()
 
     def nPlayers(self):
-        return len(self.player2reg)
+        return len(self.player2time)
 
-    async def unregister(self,message):
-        user = message.author
-        reg = self.player2reg.pop(user)
-        self.reg2userTimePair.pop(reg)
+    async def unregister(self,user):
+        if self.inProgress:
+            await self.channel.send('Game is in progress. Use "!stop" to cancel.')
+            return
+        self.player2time.pop(user)
+        self.players[self.players.index(user)] = None
         await self.channel.send('{} removed from game.'.format(user.name))
 
-    async def register(self,message):
-        # Add a user as player i in a game with time bank dt (number of seconds)
-        # i does not need to be an int, only comparable with all other registrations
+    async def register(self,user,pos=None):
+        # Add a user as player number pos
         if self.inProgress:
             raise InvalidTimerIteraction('Users cannot be added after game has started.')
 
-        # Throw away the exclamation point
-        words = message.content[1:].split()
-        n = len(words)
-        if n == 1:
-            i = None
-            dt = None
-        elif n == 3:
-            i = int(words[1])
-            dt = int(words[2])
-        else:
-            await self.channel.send('Wrong number of arguments.\nSee "bot_instructions" channel for help.')
-            return
-        
-        if dt is None:
-            await self.channel.send('Using default time bank of {} seconds.'.format(
-                int(defaultTime.total_seconds())
-            ))
-            dt = defaultTime
-        else:
-            dt = cc.timedelta(seconds=dt)
-
-        if dt > maxTime:
-            raise InvalidTimerIteraction('Maximum time for a player is {} seconds.'.format(
-                int(maxTime.total_seconds())
-            ))
-
-        user = message.author
-
-        if user in self.player2reg:
+        if user in self.player2time:
             # Same user, new number
-            oldi = self.player2reg[user]
-            await self.channel.send('{} was player {}.'.format(
-                user.name,oldi
-            ))
-            self.player2reg.pop(user)
-            self.reg2userTimePair.pop(oldi)
+            await self.channel.send('{} was already registered.\n"!unregister" and then "!register [n]" to choose a different play order.'.format(user.name))
+            return
 
-        if i is None:
-            if self.nPlayers() == 0:
-                i = 0
+        if pos is None:
+            for i in range(2):
+                if self.players[i] is None:
+                    pos = i
+                    break
             else:
-                i = max(self.reg2userTimePair)+1
+                # Loop exited normally
+                await self.channel.send('Registration cancelled: already at max players.')
+                return
 
-        if i in self.reg2userTimePair:
-            # Same number, new user
-            other = self.reg2userTimePair[i][0]
-            await self.channel.send('{} will replace {} as player {}.'.format(
-                user.name,other.name,i
-            ))
-            self.player2reg.pop(other)
-            self.reg2userTimePair.pop(i)
+        if self.players[pos] is not None:
+                await self.channel.send('Registration cancelled: {} is already player {}.'.format(self.players[pos].name,pos))
+                return
+        sec = int(defaultTime.total_seconds())
+        await self.channel.send('Successfully registered {} as player {} with default time bank {}:{:02}.\nUse "!time minutes:seconds" for different timer setting.'.format(user.name,pos,sec//60,sec%60))
 
-        if self.nPlayers() >= maxPlayers:
-            raise InvalidTimerIteraction('Registration cancelled: max players reached.')
-        await self.channel.send('Successfully registered {} as player {}.'.format(user.name,i))
+        self.players[pos] = user
+        self.player2time[user] = defaultTime
 
-        self.reg2userTimePair[i] = (user,dt)
-        self.player2reg[user] = i
+    async def setTime(self,user,m,s):
+        if not user in self.player2time:
+            await self.channel.send('You need to register before you can set your time bank.')
+            return
+        sec = 60*m+s
+        dt=cc.timedelta(seconds=sec)
+        await self.channel.send('Set time bank of {} to {}:{:02}'.format(user.name,m,s))
+        self.player2time[user] = dt
 
     async def startup(self,message):
         # Begin a new game, but don't run the loop
@@ -172,28 +149,20 @@ class GameMaster:
         self.confirmPlayer(user)
         self.inProgress = True
 
-        reglist = list(self.reg2userTimePair)
-        reglist.sort()
-        self.clock = cc.ChessClock([self.reg2userTimePair[key][1] for key in reglist])
-        self.names = [self.reg2userTimePair[key][0].name for key in reglist]
+        self.clock = cc.ChessClock([self.player2time[p] for p in self.players])
+        self.names = [p.name for p in self.players]
 
-        newreg2pair = {}
-        # Replace registration numbers (which could be 1,2 for example)
-        # With player numbers 0,1
-        for i in range(len(reglist)):
-            oldreg = reglist[i]
-            # User,time tuple
-            pair = self.reg2userTimePair[oldreg]
-            self.player2reg[pair[0]] = i
-            newreg2pair[i] = pair
-        self.reg2userTimePair = newreg2pair
         t = cc.datetime.utcnow()
         self.clock.unpause(t)
         self.state = HWState()
         await self.sendTimerMessage()
 
-    async def begin(self,message):
+    async def begin(self,message,random=False):
         # Start with the players we have
+        if random and randint(2):
+            #Switch play order
+            self.players = self.players[::-1]
+            
         await self.startup(message)
         await self.loopUpdate()
 
@@ -213,6 +182,7 @@ class GameMaster:
         if self.clock is not None and self.clock.expired:
             # Game is over, so don't delete the old message anymore
             await self.sendReport()
+            await self.sendBuildStr()
             self.reset()
 
     async def sendTimerMessage(self):
@@ -258,9 +228,11 @@ class GameMaster:
         # Raise an exception if player may not move
         if not self.inProgress:
             raise InvalidTimerIteraction('Game is not in progress.')
+        if self.clock.paused:
+            raise cc.ChessClockException('Game is paused.')
         user = message.author
         self.confirmPlayer(user)
-        if self.player2reg[user] != self.clock.onmove and user.id != self.admin:
+        if self.players[self.clock.onmove] != user:
             raise InvalidTimerIteraction('It is not your turn.')
 
     async def togglePause(self,message):
@@ -292,7 +264,7 @@ class GameMaster:
         await self.loopUpdate()
         
     def confirmPlayer(self,user):
-        if not user in self.player2reg and not user.id == self.admin:
+        if not user in self.player2time and not user.id == self.admin:
             raise InvalidTimerIteraction('Only players may interact with the timer.')
 
     async def stop(self,message):
@@ -301,8 +273,8 @@ class GameMaster:
             self.confirmPlayer(user)
             report = self.getHistStr()
             await self.channel.send('{}\nGame was cancelled by {}.'.format(report,user.name))
-            await self.channel.send('If you would like to continue this game later, you can re-register and then provide the game state to the !resume command as printed below.\n\n!resume {}'.format(self.state.buildStr()))
-        elif len(self.player2reg) > 0:
+            await self.sendBuildStr()
+        elif self.nPlayers() > 0:
             self.confirmPlayer(user)
             await self.channel.send('Game setup cancelled. Clearing registration.')
         else:
@@ -321,33 +293,4 @@ if __name__=='__main__':
             return self.name
         def __repr__(self):
             return str(self)
-
-    ######################
-    # Registration tests #
-    ######################
-    p0 = TestUser('Billy')
-    p1 = TestUser('Bob')
-    p2 = TestUser('Alice')
-    master = GameMaster(None)
-    master.register(p0,4)
-    master.register(p0,0,10)
-    master.register(p1,0,10)
-    master.register(p2,1,10)
-    try:
-        master.register(p0,2,10)
-        print('FAILED')
-    except InvalidTimerIteraction as e:
-        print(e)
-    master.register(p0,0,10)
-    master.register(p1,1,10)
-    print(master)
-    try:
-        master.register(p0,0,10000000)
-        print('\n\nFAILED\n\n')
-    except InvalidTimerIteraction as e:
-        print(e)
-
-    ###############
-    # Clock tests #
-    ###############
 

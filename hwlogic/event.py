@@ -124,7 +124,6 @@ class YellowAction(Action):
         Action.__init__(self,ship,color.YELLOW,system)
         self.newsystem = newsystem
         # Home systems may be void without being discoveries
-        self.isDiscovery = newsystem.isEmpty() and newsystem.home is None
         if not self.system.connectsTo(self.newsystem):
             raise Exception('Systems are not connected.')
     def getThreatenedSystem(self):
@@ -134,39 +133,41 @@ class YellowAction(Action):
         # Player may have moved into an overpopulation
         return self.newsystem
     def enact(self,state):
-        if self.isDiscovery:
-            # This system is just being discovered
-            # TODO if we ever need to discover binary systems, a StashOutException on the second request will keep first piece from being put back
-
-            # Adding the ship first is useful
-            # If a stashoutexception occurs with the marker,
-            # then the resulting undo by state.addEvent will succeed
-            state.addSystem(self.newsystem)
-            for p in self.newsystem.markers:
-                state.stash.request(p)
-        self.system.removeShip(self.ship)
         self.newsystem.addShip(self.ship)
+        self.system.removeShip(self.ship)
     def undo(self,state):
         self.newsystem.removeShip(self.ship)
         self.system.addShip(self.ship)
-        if self.isDiscovery:
-            for p in self.newsystem.markers:
-                state.stash.putBack(p)
-            state.removeSystem(self.newsystem)
     def getThreatenedPlayer(self):
         # This is because you could eliminated yourself by moving away
         return self.ship.player
     def __str__(self):
-        if self.isDiscovery:
-            return 'discover {} {} {} {}'.format(
-                self.ship.piece,
-                self.system.name,
-                self.newsystem.markers[0],
-                self.newsystem.name
-            )
         return 'move {} {} {}'.format(
             self.ship.piece,
             self.system.name,
+            self.newsystem.name
+        )
+class Discovery(YellowAction):
+    def __init__(self,ship,system,markers,name):
+        newsystem = System(markers,None,name)
+        YellowAction.__init__(self,ship,system,newsystem)
+    def enact(self,state):
+        YellowAction.enact(self,state)
+        # TODO if a multi-star system were ever discovered
+        # stashout exceptions would prevent earlier pieces from being returned
+        for p in self.newsystem.markers:
+            state.stash.request(p)
+        state.addSystem(self.newsystem)
+    def undo(self,state):
+        YellowAction.undo(self,state)
+        for p in self.newsystem.markers:
+            state.stash.putBack(p)
+        state.removeSystem(self.newsystem)
+    def __str__(self):
+        return 'discover {} {} {} {}'.format(
+            self.ship.piece,
+            self.system.name,
+            self.newsystem.markers[0],
             self.newsystem.name
         )
 

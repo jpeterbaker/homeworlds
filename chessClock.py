@@ -113,7 +113,7 @@ class ChessClock:
             flags[self.onmove] = '(turn paused)'
         else:
             flags[self.onmove] = ' <-----'
-        s = ['{} {}\n    {}:{:02}'.format(
+        s = ['{} {}\n    `{}:{:02}`'.format(
             names[i],
             flags[i],
             int(times[i].total_seconds())//60,
