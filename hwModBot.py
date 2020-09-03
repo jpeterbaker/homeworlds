@@ -6,10 +6,22 @@
 import discord
 from asyncio import sleep
 from gameMaster import GameMaster,showState,buildState
-from sys import path
+from sys import path,argv
 
-with open('private/TESTINGtoken.txt','r') as fin:
-    TOKEN = fin.readline().strip()
+if len(argv) > 1:
+    print('debugging mode')
+    print('printing errors and connecting only to Test server')
+    DEBUGGING = True
+else:
+    DEBUGGING = False
+
+if DEBUGGING:
+    with open('private/TESTINGtoken.txt','r') as fin:
+        TOKEN = fin.readline().strip()
+else:
+    with open('private/token.txt','r') as fin:
+        TOKEN = fin.readline().strip()
+
 with open('private/adminID.txt','r') as fin:
     ADMIN = int(fin.readline().strip())
 
@@ -126,11 +138,15 @@ async def on_message(message):
     except IndexError as e:
         channel = message.channel
         await channel.send('{}\n\nYou probably typed your move incorrectly.\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-        raise e
+        if DEBUGGING:
+            # This causes the stack to be printed but does not interrupt execution
+            raise e
     except Exception as e:
         channel = message.channel
         await channel.send('{}\n\nSee "bot_instructions" channel for help.\nIf you think there\'s a bug, tell Babamots.'.format(str(e)))
-        raise e
+        if DEBUGGING:
+            # This causes the stack to be printed but does not interrupt execution
+            raise e
 
 client.run(TOKEN)
 

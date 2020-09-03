@@ -132,7 +132,7 @@ def drawCol(col,x,homeOnMove=None):
         height += 2*turnTokenRadius + buffin
     # y is the bottom of the next object to draw
     y = -height/2
-    if homeOnMove == 0:
+    if homeOnMove == 1:
         # Draw the token on bottom
         drawTurnToken(x,y+turnTokenRadius)
         y += 2*turnTokenRadius + buffin
@@ -161,7 +161,7 @@ def drawCol(col,x,homeOnMove=None):
             drawShip(ship,x,y+scale/2)
             y += scale + buffin
         y += buffout - buffin
-    if homeOnMove == 1:
+    if homeOnMove == 0:
         # Draw the token on the right
         y -= buffout - buffin
         drawTurnToken(x,y+turnTokenRadius)
@@ -173,7 +173,7 @@ def drawState(state,fname=None):
     cols = placement.systemSort(state.systems)
     ncols = len(cols)
     # Determine if token should be drawn for player 0
-    if ncols > 1 and state.onmove == 0:
+    if ncols > 1 and state.onmove == 1:
         token = 0
     else:
         token = None
@@ -184,7 +184,7 @@ def drawState(state,fname=None):
     for i in range(ncols-2,0,-1):
         height = max(height,drawCol(cols[i],(ncols-i-0.5)*colWidth))
     # Determine if token should be drawn for player 1
-    if ncols > 1 and state.onmove == 1:
+    if ncols > 1 and state.onmove == 0:
         token = 1
     else:
         token = None
