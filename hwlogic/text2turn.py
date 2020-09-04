@@ -22,11 +22,11 @@ passTerms = set(['pass','p'])
 def getPiece(cs):
     # cs is the color and size of the ship, like 'y3'
     if len(cs) != 2:
-        raise Exception('Not a valid ship identifier: "%s"'%cs)
+        raise Exception('Not a valid piece identifier: "%s"'%cs)
     try:
         return piece.Piece(int(cs[1]),char2color[cs[0].lower()])
     except:
-        raise Exception('Not a valid ship identifier: "%s"'%cs)
+        raise Exception('Not a valid piece identifier: "%s"'%cs)
 
 def getSystem(name,state):
     if len(name) > 15:

@@ -173,7 +173,7 @@ def drawState(state,fname=None):
     cols = placement.systemSort(state.systems)
     ncols = len(cols)
     # Determine if token should be drawn for player 0
-    if ncols > 1 and state.onmove == 1:
+    if state.onmove == 1 and ncols > 1 and not state.isEnd():
         token = 0
     else:
         token = None
@@ -184,7 +184,7 @@ def drawState(state,fname=None):
     for i in range(ncols-2,0,-1):
         height = max(height,drawCol(cols[i],(i+0.5)*colWidth))
     # Determine if token should be drawn for player 1
-    if ncols > 1 and state.onmove == 0:
+    if state.onmove == 0 and ncols > 1 and not state.isEnd():
         token = 1
     else:
         token = None

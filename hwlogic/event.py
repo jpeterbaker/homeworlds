@@ -258,11 +258,6 @@ class Catastrophe(Event):
             color.names[self.color]
         )
 
-######################################
-# Elimination and Fade are mandatory #
-# side-effects of other events       #
-######################################
-
 class Sacrifice(Event):
     # This event is the act of sacrificing a ship
     # The resulting actions can be represented in the Turn
@@ -289,12 +284,18 @@ class Sacrifice(Event):
             self.system.name
         )
 
+######################################
+# Elimination and Fade are mandatory #
+# side-effects of other events       #
+######################################
+
 class Fade(Event):
     def __init__(self,system):
         self.system = system
 
     def enact(self,state):
-        # There's no real need for remaining ships or markers to be removed from the System model, the system just needs to get removed from the State and each Piece needs to be put back in the stash
+        # There's no real need for remaining ships or markers to be removed from the System model
+        # the system just needs to get removed from the State and each Piece needs to be put back in the stash
         state.removeSystem(self.system)
         for marker in self.system.markers:
             state.stash.putBack(marker)

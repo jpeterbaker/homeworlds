@@ -41,7 +41,7 @@ with open('private/guildID.txt','r') as fin:
 async def on_ready():
 #    guild = discord.utils.get(client.guilds,id=GUILD)
     print(
-        f'{client.user} is connected"'
+        f'{client.user} is connected'
     )
 
 # Map each channel to the corresponding GameMaster

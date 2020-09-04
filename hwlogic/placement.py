@@ -62,3 +62,23 @@ def systemSort(systems):
 
     return rows
 
+'''
+There are many ways that homeworlds can share neighboring systems.
+The shared neighbors will determine the most pleasing way to arrange the rows of same-size systems.
+Say a,b,c are the sizes of systems
+(A destroyed home is connected to all three)
+
+Connections   | Preferred 
+0     | 1     | display order
+------+-------+-------------
+a     | b     | 0 a c b 1
+a     | a     | 0 b a b 1
+a     | a b   | 0 a c b 1
+a     | b c   | 0 a b c 1
+a     | a b c | 0 a b c 1
+a b   | a c   | 0 b a c 1
+a b   | a b   | 0 a c b 1
+a b   | a b c | 0 a b c 1
+a b c | a b c | 0 a b c 1
+
+'''
