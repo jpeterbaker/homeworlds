@@ -25,7 +25,7 @@ def systemSort(systems):
     '''
     Automatic star towing
     Returns a list of up to 5 lists (rows) of systems
-    Each row is intended to be displayed together horizontally
+    Each row is intended to be displayed together horizontally as rows
 
     The row order emphasizes connectivity
 

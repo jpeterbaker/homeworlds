@@ -182,7 +182,7 @@ def drawState(state,fname=None):
     if ncols > 0:
         height = max(height,drawCol(cols[ncols-1],(ncols-0.5)*colWidth,token))
     for i in range(ncols-2,0,-1):
-        height = max(height,drawCol(cols[i],(ncols-i-0.5)*colWidth))
+        height = max(height,drawCol(cols[i],(i+0.5)*colWidth))
     # Determine if token should be drawn for player 1
     if ncols > 1 and state.onmove == 0:
         token = 1
