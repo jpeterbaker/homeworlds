@@ -13,6 +13,8 @@ if len(argv) > 1:
     print('printing errors and connecting only to Test server')
     DEBUGGING = True
 else:
+    print('production mode')
+    print('silencing errors and connecting only to HW server')
     DEBUGGING = False
 
 if DEBUGGING:
