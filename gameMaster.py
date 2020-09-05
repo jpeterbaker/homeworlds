@@ -42,10 +42,9 @@ class GameMaster:
         self.clock = None
         self.inProgress = False
         self.history = []
-        # The penalty list goes side by side with history
-        # The time penalty for undoing the game back to this point
-        # It's all the unpaused game time that has elapsed
-        self.undoPenalty = []
+
+        # Game clocks as they were when turns were completed (in case players undo)
+        self.pastClocks = []
 
         # map players to their initial time bank
         self.player2time = {}
@@ -89,10 +88,8 @@ class GameMaster:
         except Exception as e:
             await self.channel.send('There was a problem processing your state string.')
             raise e
-        self.state = state
         await showState(self.state,self.channel)
         await self.startup(message)
-        self.state = state # This needs to be done again because a new state is created by startup
         self.clock.onmove = state.onmove
         await self.loopUpdate()
 
@@ -158,7 +155,6 @@ class GameMaster:
 
         t = cc.datetime.utcnow()
         self.clock.unpause(t)
-        self.state = HWState()
         await self.sendTimerMessage()
 
     async def begin(self,message,random=False):
@@ -167,6 +163,8 @@ class GameMaster:
             #Switch play order
             self.players = self.players[::-1]
             
+        self.state = HWState()
+        await showState(self.state,self.channel)
         await self.startup(message)
         await self.loopUpdate()
 
@@ -213,9 +211,11 @@ class GameMaster:
         turn = att(cmd,self.state)
         self.history.append(turn)
         t = cc.datetime.utcnow()
-        self.updatePenalty(t)
-        self.undoPenalty.append(cc.notime)
         self.clock.addPly(t)
+
+        self.pastClocks.append(cc.ChessClock(self.clock.times))
+        self.pastClocks[-1].unpause(t)
+        self.pastClocks[-1].onmove = 1-self.state.onmove
 
         await showState(self.state,self.channel)
 
@@ -248,16 +248,9 @@ class GameMaster:
         self.state.advanceOnmove(-1)
 
         t = cc.datetime.utcnow()
-        # TODO maybe this time trickery should be a feature of the chess clock
-        self.updatePenalty(t)
-        penalty = self.undoPenalty.pop()
         # Any past pauses will have already taken time from the opponent's bank
         # take away the time since the last pause and then give it all back
-        self.clock._takeTime(t)
-        self.clock.times[  self.clock.onmove] += penalty
-        self.clock.times[1-self.clock.onmove] -= penalty
-        self.clock.lastPress = t
-        self.clock.onmove = 1-self.clock.onmove
+        self.clock = self.pastClocks.pop()
 
         await showState(self.state,self.channel)
         await self.sendTimerMessage()
@@ -281,23 +274,12 @@ class GameMaster:
         else:
             await self.pause(message)
 
-    def updatePenalty(self,t):
-        # This should be called when pausing the game 
-        # and when undoing
-        # BEFORE clock.lastPress is modified
-        dt = t-self.clock.lastPress
-        # Remember how much time was spent on this player's turn
-        # and prepare to take it from their opponent if they undo
-        for i in range(len(self.undoPenalty)):
-            self.undoPenalty[i] += dt
-
     async def pause(self,message):
         if not self.inProgress:
             raise InvalidTimerIteraction('Game is not in progress.')
         user = message.author
         self.confirmPlayer(user)
         t = cc.datetime.utcnow()
-        self.updatePenalty(t)
 
         self.clock.pause(t)
         await self.sendTimerMessage()
