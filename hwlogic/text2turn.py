@@ -76,12 +76,20 @@ def applyTextTurn(s,state):
     # This applies a complete turn to state
     # This does NOT start a new turn or advance the onmove player
     # Returns the resulting turn object
+    s = s.strip()
     try:
         textTurnMain(s,state)
     except Exception as e:
         state.cancelTurn()
         raise e
     state.finishTurn()
+    if state.isEnd():
+        scores = state.getScores()
+        if scores[state.onmove] < 1 and s[-1] != '*':
+            # Player who just moved did not win: require confirmation
+            state.cancelTurn()
+            raise Exception('To confirm that you really want to make a move eliminating yourself, repeat the command with a * at the end.')
+
     turn = state.curTurn
     if not state.isEnd():
         state.startNewTurn()

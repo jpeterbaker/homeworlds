@@ -48,8 +48,6 @@ class Turn:
                 self.isSac = False
                 # Check that this player has access to this color
                 if not e.system.hasPresence(self.state.onmove,e.color):
-                    print('It is the turn of player',self.state.onmove)
-                    print('Who does not have',e.color,'in',e.system.name)
                     raise Exception('In order to take a free action, you must have a ship or system marker of that color.')
 
             if(

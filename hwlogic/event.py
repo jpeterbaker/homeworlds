@@ -51,7 +51,7 @@ class Creation(Event):
         self.markers = markers
         self.system = System(markers,ship.player,name)
     def enact(self,state):
-        if state.creationOver():
+        if state.alive[state.onmove] is not None:
             raise CreationException('Homeworld creation only takes place on your first turn.')
         torequest = [self.ship.piece]+self.system.markers
         try:
@@ -78,7 +78,8 @@ class Creation(Event):
         for p in self.system.markers:
             state.stash.putBack(p)
         state.stash.putBack(self.ship.piece)
-        state.alive[state.onmove] = None
+        state.alive[self.system.home] = None
+
     def __str__(self):
         return 'homeworld {} {} {} {}'.format(
             self.system.markers[0],

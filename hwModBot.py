@@ -108,6 +108,8 @@ async def processCommand(message):
             await master.begin(message,random=False)
     elif message.content == '!unpause':
         await master.unpause(message)
+    elif message.content == '!undo':
+        await master.undo(message)
     elif message.content.startswith('!register'):
         await parseRegistration(message)
     elif message.content == '!unregister':
