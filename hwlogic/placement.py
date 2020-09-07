@@ -64,7 +64,11 @@ def optPermute(homes):
         if homes[i] is None:
             continue
         for m in homes[i].markers:
-            homeConnects[i].remove(m.size)
+            try:
+                homeConnects[i].remove(m.size)
+            except KeyError:
+                # Gemini star tries to remove same size twice
+                pass
     # Number of sizes to which each home connects
     nHC = [len(x) for x in homeConnects]
 

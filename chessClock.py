@@ -45,6 +45,13 @@ class ChessClock:
             raise ChessClockException('Reverse time travel not allowed.')
         self.paused = False
 
+    def copy(self):
+        other = ChessClock(self.times)
+        other.paused = self.paused
+        other.lastPress = self.lastPress
+        other.onmove = self.onmove
+        return other
+
     def pause(self,t):
         # Pause the countdown
         if self.expired:

@@ -42,6 +42,8 @@ def getShip(cs,sysName,player,state,opponent=None):
     # from a provided opponent. If multiple opponents of "opponent" have a cs ship
     # in the system, this function raises an exception
     sys = getSystem(sysName,state)
+    if sys is None:
+        raise Exception('No system named {}.'.format(sysName))
     p = getPiece(cs)
     if player is not None:
         for s in sys.ships:
@@ -109,6 +111,8 @@ def textTurnMain(s,state):
             # build ship inSystem
             p = getPiece(w[i+1])
             sys = getSystem(w[i+2],state)
+            if sys is None:
+                raise Exception('No system named {}.'.format(sysName))
             for s in sys.ships:
                 if s.player == player and s.piece.color == p.color:
                     e = event.GreenAction(s,sys)
@@ -128,6 +132,8 @@ def textTurnMain(s,state):
             fromSystem = getSystem(w[i+2],state)
             s = getShip(w[i+1],w[i+2],player,state)
             toSys = getSystem(w[i+3],state)
+            if toSys is None:
+                raise Exception('No system named {}.'.format(sysName))
             state.addEvent(event.YellowAction(s,fromSystem,toSys))
             i += 4
         elif w[i] in discoverTerms:
@@ -181,6 +187,8 @@ def textTurnMain(s,state):
         elif w[i] in catTerms:
             # catastrophe inSystem color
             sys = getSystem(w[i+1],state)
+            if sys is None:
+                raise Exception('No system named {}.'.format(sysName))
             c = char2color[w[i+2].lower()]
             state.addEvent(event.Catastrophe(sys,c))
             i += 3

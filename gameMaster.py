@@ -210,12 +210,10 @@ class GameMaster:
             cmd = '{} {}'.format(cmd,message.author.name)
         turn = att(cmd,self.state)
         self.history.append(turn)
-        t = cc.datetime.utcnow()
-        self.clock.addPly(t)
 
-        self.pastClocks.append(cc.ChessClock(self.clock.times))
-        self.pastClocks[-1].unpause(t)
-        self.pastClocks[-1].onmove = 1-self.state.onmove
+        t = cc.datetime.utcnow()
+        self.pastClocks.append(self.clock.copy())
+        self.clock.addPly(t)
 
         await showState(self.state,self.channel)
 
@@ -263,7 +261,7 @@ class GameMaster:
             raise cc.ChessClockException('Game is paused.')
         user = message.author
         self.confirmPlayer(user)
-        if self.players[self.clock.onmove] != user:
+        if self.players[self.state.onmove] != user:
             raise InvalidTimerIteraction('It is not your turn.')
 
     async def togglePause(self,message):
