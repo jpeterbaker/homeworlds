@@ -17,7 +17,6 @@ catTerms = set(['catastrophe','c','cat'])
 sacTerms = set(['sacrifice','s','sac'])
 hwTerms = set(['homeworld','h','hw'])
 passTerms = set(['pass','p'])
-# TODO make getShip take a system instead of a name
 
 def getPiece(cs):
     # cs is the color and size of the ship, like 'y3'
