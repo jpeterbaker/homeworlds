@@ -101,11 +101,11 @@ async def time(user,master,params):
         await master.channel.send('See "bot_instructions" channel for help with "!time" command.')
         return
     minutes = m.group(1)
-    seconds = int(m.group(2))
+    seconds = safeInt(m.group(2))
     if minutes is None:
         minutes = 0
     else:
-        minutes = int(minutes)
+        minutes = safeInt(minutes)
     await master.setTime(user,60*minutes+seconds)
 
 async def begin(user,master,params):
@@ -118,6 +118,13 @@ async def begin(user,master,params):
 
 # Timer types
 
+def safeInt(s):
+    # Turn a string into an int while checking the length for overflow attacks
+    s = s.strip()
+    if len(s) > 4:
+        raise Exception('Input parameter appears to be too large of a number')
+    return int(s)
+
 async def simple(user,master,params=''):
     await master.setTimerStyle(user,'s')
 async def fischer(user,master,params):
@@ -126,11 +133,11 @@ async def fischer(user,master,params):
         inc = None
     else:
         minutes = m.group(1)
-        seconds = int(m.group(2))
+        seconds = safeInt(m.group(2))
         if minutes is None:
             minutes = 0
         else:
-            minutes = int(minutes)
+            minutes = safeInt(minutes)
         inc = 60*minutes+seconds
     await master.setTimerStyle(user,'f',inc)
 async def hourglass(user,master,params=''):
