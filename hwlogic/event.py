@@ -82,8 +82,8 @@ class Creation(Event):
 
     def __str__(self):
         return 'homeworld {} {} {} {}'.format(
-            self.system.markers[0],
-            self.system.markers[1],
+            self.markers[0],
+            self.markers[1],
             self.ship.piece,
             self.system.name
         )
