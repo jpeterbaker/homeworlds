@@ -48,7 +48,7 @@ class Creation(Event):
     def __init__(self,markers,ship,name):
         self.ship = ship
         # The markers tracked by the system can change over time, so save the original
-        self.markers = markers
+        self.markers = list(markers)
         self.system = System(markers,ship.player,name)
     def enact(self,state):
         if state.alive[state.onmove] is not None:
