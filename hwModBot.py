@@ -3,7 +3,6 @@
 # Initializes server
 # Cleans inputs for GameMaster
 # Displays the game state
-import discord
 from asyncio import sleep
 from gameMaster import GameMaster,showState,buildState,t2t
 from sys import path,argv
@@ -25,30 +24,6 @@ commandre = re.compile(r'^\s*!\s*(\w*)\s*(.*)$' , re.DOTALL)
 beginre    = re.compile(r'^(r)?\s*$',re.I)
 registerre = re.compile(r'^(0|1)?\s*')
 
-#######################
-# Load identification #
-#######################
-if len(argv) > 1:
-    print('debugging mode')
-    print('printing errors and connecting only to Test server')
-    DEBUGGING = True
-else:
-    print('production mode')
-    print('silencing errors and connecting only to HW server')
-    DEBUGGING = False
-
-if DEBUGGING:
-    with open('private/TESTINGtoken.txt','r') as fin:
-        TOKEN = fin.readline().strip()
-else:
-    with open('private/token.txt','r') as fin:
-        TOKEN = fin.readline().strip()
-
-with open('private/adminID.txt','r') as fin:
-    ADMIN = int(fin.readline().strip())
-
-client = discord.Client()
-
 """
 # THIS ONLY SEEMS TO BE NECESSARY IF A REFERENCE TO THE GUILD IS NEEDED
 # Main HW server
@@ -56,9 +31,6 @@ with open('private/guildID.txt','r') as fin:
     GUILD = int(fin.readline().strip())
 
 """
-
-# Map each channel to the corresponding GameMaster
-channel2master = {}
 
 #####################################
 # Functions for individual commands #
@@ -111,7 +83,7 @@ async def time(user,master,params):
 async def begin(user,master,params):
     m = beginre.search(params)
     if m is None:
-        await channel.send('The "!begin" command takes one optional parameter "r" to randomize first move.')
+        await master.channel.send('The "!begin" command takes one optional parameter "r" to randomize first move.')
         return
     pos = m.group(1)
     await master.begin(user,pos is not None)
@@ -191,6 +163,9 @@ command2func = {
     'resume':     resume
 }
 
+# Map each channel to the corresponding GameMaster
+channel2master = {}
+
 async def processCommand(command,params,user,channel):
     if not channel in channel2master:
         channel2master[channel] = GameMaster(channel,ADMIN)
@@ -204,41 +179,60 @@ async def processCommand(command,params,user,channel):
     else:
         raise Exception('Command not understood: "{}"'.format(command))
 
-######################
-# Responses to event #
-######################
-@client.event
-async def on_ready():
-#    guild = discord.utils.get(client.guilds,id=GUILD)
-    print(
-        f'{client.user} is connected'
-    )
+if __name__=='__main__':
+    import discord
+    #######################
+    # Load identification #
+    #######################
+    if len(argv) > 1:
+        print('debugging mode')
+        print('printing errors and connecting only to Test server')
+        DEBUGGING = True
+    else:
+        print('production mode')
+        print('silencing errors and connecting only to HW server')
+        DEBUGGING = False
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    m = commandre.search(message.content)
-    if m is None:
-        # This is not a command
-        return
-    try:
-        await processCommand(m.group(1),m.group(2),message.author,message.channel)
-    except IndexError as e:
-        channel = message.channel
-        await channel.send('{}\n\nNot enough parameters provided in your command.\nSee "bot_instructions" channel for help.'.format(str(e)))
-        if DEBUGGING:
-            # This causes the stack to be printed but does not interrupt execution
-            raise e
-    except Exception as e:
-        channel = message.channel
-        await channel.send('{}\n\nSee "bot_instructions" channel for help.'.format(str(e)))
-        if DEBUGGING:
-            # This causes the stack to be printed but does not interrupt execution
-            raise e
+    if DEBUGGING:
+        with open('private/TESTINGtoken.txt','r') as fin:
+            TOKEN = fin.readline().strip()
+    else:
+        with open('private/token.txt','r') as fin:
+            TOKEN = fin.readline().strip()
 
-#######
-# Run #
-#######
-client.run(TOKEN)
+    with open('private/adminID.txt','r') as fin:
+        ADMIN = int(fin.readline().strip())
+
+    client = discord.Client()
+
+    ######################
+    # Responses to event #
+    ######################
+    @client.event
+    async def on_ready():
+    #    guild = discord.utils.get(client.guilds,id=GUILD)
+        print(
+            '{} is connected'.format(client.user)
+        )
+
+    @client.event
+    async def on_message(message):
+        if message.author == client.user:
+            return
+        m = commandre.search(message.content)
+        if m is None:
+            # This is not a command
+            return
+        try:
+            await processCommand(m.group(1),m.group(2),message.author,message.channel)
+        except Exception as e:
+            channel = message.channel
+            await channel.send('{}\n\nSee "bot_instructions" channel for help.'.format(str(e)))
+            if DEBUGGING:
+                # This causes the stack to be printed but does not interrupt execution
+                raise e
+    #######
+    # Run #
+    #######
+    client.run(TOKEN)
 

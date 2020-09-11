@@ -150,6 +150,7 @@ class YellowAction(Action):
         )
 class Discovery(YellowAction):
     def __init__(self,ship,system,markers,name):
+        self.markers = list(markers)
         newsystem = System(markers,None,name)
         YellowAction.__init__(self,ship,system,newsystem)
     def enact(self,state):
@@ -168,7 +169,7 @@ class Discovery(YellowAction):
         return 'discover {} {} {} {}'.format(
             self.ship.piece,
             self.system.name,
-            self.newsystem.markers[0],
+            self.markers[0],
             self.newsystem.name
         )
 

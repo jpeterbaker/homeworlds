@@ -80,6 +80,9 @@ def applyTextTurn(s,state):
     s = s.strip()
     try:
         textTurnMain(s,state)
+    except IndexError as e:
+        state.cancelTurn()
+        raise Exception('Your gameplay command does not appear to have enough parameters.')
     except Exception as e:
         state.cancelTurn()
         raise e
