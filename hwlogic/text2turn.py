@@ -112,7 +112,8 @@ def textTurnMain(s,state):
         if w[i] in buildTerms:
             # build ship inSystem
             p = getPiece(w[i+1])
-            sys = getSystem(w[i+2],state)
+            sysName = w[i+2]
+            sys = getSystem(sysName,state)
             if sys is None:
                 raise Exception('No system named {}.'.format(sysName))
             for s in sys.ships:
@@ -133,7 +134,8 @@ def textTurnMain(s,state):
             # move ship fromSystem toSystem
             fromSystem = getSystem(w[i+2],state)
             s = getShip(w[i+1],w[i+2],player,state)
-            toSys = getSystem(w[i+3],state)
+            sysName = w[i+3]
+            toSys = getSystem(sysName,state)
             if toSys is None:
                 raise Exception('No system named {}.'.format(sysName))
             state.addEvent(event.YellowAction(s,fromSystem,toSys))
@@ -188,7 +190,8 @@ def textTurnMain(s,state):
             i += 3
         elif w[i] in catTerms:
             # catastrophe inSystem color
-            sys = getSystem(w[i+1],state)
+            sysName = w[i+1]
+            sys = getSystem(sysName,state)
             if sys is None:
                 raise Exception('No system named {}.'.format(sysName))
             c = char2color[w[i+2].lower()]
