@@ -135,7 +135,8 @@ async def toggle(user,master,params=''):
 # Other commands
 
 async def draw(user,master,params):
-    await master.draw(user,params)
+    state = buildState(params)
+    await showState(state,master.channel)
 
 async def resume(user,master,params):
     await master.resume(user,params)
