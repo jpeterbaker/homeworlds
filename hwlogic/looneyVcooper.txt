@@ -49,5 +49,5 @@ trade b3 r3 Pepperland
 discover y1 Wunderland b3 Pern
 sacrifice y2 J? move r3 Pepperland Wunderland move b3 Pepperland Wunderland
 sacrifice y3 Narnia move r1 MiddleEarth Jome move r1 MiddleEarth Jome pass catastrophe Jome r
-sacrifice r3 Wunderland attack g3 0 Wunderland attack y1 0 Wunderland attack g1 0 Wunderland
+sacrifice r3 Wunderland attack g3 Wunderland attack y1 Wunderland attack g1 Wunderland
 

@@ -2,6 +2,8 @@
 # Tools for drawing a state HORIZONTALLY
 
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use( 'tkagg' )
 import numpy as np
 import color
 from ship import Ship
@@ -220,54 +222,29 @@ def drawStash(stash):
                 drawPiece(piece,x,boty+i*thickness)
 
 if __name__=='__main__':
-    if 0:
-        # Ship test
-        s = Ship(Piece(3,color.BLUE),0)
-        drawShip(s,0,0)
-        plt.show()
-    if 0:
-        # Star marker test
-        marker = Piece(3,color.BLUE)
-        drawMarker(marker,0,0)
-        plt.show()
-    if 1:
-        from hwstate import HWState
-        from text2turn import applyTextTurn as att
-        state = HWState()
-        i=0
-        drawState(state,"../stateImages/game{}.png".format(i))
-        att('homeworld r2 b1 g3 Alice',state);        i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('homeworld b3 y1 g3 Bob',state);          i+=1; drawState(state,"../stateImages/game{}.png".format(i))
+    from hwstate import HWState
+    from text2turn import applyTextTurn as att
+    from sys import argv
+    from os import path
+    if len(argv) != 3:
+        print('USAGE:\n./drawH.py <log file> <image output directory>')
+        exit()
+    fin_name = argv[1]
+    outdir = argv[2]
+    fout_template = path.join(path.dirname(__file__),outdir,'state{}.png')
 
-        att('build g1 Alice',state);                  i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('build g1 Bob',state);                    i+=1; drawState(state,"../stateImages/game{}.png".format(i))
+    state = HWState()
+    drawState(state,fout_template.format(0))
+    i=2
+    suffix = 'ab'
 
-        att('trade g1 y1 Alice',state);               i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('discover g1 Bob b2 Howdy',state);        i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-
-        att('discover y1 Alice g3 Doody',state);      i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('build g1 Howdy',state);                  i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-
-        att('build y1 Doody',state);                  i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('build g1 Howdy',state);                  i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-
-        att('discover y1 Doody b1 Partner',state);    i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('trade g1 r1 Howdy',state);               i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-
-        att('build y2 Doody',state);                  i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('build g1 Bob',state);                    i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-
-        att('move y2 Doody Howdy',state);             i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('build g2 Howdy',state);                  i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-
-        att('discover y1 Doody g2 Rustle',state);     i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-        att('trade g2 r2 Howdy',state);               i+=1; drawState(state,"../stateImages/game{}.png".format(i))
-
-        att('discover y1 Partner r2 Saddle',state);   i+=1; drawState(state,'../stateImages/game{}.png'.format(i))
-        att('build g2 Bob',state);                    i+=1; drawState(state,'../stateImages/game{}.png'.format(i))
-
-        att('discover y1 Saddle g3 HappyNow',state);  i+=1; drawState(state,'../stateImages/game{}.png'.format(i))
-
-
-
+    with open(fin_name,'r') as fin:
+        for line in fin:
+            line = line.strip()
+            if len(line) == 0:
+                continue
+            att(line,state)
+            fout_name = fout_template.format('{}{}'.format(i//2,suffix[i%2]))
+            drawState(state,fout_name)
+            i += 1
 

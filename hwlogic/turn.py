@@ -2,7 +2,6 @@
 import event
 from itertools import chain,combinations
 from hwExceptions import SelfEliminationException,StashOutException
-import traceback
 
 '''
 Somehow, the catastrophe loop is removing other events from the turn event list
