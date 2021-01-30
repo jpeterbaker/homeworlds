@@ -221,14 +221,36 @@ def drawStash(stash):
             for i in range(stash.pieces[c][size]):
                 drawPiece(piece,x,boty+i*thickness)
 
+helpstr = '''
+USAGE CASES:
+./drawH.py <log file> <image output directory>
+./drawH.py <output image file name>  <  <file with buildState string>
+
+EXAMPLES:
+
+./drawH.py exampleLog.txt ../stateImages
+./drawH.py ../stateImages/exampleOutput.png < exampleState.txt
+'''
 if __name__=='__main__':
+    from sys import argv
+    if not len(argv) in (2,3):
+        print(helpstr)
+        exit()
+    from os import path
+    from hwstate import HWState
     from hwstate import HWState
     from text2turn import applyTextTurn as att
-    from sys import argv
-    from os import path
-    if len(argv) != 3:
-        print('USAGE:\n./drawH.py <log file> <image output directory>')
+
+    if len(argv) == 2:
+        from sys import stdin
+        from buildState import buildState
+        fname = path.join(path.dirname(__file__),argv[1])
+        print('Enter state string in buildState format, end with CTRL-D')
+        s = ''.join([line for line in stdin])
+        state = buildState(s)
+        drawState(state,fname)
         exit()
+
     fin_name = argv[1]
     outdir = argv[2]
     fout_template = path.join(path.dirname(__file__),outdir,'state{}.png')

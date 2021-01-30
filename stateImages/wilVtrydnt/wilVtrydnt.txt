@@ -1,0 +1,51 @@
+homeworld b1 y2 g3 wil
+homeworld g3 b1 b3 Trydnt
+build g1 wil
+build b1 Trydnt
+build g1 wil
+trade b3 y3 Trydnt
+discover g1 wil b3 b3
+build b2 Trydnt
+build g1 wil
+trade b2 g2 Trydnt
+discover g1 wil y3 y3
+discover g2 Trydnt y2 y2
+build g2 b3
+move g2 y2 y3
+sacrifice g3 wil build g2 y3 build g3 y3 build g3 wil catastrophe y3 g
+build b2 Trydnt
+trade g2 b2 b3
+discover b2 Trydnt y2 y2
+build g1 wil
+build b2 Trydnt
+discover g1 wil b3 bee3
+discover b2 Trydnt y2 why2
+discover g1 wil b3 btree
+trade b2 g2 y2
+build g2 wil
+discover b2 why2 g3 g3
+sacrifice g3 wil build g2 bee3 build g3 wil build b2 b3
+trade b1 r1 Trydnt
+trade g1 r1 bee3
+build g1 y2
+trade b2 y2 b3
+build y1 Trydnt
+sacrifice g3 wil build g3 wil build y1 b3 build r1 bee3
+build r2 Trydnt
+discover y1 b3 b2 b2
+move r2 Trydnt b2
+sacrifice g3 wil build g3 wil build y1 b3 build y3 b2
+sacrifice y1 Trydnt discover g2 y2 y3 y3
+sacrifice g2 wil build g2 b3 build r2 bee3
+sacrifice g2 y3 build r2 b2 build r3 Trydnt
+sacrifice r2 bee3 attack r2 b2 attack r2 b2
+move r3 Trydnt y2
+build g2 wil
+move r3 y2 btree
+sacrifice g3 wil build g3 wil build y1 b2 build y3 b3
+attack g1 btree
+sacrifice g2 wil build g2 bee3 build r2 bee3
+build r3 Trydnt
+sacrifice y3 b3 move r2 b2 Trydnt move r2 b2 Trydnt move y3 b2 Trydnt catastrophe Trydnt r
+sacrifice y3 Trydnt move r3 btree wil move g1 btree wil move g1 y2 Trydnt
+sacrifice r1 bee3 attack g1 Trydnt 

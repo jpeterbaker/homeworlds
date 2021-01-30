@@ -1,5 +1,6 @@
 #!/usr/bin/python3.7
 # Tools for drawing a state VERTICALLY
+# drawH.py is better
 
 import matplotlib.pyplot as plt
 import numpy as np

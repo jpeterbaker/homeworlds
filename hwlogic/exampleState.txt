@@ -1,0 +1,7 @@
+<0>;
+Homeworld_One (0,r1b2)g3r2g1-;
+Ursa_Major(y3)g2-;
+Sirius(y3)-r2;
+Zosma(b2)-y2;
+Taygeta(y2)-r1;
+Homeworld_Alpha(1,y1b3)r3-r2r1g1g1
