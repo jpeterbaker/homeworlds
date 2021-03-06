@@ -1,0 +1,56 @@
+h b3 y1 g3 1
+h r3 b2 g3 2
+
+b g1 1
+b g1 2
+
+t g1 y1 1
+t g1 y1 2
+
+b y2 1
+b y2 2
+
+t y1 r1 1
+t y1 r1 2
+
+b r1 1
+b r2 2
+
+d r1 1 g2 3
+d r1 2 g1 4
+
+b r2 1
+b y1 2
+
+d r1 1 b2 5
+m y2 2 4
+
+s g3 1 b r2 3 b r3 5 b r3 1
+d r1 4 y2 6
+
+t r3 y3 5
+s g3 2 b r3 6 b y1 4 b y3 2
+
+t r3 g3 1
+b y3 4
+
+m y3 5 4 c 4 y
+d r1 6 r3 7
+
+t r1 y1 5
+t y1 g1 2
+
+b g1 1
+b g1 2
+
+m g1 1 5
+b g2 2
+
+b g2 1
+d g1 2 y1 8
+
+s g3 1 b y2 5 b y3 5 b y3 1
+b g3 8
+
+b g3 5
+

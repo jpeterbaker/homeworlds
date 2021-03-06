@@ -265,6 +265,7 @@ if __name__=='__main__':
             line = line.strip()
             if len(line) == 0:
                 continue
+            print(line)
             att(line,state)
             fout_name = fout_template.format('{}{}'.format(i//2,suffix[i%2]))
             drawState(state,fout_name)

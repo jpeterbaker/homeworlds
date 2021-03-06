@@ -1,71 +1,155 @@
 '''
-Tools for cooperation with Homeworlds Live sit
+Tools for cooperation with Homeworlds Live site
+(pass is denoted by "pass")
 
-Example log string:
-
-Players: south,north
-Winner: none
-h,g3C,b1C,y3C
-h,r2C,b1B,g3B
-b,y1A,1
-b,g1A,2
-b,y1B,1
-b,g1B,2
-d,y1A,g2C
-t,g1B,y1C
-b,y2A,3
-b,g1B,2
-t,y1B,g1C
-d,g1B,b3C
-b,g2A,1
-s,g3B;b,g2B,4;b,g3A,4;b,g3B,2
-
-t,g3A,r3C
-
-Example map string:
-
-{
-    "map": {
-    "b1A": null,
-    "b1B": {"at": 2, "owner": null},
-    "b1C": {"at": 1, "owner": null},
-    "b2A": null,
-    "b2B": null,
-    "b2C": null,
-    "b3A": null,
-    "b3B": null,
-    "b3C": {"at": 4, "owner": null},
-
-    "g1A": {"at": 2, "owner": "north"},
-    "g1B": {"at": 4, "owner": "north"},
-    "g1C": {"at": 1, "owner": "south"},
-    "g2A": {"at": 1, "owner": "south"},
-    "g2B": {"at": 4, "owner": "north"},
-    "g2C": {"at": 3, "owner": null},
-    "g3A": null,
-    "g3B": {"at": 2, "owner": "north"},
-    "g3C": {"at": 1, "owner": null},
-
-    "r1A": null,
-    "r1B": null,
-    "r1C": null,
-    "r2A": null,
-    "r2B": null,
-    "r2C": {"at": 2, "owner": null},
-    "r3A": null,
-    "r3B": null,
-    "r3C": {"at": 4, "owner": "north"},
-
-    "y1A": {"at": 3, "owner": "south"},
-    "y1B": null,
-    "y1C": {"at": 2, "owner": "north"},
-    "y2A": {"at": 3, "owner": "south"},
-    "y2B": null,
-    "y2C": null,
-    "y3A": null,
-    "y3B": null,
-    "y3C": {"at": 1, "owner": "south"}
-    },
-"homeworldData": {"south":1,"north":2}
-}
+Examples of HWL's log and map strings are in
+exampleLog.hwl and
+exampleMap.hwl
 '''
+
+from hwstate import HWState
+from text2turn import applyTextTurn,re
+
+class HWLState:
+    # A state the way HWL thinks of it with named pieces
+    def __init__(self):
+        # Underlying state in my own format
+        self.state = HWState()
+        # Look up ships by piece type and letter
+        # keys are strings like 'y2A'
+        # values are the name of the system that the piece occupies (as a ship)
+        # stars are not tracked
+        self.systemMap = {}
+        # Name to give to the next-created system
+        self.systemIndex = 1
+    def apply_HWL_text_turn(self,s):
+        # Apply the turn s
+        '''
+        TODO
+        * Replace x with a (for attack)
+        * Expand letter-based piece identifiers for ship and system name
+        Most of the rest should work pretty well since I ignore commas
+
+        returns the SDG-like version of the command
+        '''
+        r = ';'.join([self.convert_action(a) for a in s.split(';')])
+        applyTextTurn(r,self.state)
+        return r
+
+    def convert_action(self,s):
+        '''
+        s is an atomic action string in HWL format (not a whole turn)
+        Specifically, s should describe one of the following
+        * a homeworld creation
+        * a power action
+        * a sacrifice
+        * a catastrophe
+        * a pass
+        returns a string for the same action in my SDG-based format
+        '''
+        words = s.split(',')
+        if words[0] == 'b':
+            # BUILD
+            # IN
+            # b,ship piece with letter,system name
+            # OUT
+            # b,ship piece,system name
+            shipPiece = words[1][:2]
+            systemName = words[2]
+            s1 = ','.join(['b',shipPiece,systemName])
+
+            self.systemMap[words[1]] = systemName
+        elif words[0] == 'd':
+            # DISCOVER
+            # IN
+            # d,ship piece with letter,star piece with letter
+            # OUT
+            # d,ship piece,origin system name,destination system piece,destination system name
+            shipPiece = words[1][:2]
+            starPiece = words[2][:2]
+            oldName = self.systemMap[words[1]]
+            newName = str(self.systemIndex)
+            s1 = ','.join(['d',shipPiece,oldName,starPiece,newName])
+
+            self.systemIndex += 1
+            self.systemMap[words[1]] = newName
+        elif words[0] == 'm':
+            # MOVE
+            # IN
+            # m,ship piece with letter,destination system name
+            # OUT
+            # m,ship piece,origin system name,destination system name
+            shipPiece = words[1][:2]
+            oldName = self.systemMap[words[1]]
+            newName = words[2]
+            s1 = ','.join(['m',shipPiece,oldName,newName])
+
+            self.systemMap[words[1]] = newName
+        elif words[0] == 't':
+            # TRADE
+            # IN
+            # t,before ship piece with letter,after ship piece with letter
+            # OUT
+            # t,before ship piece,after ship piece,system name
+            oldPiece = words[1][:2]
+            newPiece = words[2][:2]
+            systemName = self.systemMap[words[1]]
+            s1 = ','.join(['t',oldPiece,newPiece,systemName])
+
+            self.systemMap[words[2]] = systemName
+            # Popping the old piece from the map shouldn't be necessary
+        elif words[0] == 'x':
+            # CAPTURE
+            # IN
+            # x,target ship piece with letter
+            # OUT
+            # a,target ship piece,system name
+            shipPiece = words[1][:2]
+            systemName = self.systemMap[words[1]]
+            s1 = ','.join(['a',shipPiece,systemName])
+        elif words[0] == 's':
+            # SACRIFICE
+            # IN
+            # s,ship piece with letter
+            # OUT
+            # s,ship piece,system name
+            shipPiece = words[1][:2]
+            systemName = self.systemMap[words[1]]
+            s1 = ','.join(['s',shipPiece,systemName])
+        elif words[0] == 'c':
+            # CATASTROPHE
+            # IN
+            # c,color,system name
+            # OUT
+            # c,system name,color
+            s1 = ','.join(['c',words[2],words[1]])
+        elif words[0] == 'h':
+            # HOMEWORLD
+            # IN
+            # h,star piece with letter,star piece with letter,ship piece with letter
+            # OUT
+            # h,star piece,star piece,ship piece,system name
+            starPiece0 = words[1][:2]
+            starPiece1 = words[2][:2]
+            shipPiece = words[3][:2]
+            systemName = str(self.systemIndex)
+            s1 = ','.join(['h',starPiece0,starPiece1,shipPiece,systemName])
+
+            self.systemMap[words[3]] = systemName
+            self.systemIndex += 1
+        elif words[0] == 'pass' or words[0] == 'p':
+            s1 = 'p'
+        else:
+            raise Exception('Unknown command: "{}"'.format(words[0]))
+        return s1
+
+def json_2_HWLState(d):
+    # d is a dictionary made from the HWL state formatted as a JSON
+    raise NotImplementedError('Sorry, not done yet')
+    s = HWLState()
+    pieceMap = d['map']
+    hwNumbers = d['homeworldData']
+    for piece,props in pieceMap:
+        pass
+        
+
