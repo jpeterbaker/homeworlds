@@ -1,0 +1,15 @@
+<0>;Andy(0,b3 y2)g3-g1r1;E(g1)y2-;I(y1)g3-;F(b3)-g2;John(1,b2)-g1g2
+# Trydnt thinks John will win with this
+
+move y2 E Andy
+sacrifice g2 John;build g1 John;build g2 Andy
+
+build g2 Andy;catastrophe Andy g
+trade g1 r1 John
+
+move g3 I Andy
+sacrifice g2 F;build r1 John;build r2 Andy
+
+trade g3 r3 Andy
+sacrifice g1 John;build r2 Andy;catastrophe Andy r
+

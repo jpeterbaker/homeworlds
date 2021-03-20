@@ -1,0 +1,67 @@
+homeworld b2 r2 g3 1
+homeworld b2 y1 g3 2
+
+build g1 1
+build g1 2
+
+trade g1 y1 1
+trade g1 y1 2
+
+build y2 1
+build g1 2
+
+discover y1 1 g1 3
+trade g1 r1 2
+
+build y2 3
+discover y1 2 g3 4
+
+build g1 1
+build r1 2
+
+trade g1 r1 1
+move r1 2 4
+
+move r1 1 3
+build r2 4
+
+build g1 1
+discover r1 4 b1 5
+
+trade g1 b1 1
+build g1 2
+
+build b1 1
+build r2 4
+
+build r3 3
+build r3 2
+
+move b1 1 3
+sacrifice g1 2;build r3 5
+
+discover y1 3 b3 6
+trade r3 b3 2
+
+build b2 1
+move b3 2 4
+
+move b1 1 4
+attack b1 4
+
+build b3 3
+trade b3 y3 4
+
+sacrifice g3 1;build y2 6;build y3 3;build y3 1
+trade r3 g3 5
+
+discover y2 3 b3 7
+sacrifice g3 5;build r3 5;build r3 2;build g1 2
+
+trade y2 g2 1
+sacrifice y3 4;move r1 5 1;move r2 4 1;move r3 2 4
+
+sacrifice y3 3;move b3 3 6;move b3 6 2;move y2 6 2
+sacrifice r3 5;attack b3 2;attack y2 2;attack b2 1
+
+

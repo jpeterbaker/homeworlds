@@ -1,4 +1,3 @@
-#!/usr/bin/python3.7
 # Tools for drawing a state HORIZONTALLY
 
 import matplotlib.pyplot as plt
@@ -222,52 +221,73 @@ def drawStash(stash):
                 drawPiece(piece,x,boty+i*thickness)
 
 helpstr = '''
-USAGE CASES:
-./drawH.py <log file> <image output directory>
-./drawH.py <output image file name>  <  <file with buildState string>
+    USAGE:
 
-EXAMPLES:
+python drawH.py <image output template>
 
-./drawH.py exampleLog.txt ../stateImages
-./drawH.py ../stateImages/exampleOutput.png < exampleState.txt
+    Then, type the initial game state in buildState.py format
+    followed by any moves you want to make.
+    Lines with # as first character are ignored
+
+    INITIAL STATE MUST BE THE FIRST INPUT LINE
+    Start with a blank line if you want to start from scratch
+
+    EXAMPLE:
+
+python drawH.py ../stateImages/bill_vs_susie.png < exampleGame.txt
+
+    The result is the writing of images described by exampleGame.txt.
+    The image files will be named
+        ../stateImages/bill_vs_susie0.png
+        ../stateImages/bill_vs_susie1.png
+        etc.
 '''
 if __name__=='__main__':
     from sys import argv
-    if not len(argv) in (2,3):
+    if len(argv) != 2:
         print(helpstr)
         exit()
     from os import path
     from hwstate import HWState
-    from hwstate import HWState
     from text2turn import applyTextTurn as att
 
-    if len(argv) == 2:
-        from sys import stdin
-        from buildState import buildState
-        fname = path.join(path.dirname(__file__),argv[1])
-        print('Enter state string in buildState format, end with CTRL-D')
-        s = ''.join([line for line in stdin])
-        state = buildState(s)
-        drawState(state,fname)
+    from sys import stdin
+    from buildState import buildState
+
+    fname = path.join(path.dirname(__file__),argv[1])
+    i = fname.rfind('.')
+    if i <= 0:
+        print('You need to use a file extension for name templating to work')
         exit()
+        
+    fname_template = ''.join([fname[:i],'_{}',fname[i:]])
 
-    fin_name = argv[1]
-    outdir = argv[2]
-    fout_template = path.join(path.dirname(__file__),outdir,'state{}.png')
+    print('Enter state string in buildState format, end with CTRL-D')
+    lines = [line.strip() for line in stdin]
+    if len(lines[0]) > 0:
+        print('Starting with initial state')
+        print(lines[0])
+        state = buildState(lines[0])
+    else:
+        print('Starting with blank state')
+        state = HWState()
 
-    state = HWState()
-    drawState(state,fout_template.format(0))
-    i=2
     suffix = 'ab'
 
-    with open(fin_name,'r') as fin:
-        for line in fin:
-            line = line.strip()
-            if len(line) == 0:
-                continue
-            print(line)
-            att(line,state)
-            fout_name = fout_template.format('{}{}'.format(i//2,suffix[i%2]))
-            drawState(state,fout_name)
-            i += 1
+    moves = 2
+    if state.onmove != 0:
+        moves += 1
+
+    fout_name = fname_template.format('{}{}'.format(moves//2,suffix[moves%2]))
+    drawState(state,fout_name)
+    moves += 1
+
+    for line in lines[1:]:
+        if len(line) == 0 or line[0] == '#':
+            continue
+        print(line)
+        att(line,state)
+        fout_name = fname_template.format('{}{}'.format(moves//2,suffix[moves%2]))
+        drawState(state,fout_name)
+        moves += 1
 
