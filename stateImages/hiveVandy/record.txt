@@ -1,0 +1,61 @@
+
+# Andy vs Jonathan Baker, Steve Swarmer, Andrew Shirkey (and son AJ), Ryan Stapleton, Laurie Menke
+# Flip for first turn, Hive goes first
+h y3 b2 g3 Hive
+h y2 b1 g3 Andy
+
+b g1 Hive
+b g1 Andy
+
+t g1 b1 Hive
+t g1 b1 Andy
+
+b b2 Hive
+b b2 Andy
+
+d b1 Hive g1 A
+t b1 y1 Andy
+
+s g3 Hive;b b1 A;b b3 A;b b3 Hive
+b b3 Andy
+
+t b3 y3 A
+d b2 Andy b3 B
+
+t b3 g3 Hive
+t b2 g2 B
+
+b b2 A
+d b3 Andy b3 C
+
+t b2 r2 A
+t g2 r2 B
+
+b b2 A
+s y1 Andy;d b3 C y2 D
+
+d b1 A g3 E
+m b3 D E
+
+b b3 A
+b g1 Andy
+
+m b3 A B
+t g1 r1 Andy
+
+s r2 A;a r2 B;pass
+b r1 Andy
+
+t b3 y3 B
+s r1 Andy;a b1 E
+
+b b3 A
+t b1 y1 E
+
+s y3 A;m b3 A B;m b3 B Andy;m y3 B Andy
+a y3 Andy
+
+s r2 B;a g3 Andy;a r1 Andy
+
+
+
