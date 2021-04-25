@@ -120,7 +120,17 @@ def drawCol(col,x,homeOnMove=None):
     # x coordinate at which to draw
     # homeOnMove 0 or 1 if this is a home row and that player is on-move
     # Returns the height of the col
-    height = 0
+
+    ####################
+    # Calculate height #
+    ####################
+    # Reserve room for the token on the other side to keep pieces centered
+    if homeOnMove == 1:
+        height = turnTokenRadius*2+buffin
+    elif homeOnMove == 0:
+        height = -turnTokenRadius*2-buffin
+    else:
+        height = 0
     for sys in col:
         for ship in sys.ships:
             height += scales[ship.piece.size]
@@ -166,6 +176,9 @@ def drawCol(col,x,homeOnMove=None):
         # Draw the token on the right
         y -= buffout - buffin
         drawTurnToken(x,y+turnTokenRadius)
+        # height started negative and could cause token to get cut off
+        # if this is the tallest column
+        height += 4*turnTokenRadius+2*buffin
     return height
 
 def drawState(state,fname=None):
