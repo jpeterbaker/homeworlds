@@ -114,9 +114,8 @@ class RedAction(Action):
         return self.ship.player
 
     def __str__(self):
-        return 'attack {}({}) {}'.format(
+        return 'attack {} {}'.format(
             self.ship.piece,
-            self.ship.player,
             self.system.name
         )
 
@@ -190,7 +189,7 @@ class GreenAction(Action):
         return self.system
     def __str__(self):
         return 'build {} {}'.format(
-            self.ship.piece,
+            self.newship.piece,
             self.system.name
         )
 

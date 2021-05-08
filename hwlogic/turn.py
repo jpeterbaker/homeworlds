@@ -166,7 +166,7 @@ class Turn:
         if len(self.events) == 0:
             return '[No events have been added to this turn]'
         # Don't list the Eliminations and Fades since they are just side effects
-        return '\n   '.join([
+        return ';'.join([
             str(e)
             for e in self.events
             if  not isinstance(e,event.Fade)

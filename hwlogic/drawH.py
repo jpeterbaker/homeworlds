@@ -242,8 +242,7 @@ python drawH.py <image output template>
     followed by any moves you want to make.
     Lines with # as first character are ignored
 
-    INITIAL STATE MUST BE THE FIRST INPUT LINE
-    Start with a blank line if you want to start from scratch
+    First non-empty, non-comment line must be a turn string or a state string
 
     EXAMPLE:
 
@@ -275,15 +274,22 @@ if __name__=='__main__':
         
     fname_template = ''.join([fname[:i],'_{}',fname[i:]])
 
-    print('Enter state string in buildState format, end with CTRL-D')
     lines = [line.strip() for line in stdin]
-    if len(lines[0]) > 0:
-        print('Starting with initial state')
-        print(lines[0])
-        state = buildState(lines[0])
-    else:
-        print('Starting with blank state')
-        state = HWState()
+    nlines = len(lines)
+    for first in range(nlines):
+        line = lines[first]
+        if len(line) == 0:
+            continue
+        if line[0] == '#':
+            continue
+        if line[0] == '<':
+            print('Starting with initial state')
+            print(line)
+            state = buildState(line)
+        else:
+            print('Starting with blank state')
+            state = HWState()
+            break
 
     suffix = 'ab'
 
@@ -295,7 +301,7 @@ if __name__=='__main__':
     drawState(state,fout_name)
     moves += 1
 
-    for line in lines[1:]:
+    for line in lines[first+1:]:
         if len(line) == 0 or line[0] == '#':
             continue
         print(line)

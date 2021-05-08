@@ -6,7 +6,16 @@ import re
 
 wordre = re.compile(r'\w+')
 
-char2color = {'r':color.RED,'y':color.YELLOW,'g':color.GREEN,'b':color.BLUE}
+char2color = {
+    'r':color.RED,
+    'y':color.YELLOW,
+    'g':color.GREEN,
+    'b':color.BLUE,
+    'red':color.RED,
+    'yellow':color.YELLOW,
+    'green':color.GREEN,
+    'blue':color.BLUE,
+}
 
 buildTerms = set(['build','b'])
 tradeTerms = set(['trade','t'])
@@ -128,7 +137,7 @@ def textTurnMain(s,state):
             state.addEvent(e)
             if p.size != e.newship.piece.size:
                 state.cancelTurn()
-                raise Exception('You cannot build %s while %s is available'%(w[i+1].lower(),e.newship.piece))
+                raise Exception('Cannot build %s. Must build %s.'%(w[i+1].lower(),e.newship.piece))
             i += 3
         elif w[i] in moveTerms:
             # move ship fromSystem toSystem

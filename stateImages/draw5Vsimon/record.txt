@@ -1,0 +1,99 @@
+
+homeworld B2 R2 G3 Draw5PlayAll
+homeworld r1 b1 g3 Simon
+
+build G1 Draw5PlayAll
+build g1 simon
+
+trade G1 Y1 Draw5PlayAll
+trade g1 y1 simon
+
+build G1 Draw5PlayAll
+build g1 simon
+
+trade G1 B1 Draw5PlayAll
+trade g1 b1 simon
+
+discover B1 Draw5PlayAll G3 Rocket
+discover b1 simon g2 g2
+
+build B2 Rocket
+build b2 g2
+
+trade B2 R2 Rocket
+trade b1 r1 g2
+
+build G1 Draw5PlayAll
+build g1 simon
+
+trade G1 B1 Draw5PlayAll
+discover g1 simon b3 b3
+
+discover B1 Draw5PlayAll G1 Toaster
+build g1 simon
+
+build G2 Draw5PlayAll
+sacrifice g3 simon , build g2 b3 , build g3 simon , build y1 simon
+
+build Y2 Draw5PlayAll
+move g1 simon draw5playall
+
+discover G2 Draw5PlayAll B3 Jackpot
+move y1 simon g2
+
+attack G1 Draw5PlaYAll
+build y2 simon
+
+discover G1 Draw5PlayAll B3 ShareTheWealth
+move y2 simon sharethewealth
+
+sacrifice G2 Jackpot , build B2 Toaster , build B3 Rocket
+sacrifice g2 b3 , build y2 sharethewealth , build y3 g2
+
+move Y1 Draw5PlayAll Rocket
+trade y2 r2 sharethewealth
+
+build G2 Draw5PlayAll
+attack g1 sharethewealth
+
+sacrifice G2 Draw5PlayAll , build Y2 Rocket , build Y3 Draw5PlayAll
+build y3 sharethewealth
+
+move Y3 Draw5PlayAll b3
+build g2 sharethewealth
+
+discover B1 Rocket G2 Money
+sacrifice g2 sharethewealth , build r1 sharethewealth , build r3 g2
+
+build R3 Rocket
+move r2 sharethewealth money
+
+sacrifice Y3 b3 , move B1 Money ShareTheWealth , move B1 Toaster ShareTheWealth , move B2 Toaster ShareTheWealth , catastrophe ShareTheWealth blue
+move r3 g2 b3
+
+move R3 Rocket Money
+build b1 g2
+
+build B1 Rocket
+build g1 b3
+
+attack R2 Money
+discover b1 g2 g1 g1
+
+discover B1 Rocket G2 Eye
+sacrifice g1 b3 , build g1 simon
+
+build B2 Rocket
+sacrifice g3 simon , build g3 simon , build b3 g1 , build y2 simon
+
+build Y3 Draw5PlayAll
+sacrifice y2 simon , move b2 g2 rocket , move b1 g1 rocket , catastrophe rocket b
+
+sacrifice Y2 Rocket , move Y3 Draw5PlayAll Rocket , move B1 Eye Rocket
+sacrifice g3 simon , build g2 b3 , build g3 simon , build y2 simon
+
+discover Y1 Rocket Y2 Inflation
+move g3 simon draw5playall
+
+sacrifice Y3 Rocket , move R2 Money Simon , move R2 Rocket Draw5PlayAll , move B1 Rocket Draw5PlayAll
+sacrifice r3 b3 , attack g3 draw5playall , attack r2 draw5playall , attack r2 simon

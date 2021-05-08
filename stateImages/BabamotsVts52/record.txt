@@ -1,0 +1,102 @@
+# Babamots vs ts52
+# May 2021
+# Homeworlds Live Winter League game
+# The result of this game determined the first place winner of the tournament
+homeworld b2 r1 g3 Babamots
+homeworld y3 b2 g3 ts52
+
+build g1 Babamots
+build g1 ts52
+
+trade g1 r1 Babamots
+trade g1 r1 ts52
+
+build r2 Babamots
+build r2 ts52
+
+trade r2 y2 Babamots
+build r2 ts52
+
+discover r1 Babamots g3 Altair
+discover r2 ts52 g1 Betelgeuse
+
+build y1 Babamots
+build g1 ts52
+
+move y2 Babamots Altair
+trade g1 y1 ts52
+
+build y1 Altair
+move y1 ts52 Betelgeuse
+
+build y2 Babamots
+build g1 ts52
+
+discover y2 Babamots b3 Castor
+discover r2 Betelgeuse y3 Deneb
+
+build g1 Babamots
+trade g1 b1 ts52
+
+discover g1 Babamots y3 Electra
+build y2 Betelgeuse
+
+sacrifice g1 Electra;build y3 Castor
+build b1 ts52
+
+trade y3 r3 Castor
+discover y1 Betelgeuse y3 Formalhaut
+
+build g1 Babamots
+sacrifice b1 ts52;trade y1 b1 Formalhaut
+
+move g1 Babamots Castor
+build b1 ts52
+
+build r2 Castor
+build g1 ts52
+
+build r3 Altair
+sacrifice g1 ts52;build r3 Deneb
+
+trade r3 b3 Castor
+move b1 ts52 Betelgeuse
+
+build r3 Castor
+build y1 Betelgeuse
+
+move b3 Castor Betelgeuse
+sacrifice y2 Betelgeuse;discover b1 Betelgeuse g2 Gemma;move y1 Betelgeuse Gemma
+
+build y2 Castor
+build g1 ts52
+
+build b2 Betelgeuse
+build b3 Gemma
+
+sacrifice y1 Altair;move b3 Betelgeuse ts52
+attack b3 ts52
+
+sacrifice y1 Babamots;move b2 Betelgeuse ts52;catastrophe ts52 b
+sacrifice b1 Formalhaut;trade b3 y3 Gemma
+
+move y2 Castor Babamots
+build b1 Gemma
+
+build y1 Babamots
+discover b1 Gemma y1 Hadar
+
+discover y2 Castor g2 Izar
+move r3 Deneb Babamots
+
+attack r3 Babamots
+sacrifice y3 Gemma;move r2 Deneb Babamots;move r1 ts52 Babamots;catastrophe Babamots r;move b1 Hadar Babamots
+
+sacrifice r1 Altair;attack b1 Babamots
+sacrifice g3 ts52;build y1 Gemma;build y3 Gemma;build b1 Gemma
+
+move y2 Izar ts52
+move b1 Gemma ts52
+
+sacrifice r3 Castor;attack r2 ts52;attack g1 ts52;attack b1 ts52
+

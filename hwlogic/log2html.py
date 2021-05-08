@@ -1,4 +1,4 @@
-# Convert an SDG-style log to an table in my usual format
+# Convert an SDG-style log to an table in the format of my site
 
 from sys import stdin
 
@@ -22,7 +22,11 @@ for line in stdin:
     line = line.strip()
     if len(line) == 0:
         continue
+    # Skip comments
     if line[0] == '#':
+        continue
+    # Skip a starting state specifier string
+    if line[0] == '<':
         continue
     lines.append(line)
 
@@ -66,5 +70,4 @@ for i in range(n):
     if i%2 == 1:
         print(rowend)
 print(tableend)
-
 

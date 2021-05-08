@@ -1,0 +1,2 @@
+<0>; Andy(0,b3y2)r3r1-; wil(1,b1y1)g2g1-b3; F(g1)-y3b2; C(g1)r1-g3r2; I(y1)r2-; E(g2)y3-; J(y2)r2-; G(y3)r3-b1b1g2; D(g3)-y2y1b3b2; H(g3)r3r1-
+s r3 H;a g2 g;a b1 g;a b1 g
