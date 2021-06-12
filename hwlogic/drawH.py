@@ -286,9 +286,11 @@ if __name__=='__main__':
             print('Starting with initial state')
             print(line)
             state = buildState(line)
+            break
         else:
             print('Starting with blank state')
             state = HWState()
+            att(line,state)
             break
 
     suffix = 'ab'

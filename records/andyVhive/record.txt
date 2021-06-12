@@ -1,0 +1,120 @@
+# Andy Looney vs Hivemind (team)
+# May 17, 2021 (Facebook continuation lasted until May 24)
+#
+# Andy claimed right to move first
+# 
+# LIVE HIVE CREW:
+# Captain Scott Myers
+# Andrew Shirkey
+# Chris Ballowe
+# Jonathan Baker
+# Tim Sieger
+# Laurie Menke
+#
+# After a recess, the game resumed on a Facebook thread
+# https://www.facebook.com/groups/321428394961775/permalink/1192074947897111
+# Additional Facebook users joined the Hive
+# Steve Swarner
+# Alex Drage
+#
+
+homeworld b3 y2 g3 Andy
+homeworld r3 b1 g3 Hive
+
+build g1 Andy
+build g1 Hive
+
+trade g1 b1 Andy
+trade g1 b1 Hive
+
+build b2 Andy
+build b2 Hive
+
+discover b2 Andy g1 A
+trade b2 y2 Hive
+
+build b2 A
+discover b1 Hive g2 B
+
+trade b1 y1 Andy
+build y1 Hive
+
+build g1 Andy
+trade y1 r1 Hive
+
+trade b2 r2 A
+move y2 Hive B
+
+build y1 Andy
+build r1 Hive
+
+move y1 Andy A
+trade r1 y1 Hive
+
+build r1 A
+move r1 Hive B
+
+discover y1 Andy b1 C
+sacrifice g3 Hive;build y2 Hive;build y3 Hive;build y3 B
+
+build y3 A
+trade y1 g1 Hive
+
+discover y1 C g2 D
+discover y2 Hive g2 E
+
+trade g1 r1 Andy
+build r2 B
+
+build r2 Andy
+discover r2 B y1 F
+
+trade r1 b1 Andy
+build b2 B
+
+move r2 A D
+discover y2 B r3 G
+
+discover y1 A g3 H
+move b2 B F
+
+sacrifice b1 Andy;trade y1 b1 D
+discover y2 E y1 I
+
+discover b2 A g3 J
+build b2 B
+
+build b3 D
+# End of live portion. Game continued on Facebook.
+sacrifice g1 Hive;build b3 F
+
+trade b3 r3 D
+build b3 B
+
+move y3 A D
+move b3 B I
+
+build g1 Andy
+move b3 I Andy
+
+attack b3 Andy
+move b3 F Andy
+
+sacrifice y3 D;move g3 Andy I;move r3 D Hive;move r2 D Hive
+sacrifice r2 F;attack r3 Hive;attack r2 Hive
+
+attack b3 Andy
+sacrifice y3 B;move b2 F Andy;catastrophe Andy b;move y2 I Andy;move r3 Hive Andy
+
+sacrifice g3 I;build r1 Andy;build r2 Andy;build g1 Andy;catastrophe Andy r
+sacrifice r2 Hive;attack g1 Andy;attack g1 Andy
+
+# <1>;
+# Andy(y2)-y2g1g1;
+# Hive(1,b1r3)-y3;
+# A(g1)r1-;
+# B(g2)-b1r1b2;
+# D(g2)b1-;
+# G(r3)-y2;
+# H(g3)y1-;
+# J(g3)b2-

@@ -1,0 +1,38 @@
+# An example of a game exploration file
+# Move may be followed by strength and comments, separated by /
+# Parentheses enclose alternative continuations to previous move
+
+<1>;Alpha(0,r1)y2y1-;Beta(1,b2y1)-r3r1;Betelgeuse(g2)y3y2r3r1-;Altair(g3)-y2y1r2r2;Castor(g2)r3r2-
+
+discover r1 Beta y3 Deneb/orig
+(
+    move r2 Altair Alpha/better/This is better than the play in the actual game because it forces a draw (or better). However, this game was played on SDG which does not allow draws, so if the best lines are followed by both players from here, the game technically would have continued until one of them resigned. Since Beta was the challenger, it would have made sense for Beta to resign. (For games where SDG allows draws, SDG considers the challenger to be the loser in drawn games.)
+    attack r2 Alpha
+    (
+        sacrifice y1 Alpha;move y3 Betelgeuse Alpha/worse/Reinforcing with y3 is not sufficient since the red catastrophe threat persists.
+        sacrifice y2 Altair;move r2 Altair Alpha;discover r1 Beta y3 Deneb//Beta will win on their next turn.
+    )
+    sacrifice y2 Altair;move r3 Beta Altair;move r3 Altair Alpha
+    (
+        move r2 Altair Alpha
+        sacrifice r2 Alpha;attack r2 Alpha;pass
+    )
+    sacrifice y3 Betelgeuse;move r1 Betelgeuse Altair;move r3 Castor Altair;move r2 Castor Altair;catastrophe Altair r//This is the correct move, but many players in Alpha's position would fail to see it. Destroying four of one's own ships to get just one of one's opponent's ships is almost never a good move, but in this case, any other move allows Beta to win.
+    attack r2 Alpha//There is now nothing better to do than trade the r2 ship back and forth.
+    attack r2 Alpha
+    attack r2 Alpha
+)
+(
+    sacrifice y2 Altair;move r3 Beta Altair;move r3 Altair Alpha/worse/Initially promising, the r3 invasion should lose once Alpha destroys Beta's sacrificial reds on one turn and then simultaneously defends and counterattacks in the next.
+    sacrifice y2 Betelgeuse;move r1 Betelgeuse Altair;move r2 Castor Altair;catastrophe Altair r
+    attack y2 Alpha
+    sacrifice y3 Betelgeuse;move r3 Betelgeuse Alpha;move r3 Castor Altair;move r3 Altair Beta
+    attack r3 Alpha
+    attack r1 Beta
+)
+(
+    move y2 Altair Alpha/worse/With the right yellow sacrifice, Alpha will avoid the double threat of yellow overpopulation and direct assault.
+    sacrifice y2 Alpha;move y3 Betelgeuse Alpha;move y1 Alpha Castor
+)
+sacrifice y2 Betelgeuse;move r1 Betelgeuse Altair;move r2 Castor Altair;catastrophe Altair r/orig/Alpha won quickly after this.
+

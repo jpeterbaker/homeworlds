@@ -8,7 +8,6 @@ from color import colors
 import piece
 from system import System,fromSaveTuple as systemFromTuple
 from hwExceptions import TurnNotOverException
-from text2turn import applyTextTurn
 
 divideSysStr = '='*30
 

@@ -1,10 +1,11 @@
 # Check that a log has followed the rules
 # and print a standardized version of each turn
 
+from sys import stdin,path
+path.append('../hwlogic')
+
 from hwstate import HWState
 from text2turn import applyTextTurn as att
-
-from sys import stdin
 from buildState import buildState
 
 lines = [line.strip() for line in stdin]
@@ -23,6 +24,7 @@ for first in range(nlines):
         print('# Starting with initial state')
         print(line)
         state = buildState(line)
+        break
     else:
         print('# Starting with blank state')
         state = HWState()
@@ -43,5 +45,7 @@ for line in lines[first+1:]:
     print(turn)
     if state.onmove == 0 or state.isEnd():
         print()
+print()
+print(state.buildStr())
 
 

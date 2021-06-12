@@ -39,6 +39,8 @@ def addSystem(s,state):
     # s is the string for a single system (the stuff between semicolons)
     # This function creates the system and ships and takes all pieces from the states stash
     match = re.search(sysRE,s)
+    if match is None:
+        raise Exception('Bad system string: "{}"'.format(s))
     name = match.group(1)
     home = match.group(2)
     markerStr = match.group(3)
@@ -72,6 +74,8 @@ def buildState(s):
     for ss in systemStrs[1:]:
         sys = addSystem(ss,state)
         if sys.home is not None:
+            if not state.alive[sys.home] is None:
+                raise Exception('Second home given for player {}'.format(sys.home))
             if sys.hasPresence(sys.home):
                 state.alive[sys.home] = True
             else:
