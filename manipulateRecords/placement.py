@@ -132,6 +132,7 @@ if __name__=='__main__':
         def __str__(self):
             return '('+','.join([str(x.size) for x in self.markers])+')'
 
+    print("This is bad style, but if you aren't me (the programmer) this file doesn't work as a script")
     import sys
     sys.path.append('/home/jonathan/whome/GoogleDrive/ProjectEuler/lib/')
     from powerset import powerset
@@ -141,9 +142,4 @@ if __name__=='__main__':
             h1 = Foo(m1)
             p = optPermute([h0,h1])
             print(h0,[x+1 for x in p],h1)
-
-
-
-
-
 

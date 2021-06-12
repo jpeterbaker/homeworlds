@@ -2,6 +2,8 @@
 # Tools for drawing a state VERTICALLY
 # drawH.py is better
 
+print('This file is not being maintained. Use drawH.py instead')
+
 import matplotlib.pyplot as plt
 import numpy as np
 import color

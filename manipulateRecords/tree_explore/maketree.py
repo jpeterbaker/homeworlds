@@ -98,6 +98,7 @@ class Node:
 
 from sys import argv,path
 path.append('../../hwlogic/')
+path.append('../')
 from os import path as ospath,mkdir
 
 from hwstate import HWState

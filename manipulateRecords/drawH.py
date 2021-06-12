@@ -1,4 +1,6 @@
 # Tools for drawing a state HORIZONTALLY
+from sys import path
+path.append('../hwlogic')
 
 import matplotlib.pyplot as plt
 import matplotlib
