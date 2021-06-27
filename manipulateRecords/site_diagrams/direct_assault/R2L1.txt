@@ -1,2 +1,13 @@
 <1>; Alpha(0,y2b1)r3g1-; X(b3)-y3g3b3; Y(b3)r2-; Beta(1,y3b1)-g3r3y3
 
+pass
+sacrifice y3 Beta;move y3 X Alpha;move g3 X Alpha;move b3 X Alpha
+
+sacrifice r2 Y;attack y3 Alpha;attack b3 Alpha
+
+sacrifice r3 Beta;attack y3 Alpha;attack b3 Alpha;attack r3 Alpha
+
+build g1 Alpha
+
+sacrifice r3 Alpha;attack g1 Alpha;attack g1 Alpha pass
+

@@ -1,3 +1,7 @@
 # Opponent can cause a catastrophe
 <1>; Alpha(0,r2g1)y3b1-; X(g3)-b3b3; Y(y3)b2-; Beta(1,y3b1)-g3r2y2
 
+pass
+sacrifice y2 Beta;move b3 X Alpha;move b3 X Alpha
+
+build b1 Alpha;catastrophe Alpha b

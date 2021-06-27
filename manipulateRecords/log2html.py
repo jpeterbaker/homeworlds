@@ -67,7 +67,7 @@ for i in range(n):
         print(line_template.format(action)+'<br>')
     print(line_template.format(actions[-1]))
     print(plyend)
-    if i%2 == 1:
+    if i%2 == 1 or i == n-1:
         print(rowend)
 print(tableend)
 
