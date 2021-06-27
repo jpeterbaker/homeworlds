@@ -101,6 +101,8 @@ path.append('../../hwlogic/')
 path.append('../')
 from os import path as ospath,mkdir
 
+from itertools import chain
+
 from hwstate import HWState
 from buildState import buildState
 from drawH import drawState
@@ -127,14 +129,16 @@ with open(argv[1],'r') as fin:
             print('# Starting with initial state')
             print(line)
             state = buildState(line)
+            root = Node(state)
             break
         else:
             print('# Starting with blank state')
             state = HWState()
-            first -= 1
+            root = Node(state)
+            # I know it's silly, but it's an easy way to put the line back
+            fin = chain([line],fin)
             break
 
-    root = Node(state)
     curnode = root
     # Save the place of the last node with an alternative
     nodestack = []

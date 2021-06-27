@@ -1,5 +1,6 @@
 private/*
 __pycache__/*
 *.pyc
-**/*.png
+*.png
+*.tmp
 output

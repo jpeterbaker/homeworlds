@@ -58,8 +58,8 @@ conts:[  ]
 } ]
 },{
 text:'move r2 Altair Alpha',
-quality:'',
-comment:'',
+quality:'worse',
+comment:'This gradual force-feeding of reds will not work.',
 img:'images/state10.png',
 conts:[ {
 text:'sacrifice r2 Alpha;attack r2 Alpha;pass',

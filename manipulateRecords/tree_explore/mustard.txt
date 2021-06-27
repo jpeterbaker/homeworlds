@@ -14,7 +14,7 @@ discover r1 Beta y3 Deneb/orig
     )
     sacrifice y2 Altair;move r3 Beta Altair;move r3 Altair Alpha
     (
-        move r2 Altair Alpha
+        move r2 Altair Alpha/worse/This gradual force-feeding of reds will not work.
         sacrifice r2 Alpha;attack r2 Alpha;pass
     )
     sacrifice y3 Betelgeuse;move r1 Betelgeuse Altair;move r3 Castor Altair;move r2 Castor Altair;catastrophe Altair r//This is the correct move, but many players in Alpha's position would fail to see it. Destroying four of one's own ships to get just one of one's opponent's ships is almost never a good move, but in this case, any other move allows Beta to win.

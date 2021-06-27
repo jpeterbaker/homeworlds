@@ -1,0 +1,65 @@
+homeworld b1 r2 g3 Wunderland/orig/Andy chooses the opening he was known for at the time.
+homeworld g3 r1 b3 Jome/orig/John's choice to start with a blue ship isn't something most players prefer in my experience.
+build g1 Wunderland/orig/
+build b1 Jome/orig/
+trade g1 b1 Wunderland/orig/
+build b2 Jome/orig/
+build b2 Wunderland/orig/
+trade b2 y2 Jome/orig/
+trade b1 y1 Wunderland/orig/
+discover b1 Jome y2 HSOJ/orig/
+discover b2 Wunderland g3 Pepperland/orig/
+build b1 Jome/orig/
+build b2 Pepperland/orig/
+discover b1 Jome g2 JOHS/orig/
+trade b2 y2 Pepperland/orig/
+build b2 JOHS/orig/
+build y1 Wunderland/orig/
+build b2 Jome/orig/
+(
+    trade b1 y1 JOHS/better/This blocks Andy's teams' build rather than commiting John's team to a catastrophe later
+)
+build b3 Pepperland/orig/
+sacrifice y2 Jome move b1 JOHS Pepperland move b1 HSOJ Pepperland catastrophe Pepperland b/orig/
+trade y1 b1 Wunderland/orig/
+build b1 JOHS/orig/
+move b1 Wunderland Pepperland/orig/
+trade b2 y2 Jome/orig/
+build b2 Pepperland/orig/
+build b2 Jome/orig/
+discover b2 Pepperland y2 Narnia/orig/
+trade b2 r2 Jome/orig/
+trade b1 r1 Pepperland/orig/
+build b1 Jome/orig/
+build g1 Wunderland/orig/
+discover b1 Jome g2 J?/orig/
+build g1 Wunderland/orig/
+trade b2 g2 JOHS/orig/
+discover g1 Wunderland y3 Neverland/orig/
+build b2 JOHS/orig/
+build g1 Neverland/orig/
+sacrifice g2 JOHS build b2 Jome build b3 J?/orig/
+sacrifice g3 Wunderland build g2 Neverland build b3 Narnia build g3 Wunderland/orig/
+trade b3 y3 Jome/orig/
+trade b3 y3 Narnia/orig/
+move y2 Jome J?/orig/
+sacrifice g3 Wunderland build g3 Wunderland build y1 Wunderland build y1 Pepperland/orig/
+move b3 J? Pepperland/orig/
+sacrifice y2 Pepperland discover y1 Pepperland y2 MiddleEarth move r1 Pepperland MiddleEarth/orig/
+build b3 Pepperland/orig/
+sacrifice g3 Wunderland build g3 Wunderland build r1 MiddleEarth build b3 Narnia/orig/
+trade b3 r3 Pepperland/orig/
+discover y1 Wunderland b3 Pern/orig/
+(
+    trade b2 r2 Narnia/better/Andy is in trouble but would live longer with enough red to capture two simultaneously invaders.
+    build r3 Pepperland
+    sac g2 neverland b g2 neverland b r3 narnia//Andy now has a Doomsday machine prepared.
+    (
+        sac g3 Wunderland b g3 Wunderland b r3 narnia b b2 narnia/worse/This move doesn't look quite as good since it lets John get a b3 in Doomsday position.
+        b b3 j//John's Doomsday machine is now faster than Andy's. (This could use some more exploration.)
+    )
+)
+sacrifice y2 J? move r3 Pepperland Wunderland move b3 Pepperland Wunderland/orig/
+sacrifice y3 Narnia move r1 MiddleEarth Jome move r1 MiddleEarth Jome pass catastrophe Jome r/orig/
+sacrifice r3 Wunderland attack g3 Wunderland attack y1 Wunderland attack g1 Wunderland/orig/
+
