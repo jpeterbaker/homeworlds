@@ -1,8 +1,9 @@
-# Opponent has too much
+# A BASIC direct assault won't work (like in the moves below)
+# but moving just two larges to Alpha will work (see corresponding success file)
 <1>; Alpha(0,y2b1)r3g3-; X(b3)-y3g3b3; Beta(1,y3b1)-g3r3y3
 
 pass
-sacrifice y3 Beta;move y3 X Alpha;move g3 X Alpha;move 33 X Alpha
+sacrifice y3 Beta;move b3 X Alpha;move g3 X Alpha;move y3 X Alpha
 
-sacrifice r3 Alpha;attack y3 Alpha;attack g3 Alpha;attack b3 Alpha
+sacrifice r3 Alpha;attack b3 Alpha;attack g3 Alpha;attack y3 Alpha
 

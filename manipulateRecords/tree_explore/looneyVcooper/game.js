@@ -287,12 +287,12 @@ conts:[  ]
 },{
 text:'sacrifice g3 Wunderland;build g3 Wunderland;build r3 Narnia;build b2 Narnia',
 quality:'worse',
-comment:'This move doesn\'t look quite as good since it lets John get a b3.',
+comment:'This move doesn\'t look quite as good since it lets John get a b3 in Doomsday position.',
 img:'images/state56.png',
 conts:[ {
 text:'build b3 J',
 quality:'',
-comment:'',
+comment:'John\'s Doomsday machine is now faster than Andy\'s. (This could use some more exploration.)',
 img:'images/state57.png',
 conts:[  ]
 } ]
@@ -332,7 +332,7 @@ conts:[  ]
 },{
 text:'trade b1 y1 JOHS',
 quality:'better',
-comment:'This blocks Andy\'s teams\' build rather than commiting John\'s team to a catastrophe later',
+comment:'I prefer this move since it blocks Andy\'s teams\' from building b3 rather than forcing John\'s team to perform a costly catastrophe.',
 img:'images/state58.png',
 conts:[  ]
 } ]

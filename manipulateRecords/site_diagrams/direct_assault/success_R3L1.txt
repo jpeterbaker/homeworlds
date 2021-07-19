@@ -1,0 +1,14 @@
+# Opponent must be forced to sacrifice their r3 before moving in another ship
+<1>; Alpha(0,y2b1)r3g3-; X(b3)-y3g3b3; Beta(1,y3b1)-g3r3y3
+
+pass
+sacrifice y3 Beta;move b3 X Alpha;move g3 X Alpha;pass
+
+sacrifice r3 Alpha;attack b3 Alpha;attack g3 Alpha;pass
+
+move y3 X Alpha
+
+trade b3 r3 Alpha
+
+sacrifice r3 Beta;attack r3 Alpha;attack g3 Alpha;attack g3 Alpha
+

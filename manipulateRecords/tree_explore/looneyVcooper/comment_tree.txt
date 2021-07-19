@@ -1,5 +1,5 @@
 homeworld b1 r2 g3 Wunderland/orig/Andy chooses the opening he was known for at the time.
-homeworld g3 r1 b3 Jome/orig/John's choice to start with a blue ship isn't something most players prefer in my experience.
+homeworld g3 r1 b3 Jome/orig/John's choice to start with a blue ship is a little unusual. Most players seem to prefer starting with a green ship.
 build g1 Wunderland/orig/
 build b1 Jome/orig/
 trade g1 b1 Wunderland/orig/
@@ -17,7 +17,7 @@ build b2 JOHS/orig/
 build y1 Wunderland/orig/
 build b2 Jome/orig/
 (
-    trade b1 y1 JOHS/better/This blocks Andy's teams' build rather than commiting John's team to a catastrophe later
+    trade b1 y1 JOHS/better/I prefer this move since it blocks Andy's teams' from building b3.
 )
 build b3 Pepperland/orig/
 sacrifice y2 Jome move b1 JOHS Pepperland move b1 HSOJ Pepperland catastrophe Pepperland b/orig/
@@ -51,12 +51,12 @@ sacrifice g3 Wunderland build g3 Wunderland build r1 MiddleEarth build b3 Narnia
 trade b3 r3 Pepperland/orig/
 discover y1 Wunderland b3 Pern/orig/
 (
-    trade b2 r2 Narnia/better/Andy is in trouble but would live longer with enough red to capture two simultaneously invaders.
+    trade b2 r2 Narnia/better/Andy's team is in some trouble, but they would have lived longer after getting enough red to capture two simultaneous invaders.
     build r3 Pepperland
     sac g2 neverland b g2 neverland b r3 narnia//Andy now has a Doomsday machine prepared.
     (
         sac g3 Wunderland b g3 Wunderland b r3 narnia b b2 narnia/worse/This move doesn't look quite as good since it lets John get a b3 in Doomsday position.
-        b b3 j//John's Doomsday machine is now faster than Andy's. (This could use some more exploration.)
+        b b3 Pepperland//
     )
 )
 sacrifice y2 J? move r3 Pepperland Wunderland move b3 Pepperland Wunderland/orig/

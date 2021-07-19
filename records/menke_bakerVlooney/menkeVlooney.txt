@@ -1,0 +1,133 @@
+# Laurie was in the middle of a slow game with Andy which we played instead of the medal challenge July 17, 2021
+<1>; Andy(0,b3y2)g3g2r1-; A(g1)-y3b2r1r1y1; B(y1)r2b1-; C(y3)-b2; D(y3)g1-; E(g3)y2y1-; Laurie(1,y2b1)-r3g1
+
+m y3 a d
+
+s g2 andy b r2 B b g2 d
+s r1 A a g2 d
+
+b g2 d
+d g2 d b1 F
+
+m g2 d b
+b r1 Laurie
+
+d r2 b g3 G
+b g2 laurie
+
+d g2 b r3 H
+s r1 laurie a g1 d
+
+m y1 e b
+m g1 d a
+
+b r1 g
+s g1 laurie b g1 f
+
+s g3 andy b r2 b b r3 andy b g3 h
+m g2 laurie d
+
+m r2 b e
+m y3 d laurie
+
+m r2 b d
+s r1 a a r2 d
+
+b r1 e
+m r2 d b
+
+s y1 b m g3 h a
+s g2 f b b2 c b b3 a
+
+s g3 a b b3 B b y1 e b g2 h
+m b3 a e
+
+m y2 e f
+b g3 f
+
+s r2 e a g1 f a r2 b
+s r3 laurie a r1 e a y1 e a y2 f
+
+# This is where I  typed a move for Andy because I was so sure he would take it, but then he did something else
+m b3 b d
+s g2 d b g2 a b r2 e
+
+s g1 f b r3 b
+m r1 e f
+
+t r1 g1 andy
+s g2 a b g2 f b r1 f
+
+m r3 b d
+m b3 e a
+
+s g2 h b g2 andy pass
+m r2 e a
+
+m g1 andy a
+m b3 a e
+
+s g2 h b g2 a b r3 b c a g
+s g2 f b b2 e b y1 f
+
+m r3 b c
+s y2 f d b2 c y2 I m b2 c f
+
+m r3 d i
+b r2 f
+
+m r3 c f c f r
+s b2 i t b3 y3 e t b2 r2 f
+
+b g1 andy
+d y1 e g2 J
+
+m g2 andy b
+b g1 f
+
+b b2 b
+d g1 f b3 k
+
+s g2 b b b2 d b r1 i
+s g1 k b b3 e
+
+t b2 g2 d
+m y3 e b
+
+s g2 d b r1 b b r3 andy
+s r2 f a r2 b a b2 b
+
+m b1 b g
+a r1 b
+
+d r3 andy g1 L
+b b2 e
+
+b r2 L
+m y1 j e
+
+m r1 i d
+m b2 e b
+
+t r1 g1 d
+m b3 e f
+
+b g2 d
+m y1 e f
+
+b g2 andy
+m b2 b andy
+
+a b2 andy
+m b3 f andy
+
+a b3 andy
+m b2 b andy cat andy b
+
+m b3 d laurie
+# The r1 got accidentally moved to system F during star towing
+s r1 b a b3 laurie
+
+m g1 d i
+s y3 laurie m y1 f andy m y1 f andy m y3 b andy c andy y
+
