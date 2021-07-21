@@ -167,6 +167,8 @@ function sidebar_click(anchor){
 
     turn = get_next(prev_turn)
     add_all(last_ply,turn)
+    // Remaking the cell removes the highlight, so put it back
+    highlight(last_ply,1)
 
     // Display state image, if any
     show_state()
@@ -214,12 +216,13 @@ function setup_cell(cell,ply_number,turn){
     }
 
     if((ply_number+first_turn_skip) % 2 ==0)
-        header = row_number +  '.;'
+        header = row_number +  '.'
     else
-        header = row_number +  '...;'
+        header = row_number +  '...'
     // Add stars if there are alternatives
     if(get_siblings(ply_number).length > 1)
-        header = '**' + header
+        header = header + ' **'
+    header = header + ';'
     // Set up new anchor child for cell
     anode = document.createElement('a');
     anode.name = 'ply'+ply_number

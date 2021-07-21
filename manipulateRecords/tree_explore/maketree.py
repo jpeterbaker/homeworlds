@@ -157,6 +157,7 @@ with open(argv[1],'r') as fin:
             continue
         else:
             parts = [w.strip() for w in line.split('/')]
+            parts = parts[:2] + ['/'.join(parts[2:])]
             try:
                 curnode = curnode.add_child(*parts)
             except Exception as e:
