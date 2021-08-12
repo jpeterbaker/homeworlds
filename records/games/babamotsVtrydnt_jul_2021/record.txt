@@ -1,0 +1,26 @@
+# This is the position I'm most interested in
+<0>; Babamots(0,r3b1)y3g1-; Iconia(y2)b3b2r1g1-; ogeez3(g3)-y1y1; Bolarus(b2)r2g1-; Cardassia(r2)y2y1-; gee3(g3)-b3b1; Aldea(y3)g3g2g2-; b2(b2)-r1; b3(b3)-y2; Trydnt(1,g2b1)-y3r1
+sacrifice y3 babamots m b3 iconia aldea m b3 aldea trydnt m g3 aldea trydnt
+s y2 b3 m r1 b2 babamots m b3 gee3 trydnt/worse
+(
+    a g3 trydnt
+    s r2 bolarus a r1 trydnt a y3 trydnt
+    s r1 b2 a r1 trydnt/worse
+    (
+        s r1 b2 a b3 trydnt/worse
+        a g3 trydnt
+    )
+    (
+        s y2 b3 m b3 gee3 trydnt m r1 b2 babamots/worse
+        a r1 babamots
+    )
+    (
+        t b3 r3 gee3/worse
+        a g3 trydnt
+    )
+    s r1 Iconia a r1 trydnt
+)
+(
+    b y3 trydnt
+)
+s r2 bolarus a r1 babamots a r1 trydnt

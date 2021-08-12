@@ -3,4 +3,5 @@ __pycache__/*
 *.pyc
 *.png
 *.tmp
+.*.swp
 output

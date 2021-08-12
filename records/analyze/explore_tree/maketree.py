@@ -97,9 +97,14 @@ class Node:
             c.call_on_all(f)
 
 from sys import argv,path
-path.append('../../hwlogic/')
-path.append('../')
-from os import path as ospath,mkdir
+import os
+ospath = os.path
+mkdir = os.mkdir
+
+rootdir = ospath.dirname(__file__)
+
+path.append(ospath.join(rootdir,'../../../hwlogic'))
+path.append(ospath.join(rootdir,'..'))
 
 from itertools import chain
 
@@ -175,14 +180,15 @@ with open(argv[1],'r') as fin:
 # Prepare output directories #
 ##############################
 
-fhtml = ospath.join(argv[2],'explore_game.html')
-fjs   = ospath.join(argv[2],'game.js')
-imgdir = ospath.join(argv[2],'images/')
+writedir = ospath.abspath(argv[2])
+fhtml = ospath.join(writedir,'explore_game.html')
+fjs   = ospath.join(writedir,'game.js')
+imgdir = ospath.join(writedir,'images/')
 
 try:
-    mkdir(argv[2])
+    mkdir(writedir)
 except FileExistsError:
-    print(argv[2],'already exists. Pressing on.')
+    print(writedir,'already exists. Pressing on.')
 try:
     mkdir(imgdir)
 except FileExistsError:
@@ -215,9 +221,23 @@ with open(fjs,'w') as fout:
 ########################
 # Write main html file #
 ########################
-
-with open('explore_game_master_copy.html','r') as fin:
+fmasterhtml = ospath.join(rootdir,'explore_game_master_copy.html')
+# If these are relative paths, they will work even if the browser uses a different filesystem
+fcss = ospath.relpath(ospath.join(rootdir,'styles.css'     ),writedir)
+fjs  = ospath.relpath(ospath.join(rootdir,'explore_funs.js'),writedir)
+c = 1
+with open(fmasterhtml,'r') as fin:
     with open(fhtml,'w') as fout:
         for line in fin:
+            # Put in local names of referenced files
+            if c == 6:
+                if line.find('styles.css') < 0:
+                    raise Exception('MASTER FILE HAS CHANGED!')
+                line = line.replace('styles.css',fcss)
+            elif c == 36:
+                if line.find('explore_funs.js') < 0:
+                    raise Exception('MASTER FILE HAS CHANGED!')
+                line = line.replace('explore_funs.js',fjs)
             fout.write(line)
+            c += 1
 

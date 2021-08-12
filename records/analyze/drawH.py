@@ -259,7 +259,6 @@ python drawH.py ../stateImages/bill_vs_susie.png < exampleGame.txt
 if __name__=='__main__':
     from sys import argv
     if len(argv) != 2:
-        print(helpstr)
         exit()
     from os import path
     from hwstate import HWState
@@ -268,7 +267,7 @@ if __name__=='__main__':
     from sys import stdin
     from buildState import buildState
 
-    fname = path.join(path.dirname(__file__),argv[1])
+    fname = path.abspath(argv[1])
     i = fname.rfind('.')
     if i <= 0:
         print('You need to use a file extension for name templating to work')
@@ -296,12 +295,12 @@ if __name__=='__main__':
             break
 
     suffix = 'ab'
-
     moves = 2
     if state.onmove != 0:
         moves += 1
 
     fout_name = fname_template.format('{}{}'.format(moves//2,suffix[moves%2]))
+    print('drawing in',fout_name)
     drawState(state,fout_name)
     moves += 1
 

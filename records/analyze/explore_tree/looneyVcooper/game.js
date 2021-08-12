@@ -92,7 +92,7 @@ img:'images/state17.png',
 conts:[ {
 text:'build b2 Jome',
 quality:'orig',
-comment:'',
+comment:'It\'s very hard to be sure, but John <i>might</i> have been a little better off diversifying, trading either ship in JOHS for some other color.',
 img:'images/state18.png',
 conts:[ {
 text:'build b3 Pepperland',
@@ -102,7 +102,7 @@ img:'images/state19.png',
 conts:[ {
 text:'sacrifice y2 Jome;move b1 JOHS Pepperland;move b1 HSOJ Pepperland;catastrophe Pepperland b',
 quality:'orig',
-comment:'John has spent his only yellow ship, leaving Andy with the mobility and diversity advantages. John\'s material advantage',
+comment:'John has spent his only yellow ship, leaving Andy with the mobility and diversity advantages. John\'s material advantage has dwindled significantly.',
 img:'images/state20.png',
 conts:[ {
 text:'trade y1 b1 Wunderland',
@@ -137,12 +137,12 @@ img:'images/state26.png',
 conts:[ {
 text:'discover b2 Pepperland y2 Narnia',
 quality:'orig',
-comment:'',
+comment:'If he had discovered a green system instead of yellow, Andy would be better prepared to compete for blue ships.',
 img:'images/state27.png',
 conts:[ {
 text:'trade b2 r2 Jome',
 quality:'orig',
-comment:'John chooses a good time to get red. If Andy delays getting a red of his own, John\'s y2 can hound Andy\'s ships. To get his first red now, Andy will lose access to some power in in a system.',
+comment:'John chooses a good time to get red. If Andy delays getting a red of his own, John\'s y2 can hound Andy\'s ships. To get his first red now, Andy will lose access to some power in in a system.<br><br>I would have preferred to get this r2 in JOHS instead since Jome already has access to red. Later in the game, an r2 in Jome that matches a homestar will be a liability.',
 img:'images/state28.png',
 conts:[ {
 text:'trade b1 r1 Pepperland',
@@ -217,7 +217,7 @@ img:'images/state42.png',
 conts:[ {
 text:'sacrifice g3 Wunderland;build g3 Wunderland;build y1 Wunderland;build y1 Pepperland',
 quality:'orig',
-comment:'Andy\'s Pepperland colony is now a lovely target for John to invade.',
+comment:'I don\'t like this move. Andy may have thought it was important to keep the last of the yellow away from John, but he passed up a chance to build b3, and Andy\'s Pepperland colony is now a lovely target for John to invade.',
 img:'images/state43.png',
 conts:[ {
 text:'move b3 J Pepperland',
@@ -247,7 +247,7 @@ img:'images/state48.png',
 conts:[ {
 text:'discover y1 Wunderland b3 Pern',
 quality:'orig',
-comment:'This was a mistake. Andy may have been preoccupied with his nearly-complete Doomsday machine and doesn\'t have enough red to defend against John\'s direct assault.',
+comment:'This was a mistake. Andy doesn\'t have enough red to defend against John\'s direct assault.',
 img:'images/state49.png',
 conts:[ {
 text:'sacrifice y2 J;move r3 Pepperland Wunderland;move b3 Pepperland Wunderland',
@@ -257,7 +257,7 @@ img:'images/state50.png',
 conts:[ {
 text:'sacrifice y3 Narnia;move r1 MiddleEarth Jome;move r1 MiddleEarth Jome;pass;catastrophe Jome r',
 quality:'orig',
-comment:'',
+comment:'Andy cannot defend and goes for a moral victory by taking out one of John\'s stars.',
 img:'images/state51.png',
 conts:[ {
 text:'sacrifice r3 Wunderland;attack g3 Wunderland;attack y1 Wunderland;attack g1 Wunderland',
@@ -271,7 +271,7 @@ conts:[  ]
 },{
 text:'trade b2 r2 Narnia',
 quality:'better',
-comment:'Andy needs to take this turn to deter John\'s double-large invasion.',
+comment:'Andy needs to use this turn to deter John\'s double-large invasion.',
 img:'images/state53.png',
 conts:[ {
 text:'build r3 Pepperland',
@@ -295,43 +295,16 @@ conts:[  ]
 } ]
 },{
 text:'sacrifice y2 J;move b3 Pepperland Wunderland;move b3 Pepperland Wunderland',
-quality:'better',
-comment:'John could have launched his invasion one turn earlier.',
+quality:'worse',
+comment:'John could have tried launching his invasion one turn earlier, but Andy could defend by catastrophe.',
 img:'images/state57.png',
-conts:[  ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-} ]
-},{
-text:'trade b2 r2 JOHS',
-quality:'better',
-comment:'I prefer this move since Jome already has access to red. Later in the game, an r2 in Jome that matches a homestar will be a liability.',
+conts:[ {
+text:'sacrifice y3 Narnia;move b2 Narnia Neverland;move b2 Neverland Wunderland;move g2 Neverland MiddleEarth;catastrophe Wunderland b',
+quality:'',
+comment:'',
 img:'images/state58.png',
 conts:[  ]
 } ]
-},{
-text:'discover b2 Pepperland g2 Narnia',
-quality:'better',
-comment:'Andy would be better prepared to compete for blue ships by discovering a green system. I prefer this move.',
-img:'images/state59.png',
-conts:[  ]
 } ]
 } ]
 } ]
@@ -341,58 +314,25 @@ conts:[  ]
 } ]
 } ]
 } ]
-},{
-text:'trade b1 r1 JOHS',
-quality:'',
-comment:'Rather than letting Andy get a b3 and then causing a catastrophe, John could have blocked the b3 build.',
-img:'images/state60.png',
-conts:[ {
-text:'discover y1 Wunderland y3 Q',
-quality:'',
-comment:'If Andy were to delay getting red (for example, by spreading out his yellows to prepare for a shopping spree), John has little opportunity to take advantage of Andy\'s lack of red. John could sacrifice y2 to invade Andy\'s colony, but the that would cost John his only yellow, and Andy could similarly sacrifice y2 to run away. It\'s difficult to tell who is ahead in this position.<br><br>I like this better for Andy than getting red immediately.',
-img:'images/state61.png',
-conts:[  ]
-},{
-text:'trade y1 r1 Wunderland',
-quality:'worse',
-comment:'Getting red as soon as your opponent does is the standard response, but it lets John get a material lead.',
-img:'images/state62.png',
-conts:[ {
-text:'build r2 JOHS',
-quality:'',
-comment:'',
-img:'images/state63.png',
-conts:[ {
-text:'move r1 Wunderland Pepperland',
-quality:'',
-comment:'',
-img:'images/state64.png',
-conts:[ {
-text:'trade r1 y1 JOHS',
-quality:'',
-comment:'',
-img:'images/state65.png',
-conts:[  ]
 } ]
 } ]
 } ]
 } ]
-},{
-text:'trade b1 y1 JOHS',
-quality:'',
-comment:'Blocking the b3 build with a yellow trade looks less good than with a red trade because (like the actual line of play), the entrance of large yellow ships decreases John\'s material advantage.',
-img:'images/state66.png',
-conts:[ {
-text:'build y3 Pepperland',
-quality:'',
-comment:'',
-img:'images/state67.png',
-conts:[ {
-text:'build y3 JOHS',
-quality:'',
-comment:'With the blue bank so thin, it will be very difficult for Andy to get more blue ships without giving John better building opportunities. But on the other hand--with more larges on the board--John\'s superior medium-ship count is not so important. This might be better for John than the original line.',
-img:'images/state68.png',
-conts:[  ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
+} ]
 } ]
 } ]
 } ]

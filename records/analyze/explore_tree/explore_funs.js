@@ -65,6 +65,20 @@ function highlight(n,light){
         anode.style.fontWeight = 'normal'
 }
 
+function get_quality_color(turn){
+    if(!turn.hasOwnProperty('quality'))
+        return '#fce8b2';
+    else if(turn.quality == 'orig')
+        return '#a4c2f4';
+    else if(turn.quality == 'worse')
+        return '#f4c7c3';
+    else if(turn.quality == 'better')
+        return '#b7e1cd';
+    else if(turn.quality == 'none')
+        return '#888888';
+    return '#fce8b2';
+}
+
 /*
 cell is the table cell just clicked
 it should have a "ply" attribute to make updating the table easier
@@ -97,13 +111,14 @@ function table_click(cell){
         linode = document.createElement('li');
         anode = document.createElement('a');
         textnode = document.createTextNode(sib.text);
+        anode.style.color = get_quality_color(sib)
         anode.appendChild(textnode);
         linode.appendChild(anode);
         sidebar_list.appendChild(linode)
 
         anode.order = i;
         //anode.href='#ply'+last_ply
-        anode.href='javascript:void(0)'+last_ply
+        anode.href='javascript:void(0)'
         anode.onclick = function(){sidebar_click(this)}
     }
 }
@@ -201,19 +216,10 @@ function setup_cell(cell,ply_number,turn){
         cell.removeChild(children[0]);
 
     // Set background color based on move strength
-    if(!turn.hasOwnProperty('quality'))
-        cell.style.backgroundColor = '#fce8b2';
-    else if(turn.quality == 'orig')
-        cell.style.backgroundColor = '#a4c2f4';
-    else if(turn.quality == 'worse')
-        cell.style.backgroundColor = '#f4c7c3';
-    else if(turn.quality == 'better')
-        cell.style.backgroundColor = '#b7e1cd';
-    else if(turn.quality == 'none'){
-        // Put nothing in 'none' cell
-        cell.style.backgroundColor = '#888888';
+    cell.style.backgroundColor = get_quality_color(turn);
+    // Put nothing in 'none' cell
+    if(turn.quality == 'none')
         return
-    }
 
     if((ply_number+first_turn_skip) % 2 ==0)
         header = row_number +  '.'
