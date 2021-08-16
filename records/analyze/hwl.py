@@ -36,8 +36,8 @@ class HWLState:
         returns the SDG-like version of the command
         '''
         r = ';'.join([self.convert_action(a) for a in s.split(';')])
-        applyTextTurn(r,self.state)
-        return r
+        turn = applyTextTurn(r,self.state)
+        return str(turn)
 
     def convert_action(self,s):
         '''
