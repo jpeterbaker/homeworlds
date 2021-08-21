@@ -1,3 +1,4 @@
+# Part of a game Andy posted on Facebook
 <0>;Andy(0,b3 y2)g3-g1r1;E(g1)y2-;I(y1)g3-;F(b3)-g2;John(1,b2)-g1g2
 
 move y2 E Andy

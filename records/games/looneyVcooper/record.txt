@@ -1,3 +1,6 @@
+# Andy Looney vs John Cooper
+# Looneycon team show match
+# July 2016
 homeworld b1 r2 g3 Wunderland
 homeworld g3 r1 b3 Jome
 build g1 Wunderland

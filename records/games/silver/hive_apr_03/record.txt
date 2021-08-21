@@ -1,10 +1,10 @@
-
 # Andy vs
 #    Jonathan Baker,
 #    Steve Swarmer,
 #    Andrew Shirkey,
 #    Ryan Stapleton,
 #    Laurie Menke
+# April 3, 2021
 # Flip for first turn, Hive goes first
 h y3 b2 g3 Hive
 h y2 b1 g3 Andy

@@ -1,0 +1,61 @@
+
+# Please sir, may I have another?
+h b3 y2 g3 Andy
+h b2 y2 g3 John
+
+b g1 Andy
+b g1 John
+
+d g1 Andy y1 A
+m g1 John A
+
+d g1 A r3 B
+m g1 A Andy
+
+t g3 r3 Andy
+d g1 Andy y1 C
+
+b g1 B
+b g2 John
+
+s g1 B;b r1 Andy
+t g2 r2 John
+
+t r1 g1 Andy
+b g2 John
+
+b g2 Andy
+s g3 John;b g2 C;b g3 John;b g3 John
+
+b g3 B
+t g3 y3 John
+
+t g2 y2 Andy
+t g3 b3 John
+
+b r1 Andy
+m g1 C B
+
+s g1 B;b g1 Andy
+b g2 John
+
+a g1 B
+d r2 John b1 D
+
+t g1 b1 Andy
+m g2 John B
+
+s b1 Andy;t g3 y3 B
+s y3 John;m g2 B C;m r2 D Andy;m g2 C Andy
+
+s r3 Andy;a r2 Andy;a g2 Andy;pass
+t b3 r3 John
+
+m r2 Andy C
+m r3 John C
+
+m y3 B John
+b g1 John
+
+s r2 C;a g2 John;a g1 John
+

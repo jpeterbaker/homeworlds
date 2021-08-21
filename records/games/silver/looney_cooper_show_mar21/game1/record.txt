@@ -1,0 +1,75 @@
+# See also the audio recording in Google Drive
+# Cooper vs Looney
+# Looney Labs Silver Jubilee Show Match
+# March 21, 2021
+# John called heads and won the coin toss to go first.
+
+h y3 b1 g3 John
+h b2 y1 g3 Andy
+
+b g1 John
+b g1 Andy
+
+t g3 y3 John
+t g1 r1 Andy
+
+b g1 John
+b r1 Andy
+
+t g1 r1 John
+t r1 y1 Andy
+
+b g1 John
+d y1 Andy g3 A
+
+t g1 b1 John
+b y1 A
+
+b b1 John
+b y2 A
+
+b g1 John
+d y1 A g2 B
+
+m y3 John B
+s g3 Andy;build y2 B;build y2 B;build y3 A;c B y
+
+t b1 y1 John
+d y3 A g2 C
+
+b g1 John
+b y2 C
+
+m y1 John C
+m y3 C John
+
+m y1 C John
+d y3 John g2 D
+
+m y1 John D
+d y3 D r3 E
+
+m y1 D A
+m y2 A Andy
+
+s r1 John;a y1 A
+b y2 C
+
+m g1 John C
+m y2 C John
+
+b g2 C
+t y2 g2 Andy
+
+t g1 r1 John
+s r1 Andy;attack r1 John
+
+s g2 C;b g1 John;b g2 John
+a g2 John
+
+m y1 A Andy
+a b1 John
+
+s g1 C;b y2 Andy
+b g1 John;c John g
+
