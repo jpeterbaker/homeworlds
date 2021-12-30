@@ -1,0 +1,82 @@
+# dragon76n v wil
+# Fall 2021
+# http://superdupergames.org/?page=archive_play&gid=38071
+
+homeworld y1 b2 g3 dragon76n
+H y3 b1 g3 wil
+
+build g1 dragon76n
+B g1 wil
+
+trade g1 y1 dragon76n
+T g1 b1 wil
+
+build y1 dragon76n
+B b1 wil
+
+discover y1 dragon76n g3 Grethr
+D b1 wil g2 g2
+
+build y2 dragon76n
+S g3 wil , B b2 wil , B b2 g2 , B b3 g2
+
+trade y1 r1 dragon76n
+T b3 y3 g2
+
+move y1 grethr g2
+D b1 g2 g3 g3
+
+M y2 dragon76n g3
+T b2 r2 g2
+
+move y1 g2 wil
+B r1 g2
+
+sacrifice r1 dragon76n , attack b1 g3
+S r1 g2 , A y1 wil
+
+sacrifice y2 g3 , move b1 g3 g2 , move b1 g2 wil , catastrophe wil b
+B y1 g2
+
+build g1 dragon76n
+M y3 g2 wil
+
+trade g1 r1 dragon76n
+B y2 g2
+
+build g1 dragon76n
+D y2 g2 b3 b3
+
+build g1 dragon76n
+B y2 g2
+
+discover g1 dragon76n y3 Yelthr
+T y2 g2 b3
+
+sacrifice g3 dragon76n , build g1 yelthr , build g2 yelthr , build g3 dragon76n
+B g3 b3
+
+trade g1 b1 dragon76n
+T g2 y2 b3
+
+sacrifice b1 dragon76n , trade g2 y2 yelthr
+B r1 g2
+
+discover y2 Yelthr r1 Redone
+D y1 wil g2 gtwo
+
+move g1 Yelthr gtwo
+M r2 g2 yelthr
+
+sacrifice g1 Yelthr , build r2 dragon76n
+B r2 g2
+
+sacrifice r1 dragon76n , attack y1 gtwo
+M r1 g2 b3
+
+move y1 gtwo wil
+S y3 wil , M g3 b3 redone , M g3 redone wil , M r2 g2 wil
+
+sacrifice g1 gtwo , build y3 wil
+S y2 b3 , M g3 wil g2 , M y1 g2 wil , C wil y *
+

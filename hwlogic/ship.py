@@ -14,6 +14,7 @@ class Ship:
         return (self.player,self.piece.tuplify())
     def deepCopy(self):
 #        return Ship(self.piece.deepCopy(),self.player)
+        # Ships are never modified, so the same one should be safe to use for my code
         return self
     def __lt__(self,other):
         return self.tuplify() < other.tuplify()

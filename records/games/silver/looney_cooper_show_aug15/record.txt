@@ -1,0 +1,70 @@
+# Cooper vs Looney show match August 15, 2021
+# Recorded by Steve Swarner as shown in record.hwl
+# I converted it to a useable format and then verified with the video
+#
+# The video got uploaded here
+# https://www.youtube.com/watch?v=cMHBwdojO3U
+#
+# Things discussed after or during the game
+#
+# Andy said his favorite start is now b3 g2 stars and y3 ship.
+# Andy could only recall two people to beat him on the first try: me and Croix.
+# John said he thinks of the blue "Icetraders" as the underdogs but wanted to name the original game after them
+# Andy and John met at NASA. Both of their fathers also worked at NASA.
+# They met at a NASA social function, attending with their fathers.
+# 
+homeworld g3 b2 y3 John
+homeworld y2 b1 g3 Andy
+
+build y1 John
+build g1 Andy
+
+build y1 John
+trade g1 y1 Andy
+
+trade y1 g1 John
+build g1 Andy
+
+discover g1 John b1 A
+discover y1 Andy g3 B
+
+build g1 A
+discover g1 Andy y3 C
+
+# Initially the game went this way, but Andy let John take it back
+# build g2 A
+# move g1 C A;catastrophe A g
+
+trade g1 y1 A
+build y2 B
+
+build y2 A
+discover y2 B g1 D
+
+move y1 John D
+build y3 B
+
+trade y1 b1 A
+build g2 Andy
+
+build y1 A
+trade g2 b2 Andy
+
+# Initially the game went this way, but Andy let John take it back
+# build b2 A
+# sacrifice y2 D;move b2 Andy B;move b2 B A;catastrophe A b
+
+build g2 A
+build g2 Andy
+
+sacrifice y2 A;move g1 A B;move y1 A B
+move y3 B A
+
+sacrifice y3 John;move b1 A John;move g1 B Andy;move y1 B Andy
+trade g3 r3 Andy
+
+sacrifice g2 A;build y2 Andy;build g2 Andy
+move y3 A John
+
+# John resigns
+

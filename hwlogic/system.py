@@ -20,7 +20,8 @@ class System:
     def __init__(self,markers,home=None,name=None):
         markers.sort()
         self.markers = markers
-        self.home = home # player number for whom this system is home
+        # Player for whom this system is home
+        self.home = home
         self.ships = []
         if name is None:
             name = str(nNameless[0])
@@ -30,8 +31,8 @@ class System:
         for m in markers:
             self.concentration[m.color] += 1
 
-    # Don't deep copy ships or markers since they never change
     def deepCopy(self):
+        # Don't deep copy ships or markers since they never change
         markers = list(self.markers)
         ships = list(self.ships)
         ships.sort()
@@ -80,7 +81,6 @@ class System:
             # If a specific color is desired, remove that requirement if a system marker has it
             for m in self.markers:
                 if m.color == c:
-                    # If a 
                     c = None
                     break
         for s in self.ships:

@@ -3,12 +3,6 @@ import event
 from itertools import chain,combinations
 from hwExceptions import SelfEliminationException,StashOutException
 
-'''
-Somehow, the catastrophe loop is removing other events from the turn event list
-
-pass catastrophe Bob g
-'''
-
 THEPASS = event.Pass()
 
 def powerset(s,a=0,b=None):

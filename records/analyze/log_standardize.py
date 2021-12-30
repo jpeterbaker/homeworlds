@@ -2,7 +2,7 @@
 # and print a standardized version of each turn
 
 from sys import stdin,path
-path.append('../hwlogic')
+path.append('../../hwlogic')
 
 from hwstate import HWState
 from text2turn import applyTextTurn as att

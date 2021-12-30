@@ -1,15 +1,16 @@
 # Tools for drawing a state HORIZONTALLY
 from sys import path
-path.append('../hwlogic')
+from os import path as ospath
+path.append(ospath.join(ospath.dirname(__file__),'../../hwlogic/'))
+import color
+from ship import Ship
+from piece import Piece
+import placement
 
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use( 'tkagg' )
 import numpy as np
-import color
-from ship import Ship
-from piece import Piece
-import placement
 
 rgb = ['#FF0000','#FFFF00','#00BB00','#0044FF']
 bankBackground = '#888888'
@@ -259,6 +260,7 @@ python drawH.py ../stateImages/bill_vs_susie.png < exampleGame.txt
 if __name__=='__main__':
     from sys import argv
     if len(argv) != 2:
+        print(helpstr)
         exit()
     from os import path
     from hwstate import HWState
