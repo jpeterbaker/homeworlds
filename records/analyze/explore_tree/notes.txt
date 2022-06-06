@@ -1,0 +1,31 @@
+Things to include in a tutorial
+
+Creation
+
+Basic build
+Basic trade
+Basic discover
+Basic capture
+
+Non-blue ship that trades
+Non-yellow ship that moves with ship power
+Non-green ship that builds with ship power
+Non-red ship that captures with ship power
+
+Star-powered action
+Ship-powered action
+Self-powered action
+
+Yellow sacrifice
+Green sacrifice
+Red sacrifice
+
+Ship-only catastrophe
+Catastrophe that destroys ordinary star causing non-matching ships to be destroyed as well
+
+Fading star
+
+Direct assault victory
+
+Using a power when there is more than one option for what to click to grant the power
+

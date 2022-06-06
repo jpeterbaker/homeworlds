@@ -1,0 +1,130 @@
+# For the Great Homeworlds Tournament 2021
+# http://www.superdupergames.org/main.html?page=archive_play&gid=38534
+# After move 70, hard time was triggered and players agreed to continue
+# the game using SDG's chat feature
+
+homeworld y3 b2 g3 Trydnt
+homeworld b1 y2 g3 dragon76n
+
+build g1 trydnt
+build g1 dragon76n
+
+trade g1 b1 trydnt
+trade g1 b1 dragon76n
+
+build b2 trydnt
+build b2 dragon76n
+
+trade b2 y2 trydnt
+trade b2 y2 dragon76n
+
+build b2 trydnt
+build b2 dragon76n
+
+discover b1 trydnt g1 g1
+trade b1 r1 dragon76n
+
+build b1 trydnt
+discover b2 dragon76n g3 Grethr
+
+trade b2 r2 trydnt
+build y1 dragon76n
+
+build y1 trydnt
+move y2 dragon76n grethr
+
+discover y1 trydnt g1 gee1
+move b2 Grethr g1
+
+build b2 g1
+B b3 g1 , C g1 b
+
+build b1 trydnt
+build y1 Grethr
+
+build y3 gee1
+move y1 Grethr Gee1
+
+sacrifice y2 trydnt , discover y3 gee1 g2 g2 , discover y1 gee1 g2 gee2
+move y1 dragon76n grethr
+
+build r1 trydnt
+move y2 Grethr dragon76n
+
+trade r2 g2 trydnt
+trade y2 b2 dragon76n
+
+build y2 gee2
+build g1 dragon76n
+
+discover y1 gee2 b3 b3
+build y2 gee1
+
+sacrifice g3 trydnt , build g1 trydnt , build g3 trydnt , build y3 b3
+build r1 dragon76n
+
+sacrifice g3 trydnt , build g3 trydnt , build r2 trydnt , build r2 trydnt
+move b2 dragon76n grethr
+
+sacrifice y3 g2 , move y1 b3 gee1 , move y2 gee2 gee1 , catastrophe gee1 y , discover b1 trydnt y1 y1
+move b2 Grethr y1
+
+discover b1 y1 y3 y3
+move r1 dragon76n grethr
+
+trade g2 y2 trydnt
+build r2 dragon76n
+
+trade r2 g2 trydnt
+trade r2 b2 dragon76n
+
+sacrifice g1 trydnt , build b3 y3
+move b2 dragon76n grethr
+
+trade b1 g1 y3
+build r2 dragon76n
+
+discover b1 trydnt g1 g1
+move r2 dragon76n grethr
+
+build g2 y3
+trade g1 y1 dragon76n
+
+sacrifice g2 y3 , build g1 y3 , build y2 b3
+trade b2 g2 y1
+
+build b1 y3
+build g2 y1
+
+sacrifice g2 trydnt , build b2 y3 , build b3 g1
+move r1 Grethr y1
+
+move y2 trydnt g1
+move y1 dragon76n Grethr
+
+move b1 y3 dragon76n
+build r2 dragon76n
+
+move b3 y3 dragon76n
+attack b3 dragon76n
+
+# SDG's formal record of the game ends here
+# The game was continued in the chat
+
+move b2 y3 dragon76n catastrophe dragon76n b
+move g2 y1 Trydnt
+
+attack g2 trydnt
+build g2 y1
+
+move y2 b3 dragon76n
+attack y2 dragon76n
+
+move y3 b3 dragon76n
+sacrifice y2 dragon76n move g2 y1 Trydnt move r1 y1 Trydnt
+
+sacrifice r2 trydnt attack g3 dragon76n attack r2 dragon76n
+sacrifice g2 y1 build g2 Trydnt build r2 Trydnt catastrophe Trydnt green
+
+attack r1 dragon76n
+

@@ -1,0 +1,90 @@
+# My first draft in ../atutorial/ is pretty good, but I'd like to do better
+# 
+# 
+# Ship-only catastrophe
+# Catastrophe that destroys ordinary star causing non-matching ships to be destroyed as well
+# 
+# 
+# Direct assault victory
+
+# The first player is meant to be the learner
+
+# Creation
+homeworld r1 b3 g3 Babamots//<ul><li>Welcome to Homeworlds! In this game, you are the ruler of a space-faring civilization. You are at war with an *alien race* who will not stop until they destroy you, and you have no choice but to *destroy them first*. You will build a fleet a of spaceships and spread it across the stars in defense of your *homeworld*.<li>This game takes place in the shapeless emptiness of space. There is no board. The *ships and stars* will be represented by *pyramids* taken from the *bank*.<li>It's your first turn, so it's time to establish your homeworld! You need to select two stars and a ship.<br>1) Select a *small red* piece for a homestar.<br>2) Select a *large blue* piece for a homestar.<br>3) Select a *large green* for your first ship.<br>4) End your turn by selecting the *turn token*.<li>Congratulations! You've established a homeworld for your civilization. You must keep a defending ship at your homeworld at all times or you will *lose the game*! You win if you destroy or capture all enemy ships at *their* homeworld.<br>You'll learn more about capturing and destroying later.<li>Notice that pyramids can have two different appearances.<br>- When a pyramid is used as a *star*, it stands on its end and looks like a *square* from above.<br>- When a pyramid is used as a *ship*, it lies on its side and looks like a *triangle* from above.<br>Now your opponent will choose a homeworld.</ul>
+
+homeworld b2 g3 y3 Alien//<ul><li>Your opponent selected a blue star, a green star, and a yellow ship. Unlike many games, *color doesn't indicate ownership*. You can tell who controls a ship because ships always "face" the same direction as their owner: *your ships point up* and your opponent's ships point down.<li>Each color provides a different technology. In systems where you have a ship, *you can use* the technologies provided by the *stars* and by *your ships*. In your homeworld, you have access to red, blue, and green technologies. We'll talk about each of the technologies in a moment.</ul>
+
+# Ship-powered action
+# Self-powered action
+# Basic build
+build g1 Babamots//<ul>It's time to start building your fleet. *Green* technology is the power to *build*.<br>1) Select your *ship* to activate it.<br>2) Select your ship *again* to give building technology to your ship. Your new ship will be built automatically.<li>You've just built your first ship!<br>Notice that the ship you built is *small*. Whenever you build, the built ship is always the smallest available piece in the color of the active ship.<li>After every turn, you need to finalize your choice by passing the *turn token* to your opponent. Until you pass the token, you have the option to *restart* your turn in case you made a mistake.<br>*Select the token* now to end your turn.</ul>
+
+build y1 Alien//Your opponent also built a ship. Building is how every game starts.
+
+# Basic trade
+# Star-powered action
+# Non-blue ship that trades
+trade g1 y1 Babamots//<ul><li>Now let's see the blue technology in action. *Blue* gives the power to *trade* a ship for another color.<br>1) Select your small ship to activate it.<br>2) Select the blue star to give trade power to your ship.<br>3) Select a piece of the same size from the bank (make it a yellow).<li>Good! You have ships of two different colors now. Time to *end your turn*.</ul>
+
+build y1 Alien//Your opponent just built the last of the small yellow pieces. If you build a yellow ship now, you will get a *medium*.<br>Bigger ships are more powerful, but we'll talk about that later.
+
+# Non-green ship that builds with ship power
+build y2 Babamots//<ul><li>In order to build a yellow ship,<br>1) Select your yellow ship to activate it.<br>2) Select your green ship to give building power.<li>There's your first medium-sized ship. Building larger ships than your opponent is an important part of the strategy of Homeworlds.<br>As always, remember to *end your turn*.</ul>
+
+trade y1 b1 Alien//
+
+trade y2 b2 Babamots//<ul><li>Let's trade the medium yellow ship for a blue ship.<br>1) Activate the medium yellow ship.<br>2) Give it trade power by selecting your blue star.<br>3) Select a medium blue piece from the bank.<li>Notice that when you changed the color of a medium ship, you had to choose a medium piece from the bank. You can *only* trade for pieces of the same size. If the color you want isn't available in the same size, you're out of luck. You can't trade for it.<li>You may be asking why you didn't just build a blue ship instead of building and then trading. Remember you can *only* build ships that are the same color as a ship that you *already have*. To get a variety of ship colors, you must build the colors you have and trade them for the other colors.<li>For example, right now you can't give building power to a *red* ship because you don't *have* any red ships. You'll have to *trade* to get red.<br>Now end your turn, please.</ul>
+
+build b1 Alien
+
+# Basic discover
+# Non-yellow ship that moves with ship power
+discover b2 Babamots g2 A//<ul>You're probably wondering how to *move* ships to other places, so it's time to learn.<br>First you need to know a little about system connections. You *cannot* move a ship from one system to another if those systems have any *star sizes in common*. Your homeworld and your opponent's homeworld each have a *large star*, so your homeworlds are *not* connected.<li>In order to reach your opponent's homeworld and attack, you will have to *discover* new systems in between. The new systems you discover will not be homeworlds (so nobody "owns" the new systems) and they will only have one star each.<li>You can *discover* a brand new system any time you move a ship. You just need to take a piece from the bank and use it as the star of the new system as you move your ship there. Naturally, the new system you discover must be *connected* to the system your ship moves from.<li>*Yellow* gives the power of movement. Let's use yellow power to discover a new green system.<br>1) Activate your blue ship.<br>2) Give it movement power by selecting your yellow ship.<br>3) Select a new green star from the bank.<li>You've discovered a new star!<br>The new star had to be *medium* because only medium stars are connected to your home (your home has the other two star sizes). You could have chosen any color of star, though.<li>The star piece you chose came out of the bank and marks the new system that you moved your ship into.<br>The new system is named "Alti." Here on BGA, systems are automatically given names to make systems easier to talk about.<li>Notice that Alti is *not* connected to your opponent's homeworld because they both have medium stars. You'll need to find *another* new system before you can reach your opponent's home.<br>End your turn to continue.</ul>
+
+build y1 Alien
+
+build b1 A//<ul><li>You can use the power of Alti's star to build another blue ship.<br>1) Activate your blue ship.<br>2) Select the star of Alti to give your ship build power.<li>Good! You can use the power of the stars in *any* system where you have ships, even the stars of your opponent's homeworld (if you manage to get a ship there).<br>Now pass the token.</ul>
+
+discover y1 Alien g1 B//Your opponent has discovered a new system named "Bleb." It had to have a *small* star because your opponent's home is *only* connected to small stars (it has stars of the other two sizes).<br>Notice that Bleb *is* connected to Alti since their stars are different sizes.
+
+move y1 Babamots A//You've learned to *discover* a new system, and it probably won't surprise you to learn that you can move ships between *existing* systems. Practice by moving your yellow ship to Alti.<br>1) Activate your yellow ship.<br>2) Select your yellow ship *again* to empower it with its own movement ability.<br>3) Select the Alti system as a destination.
+
+build y2 B//
+
+trade b1 r1 A//<ul><li>If you're ever going to learn about red, you'd better get a red ship, so you should trade one of your blue ships for red.<br>1) Activate your small blue ship.<br>2) Give it trade power by selecting *either* of your blue ships in Alti. (If multiple ships or stars in a system are the same color, it does not matter *which* you use to empower your ship.)<br>3) Select a small red from the bank.<li>Fantastic! You have every color of ship now. A diverse fleet gives you lots of opportunities.<br>Time to end your turn.</ul>
+
+move y2 B A//Your opponent has just moved a ship into Alti! What nerve!<br>You may have been thinking that Alti was your territory, but actually any number of ships belonging to *either* player can occupy any system.
+
+# Non-red ship that captures with ship power
+# Basic capture
+capture y2 A//<ul><li>Now it's time to learn about the last color. *Red* gives the power to *capture* enemy ships. You will take control your opponent's medium yellow ship, making it yours.<li>For the first time, the *size* of ships makes a difference. A ship can only be captured by a ship *at least as large*. Your small red ship cannot capture the enemy medium ship. *However*, your red ship can give capturing power to your own medium ship, which is big enough.<br>1) Activate your medium blue ship.<br>2) Give it capturing power by selecting your small red ship.<br>3) Select the enemy ship to capture it.<li>Pretty neat, huh? Commandeering an enemy ship always feels good.<br>You've learned all of the color powers now, so there are just a three more rules to see, and you'll get a little more practice on the way.<br>End your turn to continue.</ul>
+
+trade b1 r1 Alien//
+
+move b2 A B//<ul><li>Let's go on the offensive for a change. Move your blue ship to Bleb.<br>1) Activate your blue ship.<br>2) Give it movement power by selecting one of your yellow ships.<br>3) Select Bleb as a destination.<li>You may be thinking, "What good does it do to invade a *green* star system with a *blue* ship? It can't capture the enemy ship because *capturing* power comes from *red*!"<br>Well, if that little yellow ship doesn't run away after you *end your turn*, you'll get to see another rule in action.</ul>
+
+build r2 Alien//<ul><li>Now you get to learn about a different turn option called *sacrifice*.<br>You can spend your turn sacrificing *one ship*--returning it to the bank--and then *activating* other ships *anywhere* with the *power of the sacrificed ship*. The number of activations depends on the size of the ship:<br>1 for a small<br>2 for a medium<br>3 for a large.<li>Sacrifice can be extremely powerful. It can allow you to perform multiple actions in a single turn and catch your opponent unprepared. Sacrifice is also a good way to use technology in systems that lack the color you need.</ul>
+
+# Red sacrifice
+sacrifice r1 A capture y1 B//<ul><li>Let's sacrifice the small red to capture the small ship in Bleb.<br>1) Select your small red ship.<br>2) Hit the "Sacrifice ship" button at the top of the screen.<li>Your small red ship went back to the bank because it was sacrificed, but now you have access to *one* capture action in *any* system, including Bleb.<br>1) Activate your blue ship to give it capturing power.<br>2) Select the enemy ship in Bleb.<li>Nicely done! You just used a sacrifice to capture a ship in a system where you didn't have red power. That seems to have surprised your opponent.<br>End your turn to see what they do now.</ul>
+
+move r2 Alien B//Uh oh. Your opponent invaded Bleb, and you have no red ships *anywhere*. You can't capture the invader, even with a sacrifice.
+
+# Yellow sacrifice
+sacrifice y2 A discover b2 B y2 C discover y1 B g3 D//<ul><li>You should run away so they don't capture your ships, but you can only evacuate *both* ships at once with a sacrifice. Sacrificing a medium yellow will give you *two* movement actions in one turn.<br>1) Select your medium yellow ship.<br>2) Hit the "Sacrifice ship" button.<li>Now let's send your ships to new systems. By splitting them up, they can't all be followed.<br>1) Select your medium blue ship to give it movement power.<br>2) Select a new medium yellow star from the bank.<li>Now your small yellow can run away as well.<br>1) Select your small yellow in Bleb.<br>2) Select a new large green star.<li>Whew, you've escaped from that invasion.<br>Pass the token and hope there are no more surprises.</ul>
+
+build y2 Alien
+
+# Fading star
+move y1 A Babamots//<ul><li>Until you get another red ship, the safest place for your is at your home. Let's move your small yellow ship from Alti to your homeworld.<li>Did you notice what happened to Alti when your ship left? Systems are *forgotten* as soon as the *last ship* leaves, and the star goes back to the bank.<br>*End your turn*, and get ready for an exciting turn!</ul>
+
+move b1 Alien B
+
+# Green sacrifice
+sacrifice g3 Babamots build y2 D build y3 D build y3 Babamots//<ul><li>Now is a good time to build three times at once. You can sacrifice *one* large green ship to build *three* ships, and since most of the yellow pieces are in play, *two* of those ships can be large.<br>Start by *sacrificing* your large green ship.<li>Now build a medium yellow in Dioj...<li>...and build a large yellow in Dioj...<li>...and a large yellow in your home.<li>Wow! You got all of the yellow out of the bank at once, and you got two large ships for the price of one!<br>End your turn and we'll wrap up this tutorial by explaining the very last rule.</ul>
+
+discover r1 Alien g1 E//<ul><li>There's one last principle to learn: *overpopulation* and *catastrophe*. It's not safe for too much of a single technology to be in the same system. If *four pieces* of the *same color*--counting *ships and stars*--are ever in a system together, those pieces are "overpopulated."<li>At *any point* on their turn, *either* player may turn an *overpopulation* into a *catastrophe* as a *free action*. The triggering player doesn't even need to have a ship in the overpopulated system.<li>In a catastrophe, *all pieces* of the *overpopulated color* explode and are *returned to the bank*. If a system only has *one star* and that star is destroyed in a catastrophe, all *remaining ships* in that system are also *returned to the bank*.<li>Winning the game usually requires a catastrophe.<br>Besides resignation, there is really only *one* way to win: eliminate all of the ships that your opponent controls in their homeworld. But there are *three* ways to eliminate enemy ships, and *two* of them involve catastrophe.<li>The ways to eliminate your enemy's home fleet and win are<br>1) Destroy your opponent's *homestars* using *two catastrophes*.<br>2) Destroy *all* of your opponent's *home ships* using a *catastrophe*.<br>3) Capture *all* of your opponent's *home ships* using *red power*.<li>Right now, your opponent only has yellow ships in their home. If you add *one more yellow ship*, there will be *four* yellow ships, which is an *overpopulation*, and where there's an overpopulation, you can trigger a *catastrophe*.</ul>
+
+sacrifice y2 D move y1 D B move y1 B Alien catastrophe Alien y//<ul><li>Move a yellow ship to your opponent's home this turn with a sacrifice and double move.<br>*Sacrifice* your medium yellow ship in Dioj.<li>Now move your small yellow from Dioj to Bleb...<li>...and from Bleb to your opponent's home.<li>There are now *four* yellow pieces in your opponent's home, and they are *overpopulated*.<br>You are out of movement actions, but a new button has appeared.<br>1) Hit the "Trigger catastrophe button.<br>2) Select *any* of the overpopulated pieces to *destroy them all* in a big *catastrophe*!<li>Wow! All of those ships went back to the bank at once! Catastrophes are very powerful, so be careful you don't let your opponents force them on you!<li>That was pretty exciting, but notice one last thing: only the yellow pieces were destroyed. Your opponent's homestars are still there, so if they had even a *single ship* left at their home, the game would continue.<br>But they have *no* ships at home now, so you win when you end your turn!<li>Congratulations! You've destroyed the defenses of the evil aliens and peace is assured! Across all the worlds you've discovered, your people celebrate their safety and your dazzling strategic brilliance!<br>Now you're ready to go out and face real opponents. They may be more clever and dangerous that this tutorial, but with some practice, you'll be conquering the galaxy in no time! Good luck!</ul>
+
+
