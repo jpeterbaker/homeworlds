@@ -1,0 +1,62 @@
+homeworld r1 b3 g3 Babamots
+homeworld b2 g3 y3 Alien
+
+build g1 Babamots
+build y1 Alien
+
+trade g1 y1 Babamots
+build y1 Alien
+
+build y2 Babamots
+trade y1 b1 Alien
+
+trade y2 b2 Babamots
+build b1 Alien
+
+discover b2 Babamots g2 A
+build y1 Alien
+
+move y1 Babamots A
+discover y1 Alien g1 B
+
+build b1 A
+build y2 B
+
+trade b1 r1 A
+move y2 B A
+
+capture y2 A
+trade b1 r1 Alien
+
+move y2 A B
+build r2 Alien
+
+sacrifice r1 A capture y1 B
+build b1 Alien
+
+sacrifice y2 B move b2 A B move b2 B Alien catastrophe Alien blue
+move y1 Alien A
+
+move y1 A Babamots
+discover r2 Alien b1 C
+
+build y2 Babamots
+move y1 A C
+
+discover y1 Babamots y2 D
+trade r2 g2 C
+
+build g1 Babamots
+build y2 Alien
+
+sacrifice g3 Babamots build y3 Babamots build y3 B build g1 Babamots
+build g2 C
+
+move g1 Babamots D
+trade g2 b2 C
+
+sacrifice y3 B move g1 D Alien move g1 Babamots D move g1 D Alien
+attack g1 Alien
+
+build g2 Alien catastrophe Alien g
+

@@ -1,15 +1,12 @@
 # This direct assault succeeds even though my rule would say no
 
-<1>; Alpha(0,y2b1)g3y3r1-; X(b3)-g3b3; Beta(1,y3b1)-g3r1y2
+<1>; Alpha(0,y2b1)g3y3r1-; V(r3)-g3b3r1; W(r3)g1g1-; X(r2)y1-; Y(r2)b2-; Z(r2)-g1; Beta(1,r3b1)-g3r1y2
 
-pass
-sacrifice y2 Beta;move g3 X Alpha;move b3 X Alpha
-
-attack g3 Alpha
-
-sacrifice r1 Beta;attack r1 Alpha
-
-trade g3 r3 Alpha
-
-attack r3 Alpha
+#sacrifice y2 Beta;move g3 X Alpha;move b3 X Alpha
+#
+#attack g3 Alpha
+#sacrifice r1 Beta;attack r1 Alpha
+#
+#trade g3 r3 Alpha
+#attack r3 Alpha
 

@@ -1,0 +1,41 @@
+A complete tutorial should cover everything on this list
+
+Creation
+
+Self-powered action (ship using its own power)
+Other ship-powered action (ship using another ship's power)
+Star-powered action
+
+Basic action build
+Basic action trade
+Basic action capture
+Basic action discover
+Basic action move
+
+Non-blue ship that trades
+Non-green ship that builds
+Non-yellow ship that moves
+Non-red ship that captures
+
+Red sacrifice
+Yellow sacrifice
+Green sacrifice
+Blue sacrifice (low priority)
+
+Star discovered with a sacrifice move (low priority)
+
+Building a small ship
+Building a non-small ship
+
+Using a hyperspace bypass
+
+Star that fades after movement
+Star that fades after sacrifice (low priority)
+Ships destroyed because star is destroyed
+Star that fades after all ships destroyed (low priority)
+
+Catastrophe of ships only
+Catastrophe with a star
+
+Victory
+
