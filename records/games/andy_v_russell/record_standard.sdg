@@ -1,0 +1,76 @@
+# Andy
+homeworld g3 b1 r3 Paradise
+# Russell
+homeworld y2 b1 g3 Peace
+
+build r1 Paradise
+build g1 Peace
+
+trade r1 g1 Paradise
+trade g1 b1 Peace
+
+build r1 Paradise
+build g1 Peace
+
+trade r1 y1 Paradise
+build b2 Peace
+
+discover g1 Paradise b2 Cobalt
+discover b2 Peace g3 Loverly
+
+build r1 Paradise
+build b2 Loverly
+
+trade r3 b3 Paradise
+trade b2 y2 Loverly
+
+build y1 Paradise
+sacrifice g3 Peace;build b2 Loverly;build b3 Loverly;build b3 Peace
+
+discover y1 Paradise g2 Garden
+sacrifice b2 Loverly;trade b3 r3 Loverly;trade b3 g3 Peace
+
+build y1 Garden
+move r3 Loverly Garden
+
+build y2 Garden
+move y2 Loverly Garden;catastrophe Garden y
+
+build g1 Cobalt
+sacrifice g3 Peace;build b2 Loverly;build b3 Loverly;build b3 Peace
+
+trade b3 g3 Paradise
+sacrifice b3 Loverly;trade b2 g2 Loverly;trade b2 y2 Loverly;trade b3 r3 Peace
+
+trade g1 y1 Cobalt
+build b2 Peace
+
+build y1 Cobalt
+move g2 Loverly Cobalt
+
+sacrifice g3 Paradise;build y2 Cobalt;build y3 Paradise;build y3 Paradise
+move b2 Peace Loverly
+
+sacrifice y2 Cobalt;discover y1 Cobalt g3 Jolly;move y1 Cobalt Jolly
+move r3 Peace Jolly
+
+sacrifice y1 Jolly;discover g1 Cobalt b3 freedom
+attack y1 Jolly
+
+discover y3 Paradise g2 Shade
+move r3 Jolly Cobalt
+
+build r1 Paradise
+build b2 Loverly
+
+move r1 Paradise Shade
+sacrifice g2 Cobalt;build b3 Loverly;build b3 Peace
+
+discover y1 Paradise g2 Springtime
+sacrifice b2 Loverly;trade b3 r3 Loverly;trade r3 b3 Garden
+
+build r1 Shade
+sacrifice y2 Loverly;move r3 Cobalt Paradise;move b3 Garden Paradise
+
+sacrifice y3 Paradise;move r1 Shade Paradise;move r1 Shade Paradise;pass;catastrophe Paradise r
+

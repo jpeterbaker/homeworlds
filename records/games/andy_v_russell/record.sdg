@@ -1,0 +1,98 @@
+# 1-2
+hw g3 b1 r3 Paradise
+hw y2 b1 g3 Peace
+
+# 3-4
+b r1 paradise
+b g1 peace
+
+# 5-6
+t r1 g1 paradise
+t g1 b1 peace
+
+# 7-8
+b r1 paradise
+b g1 peace
+
+# 9-10
+t r1 y1 paradise
+b b2 peace
+
+# 11-12
+d g1 paradise b2 Cobalt
+d b2 peace g3 Loverly
+
+# 13-14
+b r1 paradise
+b b2 loverly
+
+# 15-16
+t r3 b3 paradise
+t b2 y2 loverly
+
+# 17-18
+b y1 paradise
+s g3 peace b b2 loverly b b3 loverly b b3 peace
+
+# 19-20
+d y1 paradise g2 Garden
+s b2 loverly t b3 r3 loverly t b3 g3 peace
+
+# 21-22
+b y1 garden
+m r3 loverly garden
+
+# 23-24
+b y2 garden
+m y2 loverly garden c garden y
+
+# 25-26
+b g1 cobalt
+s g3 peace b b2 loverly b b3 loverly b b3 peace 
+
+# 27-28
+t b3 g3 paradise
+s b3 loverly t b2 g2 loverly t b2 y2 loverly t b3 r3 peace
+
+# 29-30
+t g1 y1 cobalt
+b b2 peace
+
+# 31-32
+b y1 cobalt
+m g2 loverly cobalt
+
+# 33-34
+s g3 paradise b y2 cobalt b y3 paradise b y3 paradise
+m b2 peace loverly
+
+# 35-36
+s y2 cobalt d y1 cobalt g3 Jolly m y1 cobalt jolly
+m r3 peace jolly
+
+# 37-38
+s y1 jolly d g1 cobalt b3 freedom
+a y1 jolly
+
+# 39-40
+d y3 paradise g2 Shade
+m r3 jolly cobalt
+
+# 41-42
+b r1 paradise
+b b2 loverly
+
+# 43-44
+m r1 paradise shade
+s g2 cobalt b b3 loverly b b3 peace
+
+# 45-46
+d y1 paradise g2 Springtime
+s b2 loverly t b3 r3 loverly t r3 b3 garden
+
+# 47-48
+b r1 shade
+s y2 loverly m r3 cobalt paradise m b3 garden paradise
+
+# 49
+s y3 paradise m r1 shade paradise m r1 shade paradise pass c paradise r*

@@ -1,0 +1,88 @@
+
+This is the first recorded HW game that I know of.
+It was played by email December 2003 to March 2004.
+The email exchange is described here:
+http://www.wunderland.com/WTS/Andy/Games/ILoveHomeworlds.html#PlayingWithRussell
+
+The notation they chose isn't used anywhere else,
+but I think I've got it figured out, and I've translated it into record.hwl and record.sdg
+
+
+Andy's home is mistakenly referred to as MYSB in turns 5 and 9.
+
+{History}
+First Move of the Game
+
+Andy:1:Homeworld (LGSB, lr)
+Russell:2:Homeworld (MYSB, lg) Name (MYSB, "Peace")
+
+Andy:3:Construct (LGSB, sr)
+Russell:4:Construct (Peace, sg)
+
+Andy:5:Trade (MYSB,sr,sg) Name (MYSB, "Paradise")
+Russell:6:Trade (Peace, sg,sb)
+
+Andy:7:Construct (Paradise, sr)
+Russell:8:Construct (Peace, sg
+
+Andy:9:Trade (MYSB,sr,sy)
+Russell:10:Construct (Peace, mb)
+
+Andy:11:Discover (Paradise, sg, MB) Name (MB, "Cobalt")
+Russell:12:Discover (Peace, mb, LG) Name (LG, "Loverly")
+
+Andy:13:Construct (Paradise, sr)
+Russell:14:Construct(Loverly,mb)
+
+Andy:15:Trade (Paradise,lr,lb)
+Russell:16:Trade (Loverly,mb,my)
+
+Andy:17:Construct (Paradise, sy)
+Russell:18:Sacrifice (Peace, lg): Construct (Loverly, mb); Construct (Loverly, lb); Construct (Peace, lb)
+
+Andy:19:Discover (Paradise, sy, MG) Name (MG, "Garden")
+Russell:20:Sacrifice (Loverly, mb): Trade (Loverly, lb,lr); Trade (Peace, lb, lg)
+
+Andy:21:Construct (Garden, sy)
+Russell:22:Move (Loverly, lr, Garden)
+
+Andy:23:Construct (Garden, my)
+Russell:24:Move (Loverly, my, Garden); Catastrophe
+
+Andy:25:Construct (Cobalt, sg)
+Russell:26:Sacrifice (Peace, lg): Construct (Loverly, mb); Construct (Loverly, lb); Construct (Peace, lb)
+
+Andy:27:Trade (Paradise, lb, lg)
+Russell:28:Sacrifice (Loverly, lb): Trade (Loverly, mb, mg); Trade (Loverly, mb, my); Trade (Peace, lb, lr)
+
+Andy:29: Trade (Cobalt, sg,sy)
+Russell:30: Construct (Peace, mb)
+
+Andy:31:Construct (Cobalt, sy)
+Russell:32:Move (Loverly, mg, Cobalt)
+
+Andy:33:Sacrifice (Paradise, lg): Construct (Cobalt, my); Construct (Paradise, ly); Construct (Paradise, ly)
+Russell:34:Move (Peace, mb, Loverly)
+
+Andy:35:Sacrifice (Cobalt, my): Discover (Cobalt, sy, LG) Name (LG, "Jolly"); Move (Cobalt, sy, Jolly)
+Russell:36:Move (Peace, lr, Jolly)
+
+Andy:37:Sacrifice (Jolly, sy): Discover (Cobalt, sg, LB) Name (LB, "Freedom")
+Russell:38:Attack (Jolly, lr, sy)
+
+Andy:39:Discover (Paradise, ly, MG) Name (MG, "Shade")
+Russell:40:Move (Jolly, lr, Cobalt)
+
+Andy:41:Construct (Paradise, sr)
+Russell:42:Construct (Loverly, mb)
+
+Andy:43:Move(Paradise, sr, Shade)
+Russell:44:Sacrifice (Cobalt, mg): Construct (Loverly, lb); Construct (Peace, lb)
+
+Andy:45:Discover (Paradise, sy, MG) Name (MG, "Springtime")
+Russell:46:Sacrifice (Loverly, mb): Trade (Loverly, lb, lr); Trade (Garden, lr, lb)
+
+Andy:47:Construct (Shade, sr)
+Russell:48:Sacrifice (Loverly, my): Move (Cobalt, lr, Paradise); Move (Garden, lb, Paradise)
+
+Andy:49:Sacrifice (Paradise, ly): Move (Shade, sr, Paradise); Move (Shade, sr, Paradise); Catastrophe (Paradise)
