@@ -8,7 +8,7 @@ exampleMap.hwl
 '''
 
 from sys import path
-path.append('../hwlogic')
+path.append('../../hwlogic')
 
 from hwstate import HWState
 from text2turn import applyTextTurn,re

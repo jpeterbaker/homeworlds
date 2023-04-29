@@ -5,7 +5,7 @@ from sys import argv
 
 helpstr = '''
 Useage
-./hwl_log_2_sdg.py <input file> <output file>
+./hwl_2_sdg.py <input file> <output file>
 '''
 
 if len(argv) != 3:
