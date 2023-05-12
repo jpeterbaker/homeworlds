@@ -197,6 +197,12 @@ def timesToStr(times):
         ) for i in range(len(times))])
 
 if __name__=='__main__':
+    print('''
+    Sorry, this doesn't actually run a chess clock.
+    As a script, this just runs some tests.
+    As a module, this file just implements a ChessClock class
+    for keeping track of time and timeouts.
+    ''')
     t = datetime.utcnow()
     asecond = timedelta(seconds=1)
 #    clock = ChessClock([asecond*60]*2)

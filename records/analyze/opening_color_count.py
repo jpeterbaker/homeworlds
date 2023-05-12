@@ -1,7 +1,4 @@
-'''
-Elementary analysis of the game logs I've downloaded.
-What were the homeworlds like, how many turns took place, and who won.
-'''
+# Like opening_count.py but with color included
 
 import os
 import re
@@ -21,10 +18,11 @@ def readit(full_name):
     '''
     Read a BGA record for the basics
     returns a tuple
-    (n,s00,s01,s10,s11,w)
+    (n,star00,star01,ship0,star10,star11,ship1,w)
     n: number of lines in the file
-    s00,s01: the stars of player 0 as strings, e.g. r3
-    s10,s11: the stars of player 1 as strings, e.g. r3
+    sstar00,sstar01: the stars of player 0 as strings, e.g. r3
+    sstar10,sstar11: the stars of player 1 as strings, e.g. r3
+    ship0,ship1: the ships of the players as strings
     w: index of winner (0 or 1 for those players, or 2 if it was a draw)
 
     everything but n will be None if either player did not complete creation phase
@@ -51,13 +49,13 @@ def readit(full_name):
                 continue
             if p0 is None:
                 # This is player 0
-                p0,_,s00,s01 = match.groups()
+                p0,ship0,s00,s01 = match.groups()
             else:
                 # This is player 1
-                p1,_,s10,s11 = match.groups()
+                p1,ship1,s10,s11 = match.groups()
                 break
         if p1 is None:
-            return (n,None,None,None,None,None)
+            return (n,None,None,None,None,None,None,None)
         # Skip to the end
         for line in fin:
             n += 1
@@ -78,17 +76,9 @@ def readit(full_name):
                 w = 2
             else:
                 print(f'Last line not understood: "{line}"')
-    return (n,s00,s01,s10,s11,w)
+    return (n,s00,s01,ship0,s10,s11,ship1,w)
 
-# Count of game lengths
-#ns = []
-
-# Map opening star SIZES to list of results
-# For each player, sizes are listed in non-decreasing order
-# results[((ss00,ss01),(ss10,ss11))] is a list of three values
-# First entry is the number of wins for player 0
-# Second entry is the number of wins for player 1
-# Third entry is the number of draws
+# Map opening stars and ships to list of results
 results = {}
 
 for root,ds,fs in os.walk(root_dir):
@@ -100,7 +90,7 @@ for root,ds,fs in os.walk(root_dir):
             # Skip directories
             continue
         try:
-            n,s00,s01,s10,s11,w = readit(full_name)
+            n,s00,s01,ship0,s10,s11,ship1,w = readit(full_name)
         except:
             print('Had trouble with',fname)
             continue
@@ -109,17 +99,13 @@ for root,ds,fs in os.walk(root_dir):
             continue
         if s11 is None or w is None:
             continue
-        ss00 = int(s00[1])
-        ss01 = int(s01[1])
-        ss10 = int(s10[1])
-        ss11 = int(s11[1])
 
-        if ss00 > ss01:
-            ss00,ss01 = ss01,ss00
-        if ss10 > ss11:
-            ss10,ss11 = ss11,ss10
+        if s00 > s01:
+            s00,s01 = s01,s00
+        if s10 > s11:
+            s10,s11 = s11,s10
 
-        tup = ((ss00,ss01),(ss10,ss11))
+        tup = ((s00,s01,ship0),(s10,s11,ship1))
         try:
             results[tup][w] += 1
         except KeyError:
@@ -155,9 +141,6 @@ def micro_test(tup):
 print('P1 winrate , P1 wins , games, starsizes')
 
 overall = zeros(3,dtype=int)
-large   = zeros(3,dtype=int)
-small   = zeros(3,dtype=int)
-micro   = zeros(3,dtype=int)
 
 # Number templates
 wrtemp = '{:0.3f}'
@@ -167,30 +150,3 @@ ntemp  = '{:8d}'
 for tup,r in results.items():
     w,n,wr = wins_games_rate(r)
     print(wrtemp.format(wr),wtemp.format(w),ntemp.format(n),*tup)
-    overall += r
-    if large_test(tup):
-        large += r
-    if small_test(tup):
-        small += r
-    if micro_test(tup):
-        micro += r
-
-w,n,wr = wins_games_rate(overall)
-print(wrtemp.format(wr),wtemp.format(w),ntemp.format(n),'Overall')
-
-w,n,wr = wins_games_rate(large)
-print(wrtemp.format(wr),wtemp.format(w),ntemp.format(n),'All large universes')
-
-w,n,wr = wins_games_rate(small)
-print(wrtemp.format(wr),wtemp.format(w),ntemp.format(n),'All small universes')
-
-w,n,wr = wins_games_rate(micro)
-print(wrtemp.format(wr),wtemp.format(w),ntemp.format(n),'All microverses')
-
-if 0:
-    # Looks like 100 is a goo rule of thumb for a real game
-    import matplotlib.pyplot as plt
-
-    plt.hist(ns,40)
-    plt.show()
-
