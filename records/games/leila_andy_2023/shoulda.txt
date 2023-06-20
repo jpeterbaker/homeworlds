@@ -1,0 +1,13 @@
+# I think Leila should have gone for the jugular immediately, sending two larges to Andy's home
+# If Leila needed to slow-play it for some reason, she could have worked to safely
+# get her ships into this configuration (assuming Andy took the r2 after Leila took the b1)
+<1>;
+Leila(0,b3)g3b1y1-;
+A(y2)r3r1b1g1g2-;
+B(g2)y3-;
+C(b2)r3r2g1g1-;
+E(b3)r3y2b2y1-;
+F(g3)-y1y3;
+J(b3)-y3g2r2r1;
+K(r2)-b2;
+Andy(1,y2b1)-g3r1

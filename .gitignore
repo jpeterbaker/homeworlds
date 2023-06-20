@@ -2,6 +2,7 @@ private/*
 __pycache__/*
 *.pyc
 *.png
+*.jpg
 *.tmp
 .*.swp
 output

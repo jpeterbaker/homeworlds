@@ -280,18 +280,39 @@ if __name__=='__main__':
 
     lines = [line.strip() for line in stdin]
     nlines = len(lines)
+    # value of first is used to mark our spot after checking for initial state
     for first in range(nlines):
         line = lines[first]
         if len(line) == 0:
+            # Blank
             continue
         if line[0] == '#':
+            # Comment
             continue
         if line[0] == '<':
+            # Initial state specification
+            # Get all the consecutive lines that end in semicolon
+            # and interpret them as a state
+            print('starting initial')
+            initials = []
+            for first in range(first,nlines):
+                line = lines[first]
+                initials.append(line)
+                print('loop line')
+                print(line)
+                if line[-1] != ';':
+                    # This is the last state line
+                    print('does not end with ;')
+                    break
+                print('ends with ;')
+            print(initials)
+            state_str = '\n'.join(initials)
+            state = buildState(state_str)
             print('Starting with initial state')
-            print(line)
-            state = buildState(line)
+            print(state_str)
             break
         else:
+            # Something else, hopefully a valid first turn
             print('Starting with blank state')
             state = HWState()
             att(line,state)
