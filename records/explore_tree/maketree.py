@@ -103,7 +103,7 @@ mkdir = os.mkdir
 
 rootdir = ospath.dirname(__file__)
 
-path.append(ospath.join(rootdir,'../../../hwlogic'))
+path.append(ospath.join(rootdir,'../../hwlogic'))
 path.append(ospath.join(rootdir,'..'))
 
 from itertools import chain
