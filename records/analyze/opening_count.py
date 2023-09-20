@@ -4,81 +4,10 @@ What were the homeworlds like, how many turns took place, and who won.
 '''
 
 import os
-import re
 from numpy import zeros
-
-bga_create_pat = re.compile(r'^(.*?) establishes a homeworld with a (..) ship at (..) and (..) binary stars\.$')
-
-bga_victory_pat = re.compile(r'^The end of the game: (.*) wins!$')
-bga_tie_pat     = re.compile(r'^End of game \(tie\)$')
-
+from bga_basic_read import opening_results
 
 root_dir = '/mnt/c/Users/Bakers/Documents/hw_replays/'
-
-
-
-def readit(full_name):
-    '''
-    Read a BGA record for the basics
-    returns a tuple
-    (n,s00,s01,s10,s11,w)
-    n: number of lines in the file
-    s00,s01: the stars of player 0 as strings, e.g. r3
-    s10,s11: the stars of player 1 as strings, e.g. r3
-    w: index of winner (0 or 1 for those players, or 2 if it was a draw)
-
-    everything but n will be None if either player did not complete creation phase
-    '''
-    n = 0
-    s00 = None
-    s01 = None
-    s10 = None
-    s11 = None
-    w = None
-
-    # Player names
-    p0 = None
-    p1 = None
-    with open(full_name,'rt') as fin:
-        #################
-        # Find creation #
-        #################
-        for line in fin:
-            n += 1
-            line = line.strip()
-            match = bga_create_pat.match(line)
-            if match is None:
-                continue
-            if p0 is None:
-                # This is player 0
-                p0,_,s00,s01 = match.groups()
-            else:
-                # This is player 1
-                p1,_,s10,s11 = match.groups()
-                break
-        if p1 is None:
-            return (n,None,None,None,None,None)
-        # Skip to the end
-        for line in fin:
-            n += 1
-        line = line.strip()
-        # Analyze last line
-        match = bga_victory_pat.match(line)
-        if not match is None:
-            wname = match.group(1)
-            if wname == p0:
-                w = 0
-            else:
-                if wname != p1:
-                    print(wname,'is neither',p0,'nor',p1)
-                w = 1
-        else:
-            match = bga_tie_pat.match(line)
-            if not match is None:
-                w = 2
-            else:
-                print(f'Last line not understood: "{line}"')
-    return (n,s00,s01,s10,s11,w)
 
 # Count of game lengths
 #ns = []
@@ -100,7 +29,7 @@ for root,ds,fs in os.walk(root_dir):
             # Skip directories
             continue
         try:
-            n,s00,s01,s10,s11,w = readit(full_name)
+            n,s00,s01,s10,s11,w = opening_results(full_name)
         except:
             print('Had trouble with',fname)
             continue
@@ -188,7 +117,7 @@ w,n,wr = wins_games_rate(micro)
 print(wrtemp.format(wr),wtemp.format(w),ntemp.format(n),'All microverses')
 
 if 0:
-    # Looks like 100 is a goo rule of thumb for a real game
+    # Looks like 100 is a good rule of thumb for a real game
     import matplotlib.pyplot as plt
 
     plt.hist(ns,40)

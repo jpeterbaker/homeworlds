@@ -10,8 +10,8 @@ it would be nice if the code could interpret the logs correctly.
 
 import re
 
-bga_pat_restart = re.compile(r'^(.*) restarts their turn\.$')
-bga_pat_end     = re.compile(r'^(.*) ends their turn\.$')
+bga_pat_restart = re.compile(r'^(.*?) restarts their turn\.$')
+bga_pat_end     = re.compile(r'^(.*?) ends their turn\.$')
 
 bga_pat_create = re.compile(r'^(.*?) establishes a homeworld with a (..) ship at (..) and (..) binary stars\.$')
 
