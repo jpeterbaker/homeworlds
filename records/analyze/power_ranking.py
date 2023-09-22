@@ -5,15 +5,15 @@ and compute pagerank score
 
 # Read all the files to build matrix?
 # Otherwise, just read last result
-runit = 0
+runit = 1
 # Include BGA player ID in printout?
-rank_bga_id = 1
+rank_bga_id = 0
 # Number of player ranks to reveal
 n_to_show = 100
 # Use Discord spoiler tags?
-spoiler_tag = 1
+spoiler_tag = 0
 
-import pickle 
+import pickle
 import os
 from scipy.sparse import coo_array,csc_array
 from scipy.sparse.linalg import eigs
@@ -46,6 +46,7 @@ if runit:
 
     limit = np.inf
 
+    print('Reading result files')
     for root,ds,fs in os.walk(root_dir):
         for fname in fs:
             if not fname.endswith('txt'):
@@ -98,7 +99,7 @@ if runit:
                 break
 
     n = len(lookup_index)
-    print('n =',n)
+    print('Total number of players:',n)
 
     # Put a zero in the corner to make matrix square
     results.append(0)
@@ -114,8 +115,11 @@ else:
     ################################################
     # Create win matrix by loading previous result #
     ################################################
+    print('Using previously saved results')
     with open('results_mat.pkl','br') as fin:
         (A,lookup_id,lookup_index,lookup_name) = pickle.load( fin )
+    n = len(lookup_index)
+    print('Total number of players:',n)
 
 ######################################
 # Find strongly connected components #
@@ -126,6 +130,7 @@ G = nx.DiGraph()
 for i,j in zip(*A.nonzero()):
     G.add_edge(i,j)
 
+print('Identifying strongly connected components of player victory graph')
 comps = list(nx.strongly_connected_components(G))
 C = Counter()
 
@@ -139,24 +144,28 @@ n_big = len(big_comp)
 x = list(C.items())
 x.sort()
 for size,count in x:
-    print('{} components of size {}'.format(count,size))
+    print('  {} components of size {}'.format(count,size))
 print('Focusing analysis on a component of size',n_big)
+print()
 
 # Prepare to translate between original indexing and big_comp submatrix
 big_comp = list(big_comp)
 lookup_sub = dict(zip(big_comp,range(n_big)))
 
 B = A[big_comp][:,big_comp]
-print('B is ',B.shape)
 
+print('Computing PageRank')
 B /= B.sum(0)
 w,v = eigs(B)
 
-i = np.argmax(np.abs(w))
+i = np.argmax(w)
 whi = w[i]
 vhi = v.T[i]
+if vhi.min() < 0:
+    vhi *= -1
 
-print('All eigvec entries non-negative:',np.all(vhi>=0))
+if not np.all(vhi>=0):
+    raise Exception('Eigenvector is not non-negative. Something is very wrong.')
 
 # Sort players by their eigenvector entry
 p = np.argsort(vhi)
