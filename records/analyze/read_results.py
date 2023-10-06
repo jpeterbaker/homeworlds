@@ -5,6 +5,8 @@ import os
 from scipy.sparse import coo_array
 import numpy as np
 from bga_basic_read import read_players,opening_results
+import networkx as nx
+from counter import Counter
 
 root_dir = '/mnt/c/Users/Bakers/Documents/hw_replays/'
 
@@ -110,4 +112,42 @@ def pickle_array():
     with open('results_mat.pkl','br') as fin:
         (A,lookup_id,lookup_index,lookup_name) = pickle.load( fin )
     return (A,lookup_id,lookup_index,lookup_name)
+
+def largest_component(A):
+    '''
+    returns the triple B,p,q
+    B is the submatrix of A corresponding to the largest strongly connected component
+    If i is the index of a player in A and j is the index of that player in B, then
+    p[j] = i
+    q[i] = j
+    '''
+    G = nx.DiGraph()
+
+    for i,j in zip(*A.nonzero()):
+        G.add_edge(i,j)
+
+    comps = list(nx.strongly_connected_components(G))
+    C = Counter()
+
+    big_comp = comps[0]
+    for comp in comps:
+        C.add(len(comp))
+        if len(comp) > len(big_comp):
+            big_comp = comp
+    n_big = len(big_comp)
+
+    x = list(C.items())
+    x.sort()
+    for size,count in x:
+        print('  {} components of size {}'.format(count,size))
+    print('Focusing analysis on a component of size',n_big)
+    print()
+
+    # Prepare to translate between original indexing and big_comp submatrix
+    big_comp = list(big_comp)
+    lookup_sub = dict(zip(big_comp,range(n_big)))
+
+    B = A[big_comp][:,big_comp]
+    return B,big_comp,lookup_sub
+
 
