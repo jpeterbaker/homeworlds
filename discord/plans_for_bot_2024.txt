@@ -1,13 +1,13 @@
 Here are features I would like a Discord bot to have
 
 Time conversion
+    Too intrusive/hard. Discord doesn't provide a way to detect time zone, and asking for it seems annoying.
+
     If a user seems to have mentioned a time of day, a dynamic time-zone-adjusted timestamp reply gets posted (showing all users what time that would be in their own time zone) along with an "ephemeral" message asking if they want to keep it (bonus: adjust it)
     message objects have a datetime.datetime attribute called created_at
     Since 2022, this should be an "aware" datetime that includes the timezone
     This should be a timedelta object that is negative west of UTC:
     message.created_at.tzinfo.utcoffset()
-
-
 
 Game moderator (like the bot I wrote circa 2020).
     Lets people play HW in a Discord channel with rulkeeping and time control

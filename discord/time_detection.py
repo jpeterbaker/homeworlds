@@ -7,6 +7,9 @@ Formats anticipated, with spaces allowed in places you'd think:
 16:00
 4:00pm
 4pm
+
+NO PLANS TO USE THIS
+since Discord doesn't let you detect time zone
 '''
 
 import re
@@ -22,25 +25,30 @@ pat = re.compile(fpat,re.I)
 
 def get_time(s):
     # Find the time, if any, in s
-    m = pat.seach(s)
-    if m is None:
+    mat = pat.search(s)
+    if mat is None:
+        print(f'search on "{s}" got nuthin')
         return None
 
-    gs = m.groups()
+    gs = mat.groups()
+    print(gs)
     h = int(gs[0])
 
     if not gs[1] is None:
         # 4:00pm format
         m = int(gs[1])
-        if gs[2].lower() == 'p':
+        if gs[2].lower().startswith('p'):
             h += 12
     elif not gs[3] is None:
         # 16:00 format
         m = int(gs[3])
     elif not gs[4] is None:
         # 4pm format
-        if gs[4].lower() == 'p':
+        if gs[4].lower().startswith('p'):
             h += 12
+        m = 0
 
     return h,m
 
+if __name__=='__main__':
+    print(get_time('3:00'))
