@@ -1,7 +1,7 @@
 
 from numpy import argsort
 
-def print_players(scores,names,spoiler=False,show_score=False,pids=None):
+def print_players(scores,names,spoiler=False,show_score=False,pids=None,nshow=None):
     '''
     scores: list of player scores
     names: corresponding list of lists of names by which player has gone
@@ -12,13 +12,15 @@ def print_players(scores,names,spoiler=False,show_score=False,pids=None):
     n = len(scores)
     p = argsort(scores)
 
+    if nshow is None:
+        nshow = n
     if spoiler:
         template = '{}. ||{}||'
     else:
         template = '{}. {}'
 
     if not pids is None:
-        for i in range(-1,-10,-1):
+        for i in range(-1,-nshow-1,-1):
             j = p[i]
             score = scores[j]
             name  = names[j]
@@ -28,7 +30,7 @@ def print_players(scores,names,spoiler=False,show_score=False,pids=None):
                 '/'.join(name)
             ))
     else:
-        for i in range(-1,-10,-1):
+        for i in range(-1,-nshow-1,-1):
             j = p[i]
             score = scores[j]
             name  = names[j]

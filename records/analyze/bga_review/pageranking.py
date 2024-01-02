@@ -5,11 +5,11 @@ and compute pagerank score
 
 # Read all the files to build matrix?
 # Otherwise, just read last result
-runit = 0
+runit = 1
 # Include BGA player ID in printout?
 rank_bga_id = 0
-# Number of player ranks to reveal
-n_to_show = 100
+# Number of player ranks to reveal (None for all)
+n_to_show = None
 # Use Discord spoiler tags?
 spoiler_tag = 0
 
@@ -37,10 +37,6 @@ if not np.all(vhi>=0):
 
 name_list = [ lookup_name[lookup_id[i]] for i in big_comp ]
 
-i = np.argmax(vhi)
-j = big_comp[i]
-pid = lookup_id[j]
-name = lookup_name[pid]
-# Sort players by their eigenvector entry
-print_players(vhi,name_list)
+# Print players sorted by their eigenvector entry
+print_players(vhi,name_list,nshow=n_to_show)
 

@@ -202,6 +202,8 @@ if __name__=='__main__':
             TOKEN = fin.readline().strip()
 
     with open('private/adminID.txt','r') as fin:
+        # ID of the human channel admin
+        # User with this id can give commands during games
         ADMIN = int(fin.readline().strip())
 
     client = discord.Client()
@@ -219,6 +221,7 @@ if __name__=='__main__':
     @client.event
     async def on_message(message):
         if message.author == client.user:
+            # This was a bot message
             return
         m = commandre.search(message.content)
         if m is None:

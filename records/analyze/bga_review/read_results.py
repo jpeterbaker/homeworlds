@@ -11,6 +11,17 @@ from counter import Counter
 root_dir = '/mnt/c/Users/Bakers/Documents/hw_replays/'
 
 def results_array(runit):
+    '''
+    If runit is True, BGA files will be read
+    Otherwise, pickled results from last run will be used
+
+    returns the tuple (A,lookup_id,lookup_index,lookup_name)
+
+    A[i,j] is the number of times player i beat player j
+    lookup_id[i] is the BGA PID of player with index i
+    lookup_index[pid] is the index of the player with the BGA PID
+    lookup_name[pid] is a list of the names used by player with the BGA PID
+    '''
     if runit:
         return file_array()
     return pickle_array()

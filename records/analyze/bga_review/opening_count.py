@@ -29,8 +29,8 @@ for root,ds,fs in os.walk(root_dir):
             # Skip directories
             continue
         try:
-            n,s00,s01,s10,s11,w = opening_results(full_name)
-        except:
+            (n,s00,s01,ship0,s10,s11,ship1,w) = opening_results(full_name)
+        except Exception as e:
             print('Had trouble with',fname)
             continue
 #        ns.append(min(n,1000))

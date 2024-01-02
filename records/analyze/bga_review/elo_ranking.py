@@ -1,4 +1,8 @@
 '''
+NOTE: with no help given to the optimizer, this is way too slow.
+The objective function has to be called 10,000 times just to optimize on A[:10,:10].
+Providing the Jacobian would probably be a big help.
+
 Read a bunch of BGA records, track pairwise results, and compute ML Elo scores
 If the Elo scores of two players are A and B,
 the probability of A beating B is
@@ -45,8 +49,51 @@ n_to_show = 100
 spoiler_tag = 0
 
 from read_results import results_array,largest_component
+from scipy.sparse import triu,dok_array,csc_array
+from scipy.optimize import least_squares as nls
+import numpy as np
 
 (A,lookup_id,lookup_index,lookup_name) = results_array(runit)
+A = A[:5,:5]
 
+K = csc_array(triu(A)) # triu makes a coo_matrix
+N = csc_array(triu(A+A.T))
+# These represent the pairs of players who have played together
+ii,jj = K.nonzero()
 
+nplayer = A.shape[0]
+npair = ii.size
+
+# Number of games for  each pair of players
+ns  = N[ii,jj]
+# Number of wins for player whose perspective is used the represent the pair
+ks  = K[ii,jj]
+# Number of wins for opposite player
+nks = ns-ks
+
+# If elo is an array of player Elo scores,
+# then (pairD@elo)[k] = elo[ii[k]] - elo[jj[k]]
+pairD = dok_array( (npair,nplayer) )
+pairD[range(npair),ii] =  1
+pairD[range(npair),jj] = -1
+pairD = pairD.tocsr()
+
+# This is the MLE objective function
+c = [0]
+def f(elo):
+    c[0] += 1
+    if c[0] % 1000 == 0:
+        print('f call',c[0])
+    dscore = pairD@elo
+    return np.sqrt(ks*np.log( 1+10**( dscore/400) )
+             + nks*np.log( 1+10**(-dscore/400) ))
+elo0 = 1500*np.ones(nplayer)
+result = nls(f,elo0,xtol=1)
+
+print(result.message)
+
+name_list = [ lookup_name[lookup_id[i]] for i in lookup_id ]
+
+# Print players sorted by their eigenvector entry
+print_players(result.x,name_list)
 
