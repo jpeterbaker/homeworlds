@@ -15,7 +15,7 @@ import discord
 from discord.utils import get
 import re
 
-patmoji = re.compile('set emoji role (\[^ ]+) (.+)')
+patmoji = re.compile('set emoji role ([^ ]+) (.+)')
 
 #######################
 # Load identification #
@@ -66,13 +66,11 @@ async def emoji_role_set(guild,emoji_name,role_names):
     emoji = get(guild.emojis,name=emoji_name)
     roles = [get(guild.roles,name=role_name) for role_name in role_names]
     await emoji.edit(roles=roles)
+    print('set permissions of',emoji,'to',roles)
 
 @client.event
 async def on_message(message):
     author = message.author
-    print(author.id)
-    print(ADMIN)
-    print(message.content)
     if author == client.user:
         # This was a bot message
         return
