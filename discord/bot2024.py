@@ -14,6 +14,7 @@ from time_detection import get_time
 import discord
 from discord.utils import get
 import re
+from asyncio import sleep
 
 patmoji = re.compile('set emoji role ([^ ]+) (.+)')
 
@@ -66,7 +67,11 @@ async def emoji_role_set(guild,emoji_name,role_names):
     emoji = get(guild.emojis,name=emoji_name)
     roles = [get(guild.roles,name=role_name) for role_name in role_names]
     await emoji.edit(roles=roles)
-    print('set permissions of',emoji,'to',roles)
+
+def get_delay(mlow):
+    if len(mlow) == 2:
+        return 4.0
+    return float(mlow[2:])
 
 @client.event
 async def on_message(message):
@@ -76,31 +81,64 @@ async def on_message(message):
         return
     channel = message.channel
     if channel.name == 'looking_for_opponent':
-        if message.content.lower() == 'in':
-            role = await member_role_set(author,'Seeking opponent',True)
-            await channel.send(
-                ('{} is now {}.\n\n'+
-                'All opponent seekers:\n{}').format(
-                    author.mention,
-                    role.mention,
-                    '\n'.join([m.mention for m in role.members])
-                )
-            )
-                
-        elif message.content.lower() == 'out':
+        mlow = message.content.lower()
+        if mlow == 'out':
+            # User wants to leave @Seeking opponent
             await member_role_set(author,'Seeking opponent',False)
             await channel.send(
                 '{} is no longer seeking an opponent.'.format(
                     author.mention,
                 )
             )
+            return
+        elif mlow.startswith('in'):
+            # User wants to join @Seeking opponent
+            try:
+                hours = get_delay(mlow)
+            except ValueError:
+                # They said something that wasn't a number, so ignore it
+                return
+            if hours <= 0 or hours > 24:
+                await channel.send('Time parameter must be between 0 and 24 (hours)')
+                return
+            role = await member_role_set(author,'Seeking opponent',True)
+            seekers = [m for m in role.members if m != author]
+            if len(seekers) == 0:
+                seeker_note = 'No one else is currently looking.'
+            else:
+                seeker_note = 'All opponent seekers:\n{}'.format(
+                    '\n'.join([m.mention for m in seekers])
+                )
+            await channel.send(
+                'For the next {} hours, {} is {}\n\n{}'.format(
+                    hours,
+                    author.mention,
+                    role.mention,
+                    seeker_note
+                )
+            )
+            await sleep(3600*hours)
+            # Check if they are still seeking opponent
+            r = get(author.roles,name='Seeking opponent')
+            if r is None:
+                # They no longer have the role and must have canceled early
+                return
+            role = await member_role_set(author,'Seeking opponent',False)
+            await channel.send(
+                'Time expired. {} is no longer seeking an opponent.'.format(
+                    author.mention,
+                )
+            )
         return
     if author.id == ADMIN and message.content.lower().startswith('set'):
         mat = patmoji.search(message.content)
+        if mat is None:
+            return
         gs = mat.groups()
         emoji_name = gs[0]
         role_names = [gs[1]]
         await emoji_role_set(author.guild,emoji_name,role_names)
+        await channel.send('Emoji permission updated')
 
 #######
 # Run #
