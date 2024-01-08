@@ -122,9 +122,6 @@ async def on_message(message):
         # This was a bot message
         return
     channel = message.channel
-    if message.content == 'greet me':
-        await greet(author,channel)
-        return
     if channel.name == 'looking_for_opponent':
         mlow = message.content.lower()
         if mlow == 'out':
