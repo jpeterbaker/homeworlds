@@ -9,11 +9,13 @@ I haven't made a way to make the emoji usable by multiple roles yet
 (note that role names may have spaces)
 '''
 from sys import path,argv
-from time_detection import get_time
 
 import discord
 from discord.utils import get
+from discord.ext import commands
+
 import re
+from random import uniform
 from asyncio import sleep
 
 patmoji = re.compile('set emoji role ([^ ]+) (.+)')
@@ -42,7 +44,10 @@ with open('private/adminID.txt','r') as fin:
     # User with this id can give commands during games
     ADMIN = int(fin.readline().strip())
 
-client = discord.Client(intents=discord.Intents.all())
+intents = discord.Intents.all()
+
+client = discord.Client(intents=intents)
+bot = commands.Bot(command_prefix='/', intents=intents)
 
 ######################
 # Responses to event #
@@ -73,6 +78,43 @@ def get_delay(mlow):
         return 4.0
     return float(mlow[2:])
 
+def sample(x):
+    # Get a random member of x
+    return x[int(uniform(0,len(x)))]
+
+greets = ["What's up!","How's it going!","Howdy!"]
+signatures = [
+    "I may be a bot, but this message was crafted with love.",
+    "I was able to greet you so fast because I'm a bot. A human should acknowledge your arrival soon.",
+    "I'm a bot with only a few programmed responses, so I'm afraid I can't answer questions myself."
+]
+invitation_template = '''
+Feel free to introduce yourself, ask questions, or just look around.
+
+The {} channel is a good place for self-service Homeworlds info.'''
+
+async def greet(member,channel):
+    # Send a random greeting
+    guild = member.guild
+    resources_channel = get(guild.channels,name='resources')
+
+    greeting = sample(greets)
+    invitation = invitation_template.format(resources_channel.mention)
+    signature = sample(signatures)
+    await channel.send(
+        '{} {} {}\n\n{}'.format(
+            member.mention,
+            greeting,
+            invitation,
+            signature
+        )
+    )
+
+@client.event
+async def on_member_join(member):
+    general_channel = get(member.guild.channels,name='general')
+    await greet(member,general_channel)
+
 @client.event
 async def on_message(message):
     author = message.author
@@ -80,6 +122,9 @@ async def on_message(message):
         # This was a bot message
         return
     channel = message.channel
+    if message.content == 'greet me':
+        await greet(author,channel)
+        return
     if channel.name == 'looking_for_opponent':
         mlow = message.content.lower()
         if mlow == 'out':
@@ -144,5 +189,4 @@ async def on_message(message):
 # Run #
 #######
 client.run(TOKEN)
-
 
