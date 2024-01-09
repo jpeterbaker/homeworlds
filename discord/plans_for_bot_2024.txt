@@ -1,4 +1,5 @@
 Here are features I would like a Discord bot to have
+(implemented features removed from list)
 
 Time conversion
     Too intrusive/hard. Discord doesn't provide a way to detect time zone, and asking for it seems annoying.
@@ -14,12 +15,3 @@ Game moderator (like the bot I wrote circa 2020).
 State image generation
     I think this feature is also in the game moderator bot. It would let people generate game state images in a standard way.
 
-Looking-for-opponent role management
-    Simple messages like "in" and "out" would let players join the @looking-for-opponent role.
-    When someone joins, bot could ping the group and post a list of people looking
-    When someone leaves, bot should probably not say much extra, either nothing or "so-and-so is no longer looking for opponent"
-    Stretch goals: users can specify how long they want to stay in the group (e.g. in 3.5 to say they'll be available for the next 3.5 hours)
-
-Emoji and sticker permission
-    There is no way to limit access to specific emojis in the Discord interface, but it can be done through the API. I'd like to have an "I beat Andy" emoji or sticker that only medalists can use. I could hard-code such a thing in the bot or be fancy and create a command that only I could use to specify an emoji and the role(s) that should be able to use it
-    https://discord.com/developers/docs/resources/emoji
