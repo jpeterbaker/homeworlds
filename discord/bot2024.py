@@ -74,9 +74,9 @@ async def on_ready():
 
 greets = ["What's up!","How's it going!","Howdy!"]
 signatures = [
-    "Although I am an emotionless bot, but this message was crafted with love.",
+    "Although I am an emotionless bot, this message was crafted with love.",
     "I was able to greet you so fast because I'm a bot. A human should acknowledge your arrival soon.",
-    "I'm a bot with only a few programmed responses, so I'm afraid I can't answer questions myself."
+    "I'm a bot with only a few programmed behaviors, so I'll have to leave any question-answering to the humans."
 ]
 invitation_template = '''
 Feel free to introduce yourself, ask questions, or just look around.
