@@ -123,6 +123,9 @@ async def on_message(message):
         elif text.startswith('in'):
             await rc.command_in(message)
             return
+        elif text.startswith('after'):
+            await rc.command_after(message)
+            return
     if author.id == ADMIN:
         mat = patmoji.search(message.content)
         if mat is None:

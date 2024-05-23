@@ -1,6 +1,12 @@
 from discord.utils import get
 from asyncio import sleep
 
+import discord
+import time
+
+import sys
+assert sys.version_info >= (3, 10)
+
 def get_delay(s):
     if len(s) == 2:
         return 4.0
@@ -22,7 +28,7 @@ async def command_in(message):
         # They said something that wasn't a number, so ignore it
         return
     if hours <= 0 or hours > 24:
-        await channel.send('Time parameter must be between 0 and 24 (hours)')
+        await message.channel.send('Time parameter must be between 0 and 24 (hours)')
         return
     author = message.author
     channel = message.channel
@@ -54,6 +60,45 @@ async def command_in(message):
             author.mention,
         )
     )
+
+async def command_after(message):
+    current_ts = int(time.time())
+    author = message.author
+    channel = message.channel
+
+    match message.content.split():
+        case ["after", wait_duration_string, "for", available_duration_string]:
+            wait_duration_seconds = int(float(wait_duration_string) * 3600)
+            available_duration_seconds = int(float(available_duration_string) * 3600)
+
+            if wait_duration_seconds > 24 * 7 * 3600 or wait_duration_seconds < 0:
+                await channel.send('The availability period must be scheduled between 0 and 168 hours (one week) from now.')
+                return
+
+            if available_duration_seconds > 24 * 3600 or available_duration_seconds < 0:
+                await channel.send('The availability period must be between 0 and 24 hours.')
+                return
+
+            start_time_ts = current_ts + wait_duration_seconds
+            end_time_ts = start_time_ts + available_duration_seconds
+
+            await channel.send(f'At <t:{start_time_ts}> {author.mention} will be seeking an opponent until <t:{end_time_ts}>')
+            await sleep(wait_duration_seconds)
+
+            role = await member_role_set(author,'Seeking opponent',True)
+            await channel.send(f'{author.mention} is now {role.mention} until <t:{end_time_ts}>')
+
+            await sleep(available_duration_seconds)
+
+            r = get(author.roles,name='Seeking opponent')
+            if r is None:
+                # They no longer have the role and must have canceled early
+                return
+            role = await member_role_set(author,'Seeking opponent',False)
+            await channel.send(f'Time expired. {author.mention} is no longer seeking an opponent.')
+
+        case _:
+            await channel.send("syntax: `after <nb_hours> for <nb_hours>`")
 
 async def member_role_set(member,role_name,value):
     guild = member.guild
