@@ -27,6 +27,25 @@ async def command_in(message):
     channel = message.channel
 
     match message.content.split():
+        case ["in", "help"]:
+            help_message = """
+            #looking_for_opponent's commands
+
+            `in <available_hours> [delay <hours_before_available]`
+
+            Use this command to add your user to the "Looking for opponent" group,
+            enabling notifications (TODO: CONFIRM THAT) on this channel. The optional
+            delay parameter allows to announce a future availability.
+
+            Example usage:
+            Announce you are available to play for the next two hours:
+            `in 2`
+
+            Announce that in one hour you will be available two half an hour:
+            `in .05 delay 1`
+            """
+            await channel.send(help_message)
+
         case ["in", hours]:
             try:
                 hours = get_delay(message.content)
