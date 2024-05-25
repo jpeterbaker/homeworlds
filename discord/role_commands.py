@@ -22,54 +22,51 @@ async def command_out(message):
     )
 async def command_in(message):
     # User wants to join @Seeking opponent
-    try:
-        hours = get_delay(message.content)
-    except ValueError:
-        # They said something that wasn't a number, so ignore it
-        return
-    if hours <= 0 or hours > 24:
-        await message.channel.send('Time parameter must be between 0 and 24 (hours)')
-        return
-    author = message.author
-    channel = message.channel
-    role = await member_role_set(author,'Seeking opponent',True)
-    seekers = [m for m in role.members if m != author]
-    if len(seekers) == 0:
-        seeker_note = 'No one else is currently looking.'
-    else:
-        seeker_note = 'All opponent seekers:\n{}'.format(
-            '\n'.join([m.mention for m in seekers])
-        )
-    await channel.send(
-        'For the next {} hours, {} is {}\n\n{}'.format(
-            hours,
-            author.mention,
-            role.mention,
-            seeker_note
-        )
-    )
-    await sleep(3600*hours)
-    # Check if they are still seeking opponent
-    r = get(author.roles,name='Seeking opponent')
-    if r is None:
-        # They no longer have the role and must have canceled early
-        return
-    role = await member_role_set(author,'Seeking opponent',False)
-    await channel.send(
-        'Time expired. {} is no longer seeking an opponent.'.format(
-            author.mention,
-        )
-    )
-
-async def command_after(message):
     current_ts = int(time.time())
     author = message.author
     channel = message.channel
 
     match message.content.split():
-        case ["after", wait_duration_string, "for", available_duration_string]:
-            wait_duration_seconds = int(float(wait_duration_string) * 3600)
-            available_duration_seconds = int(float(available_duration_string) * 3600)
+        case ["in", hours]:
+            try:
+                hours = get_delay(message.content)
+            except ValueError:
+                # They said something that wasn't a number, so ignore it
+                return
+            if hours <= 0 or hours > 24:
+                await message.channel.send('Time parameter must be between 0 and 24 (hours)')
+                return
+            role = await member_role_set(author,'Seeking opponent',True)
+            seekers = [m for m in role.members if m != author]
+            if len(seekers) == 0:
+                seeker_note = 'No one else is currently looking.'
+            else:
+                seeker_note = 'All opponent seekers:\n{}'.format(
+                    '\n'.join([m.mention for m in seekers])
+                )
+            await channel.send(
+                'For the next {} hours, {} is {}\n\n{}'.format(
+                    hours,
+                    author.mention,
+                    role.mention,
+                    seeker_note
+                )
+            )
+            await sleep(3600*hours)
+            # Check if they are still seeking opponent
+            r = get(author.roles,name='Seeking opponent')
+            if r is None:
+                # They no longer have the role and must have canceled early
+                return
+            role = await member_role_set(author,'Seeking opponent',False)
+            await channel.send(
+                'Time expired. {} is no longer seeking an opponent.'.format(
+                    author.mention,
+                )
+            )
+        case ["in", hours, "delay", delay_hours]:
+            wait_duration_seconds = int(float(delay_hours) * 3600)
+            available_duration_seconds = int(float(hours) * 3600)
 
             if wait_duration_seconds > 24 * 7 * 3600 or wait_duration_seconds < 0:
                 await channel.send('The availability period must be scheduled between 0 and 168 hours (one week) from now.')
@@ -98,7 +95,7 @@ async def command_after(message):
             await channel.send(f'Time expired. {author.mention} is no longer seeking an opponent.')
 
         case _:
-            await channel.send("syntax: `after <nb_hours> for <nb_hours>`")
+            await channel.send("syntax: `in <nb_hours> [delay <nb_hours>]`")
 
 async def member_role_set(member,role_name,value):
     guild = member.guild
