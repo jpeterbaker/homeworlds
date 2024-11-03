@@ -1,10 +1,40 @@
 from discord.utils import get
 from asyncio import sleep
 
+def pluralize(n,sing,plu=None):
+    if plu is None:
+        plu = '{}s'.format(sing)
+    if n == 1:
+        return sing
+    return plu
+
+def get_time_description(hours):
+    'Convert a time in hours to a string description'
+    ihours = int(hours)
+    minutes = round(60*(hours-ihours))
+    if ihours == 0:
+        return '{} {}'.format(minutes,pluralize(minutes,'minute'))
+    if minutes == 0:
+        return '{} {}'.format(ihours,pluralize(ihours,'hour'))
+    return '{} hours {} minutes'.format(ihours,minutes)
+
+
 def get_delay(s):
+    '''
+    Convert string of the form
+    in [<number>[m]]
+    to a time in hours.
+    No number: 4 hours
+    m indicates minutes, otherwise, it's hours
+    '''
     if len(s) == 2:
-        return 4.0
-    return float(s[2:])
+        hours = 4.0
+    elif s.endswith('m'):
+        hours = float(s[2:-1])/60
+    else:
+        hours = float(s[2:])
+
+    return hours
 
 async def command_out(message):
     author = message.author

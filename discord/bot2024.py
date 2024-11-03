@@ -72,9 +72,9 @@ async def on_ready():
         '{} is connected'.format(client.user)
     )
 
-greets = ["What's up!","How's it going!","Howdy!"]
+greets = ["What's up!","How's it going!","Howdy!","Welcome!"]
 signatures = [
-    "Although I am an emotionless bot, this message was crafted with love.",
+    "Although I am an emotionless bot, this form letter was human-written with love.",
     "I was able to greet you so fast because I'm a bot. A human should acknowledge your arrival soon.",
     "I'm a bot with only a few programmed behaviors, so I'll have to leave any question-answering to the humans."
 ]
