@@ -109,6 +109,9 @@ async def emoji_role_change(guild,emoji_name,role_name,value):
     # Let the role use the emoji if value is True
     # Disallow if value is False
     emoji = get(guild.emojis,name=emoji_name)
+    if emoji is None:
+        # emoji_name didn't match any emoji
+        return
     if len(emoji.roles) == 0:
         # Emoji is already universal, do nothing
         return
