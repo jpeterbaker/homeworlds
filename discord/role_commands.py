@@ -46,6 +46,8 @@ async def command_out(message):
     )
 async def command_in(message):
     # User wants to join @Seeking opponent
+    channel = message.channel
+    author = message.author
     try:
         hours = get_delay(message.content)
     except ValueError:
@@ -54,8 +56,6 @@ async def command_in(message):
     if hours <= 0 or hours > 24:
         await channel.send('Time parameter must be between 0 and 24 (hours)')
         return
-    author = message.author
-    channel = message.channel
     role = await member_role_set(author,'Seeking opponent',True)
     seekers = [m for m in role.members if m != author]
     if len(seekers) == 0:
@@ -65,8 +65,8 @@ async def command_in(message):
             '\n'.join([m.mention for m in seekers])
         )
     await channel.send(
-        'For the next {} hours, {} is {}\n\n{}'.format(
-            hours,
+        'For the next {}, {} is {}\n\n{}'.format(
+            get_time_description(hours),
             author.mention,
             role.mention,
             seeker_note
@@ -109,6 +109,9 @@ async def emoji_role_change(guild,emoji_name,role_name,value):
     # Let the role use the emoji if value is True
     # Disallow if value is False
     emoji = get(guild.emojis,name=emoji_name)
+    if emoji is None:
+        # emoji_name didn't match any emoji
+        return
     if len(emoji.roles) == 0:
         # Emoji is already universal, do nothing
         return
