@@ -1,6 +1,14 @@
 from discord.utils import get
 from asyncio import sleep
 
+# Map lowercase names to standard
+role_capital_map = {
+    'teacher':'Teacher',
+    'beginner':'Beginner',
+    'seeking opponent':'Seeking opponent',
+    'medalist':'Medalist'
+}
+
 def pluralize(n,sing,plu=None):
     if plu is None:
         plu = '{}s'.format(sing)
@@ -85,8 +93,42 @@ async def command_in(message):
         )
     )
 
+async def role_request(message,name,value):
+    name = name.strip()
+    author = message.author
+    name = name.lower()
+    if name in ('teacher','beginner'):
+        role = await member_role_set(author,name,value)
+        if value:
+            await message.channel.send(
+                '{} is now listed as a {}.'.format(
+                    author.mention,
+                    role.mention
+                )
+            )
+        else:
+            await message.channel.send(
+                '{} is no longer listed as a {}.'.format(
+                    author.mention,
+                    name
+                )
+            )
+    else:
+        if len(name) > 13:
+            name = name[:13]+'...'
+        await message.channel.send(
+            '"{}" is not a role that I can assign.'.format(
+                name
+            )
+        )
+        return
+
 async def member_role_set(member,role_name,value):
     guild = member.guild
+    try:
+        role_name = role_capital_map[role_name.lower()]
+    except KeyError:
+        pass
     role = get(guild.roles,name=role_name)
     if value:
         await member.add_roles(role)

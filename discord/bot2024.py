@@ -2,6 +2,10 @@
 The commands "in' and "out" will add/remove the role named "Seeking opponent"
 if given in a channel named "looking_for_opponent"
 
+The commands "ima" and "nota" will add and remove certain roles
+    teacher
+    beginner
+
 The user with ID given in private/adminID.txt can give or take emoji permissions
 to a role with the commands
     open <emoji name>
@@ -114,15 +118,28 @@ async def on_message(message):
     if author == client.user:
         # This was a bot message
         return
+
     text = message.content
+
+    # Seeking opponent messages
     if message.channel.name == 'looking_for_opponent':
-        if text == 'out':
+        if text[:2].lower() == 'in':
+            await rc.command_in(message)
+            return
+        elif text[:3].lower() == 'out':
             # User wants to leave @Seeking opponent
             await rc.command_out(message)
             return
-        elif text.startswith('in'):
-            await rc.command_in(message)
-            return
+
+    # Role request
+    if text[:4].lower() == 'ima ':
+        await rc.role_request(message,text[4:],True)
+        return
+    elif text[:5].lower() == 'nota ':
+        await rc.nota_command(message,text[5:],False)
+        return
+
+    # Admin commands
     if author.id == ADMIN:
         mat = patmoji.search(message.content)
         if mat is None:
