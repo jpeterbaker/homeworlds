@@ -27,6 +27,7 @@ import re
 from random import uniform
 
 import role_commands as rc
+from asyncio import sleep
 
 patmoji = re.compile('(set|give|take|open) ([^ ]+) *(.+)?')
 
@@ -78,9 +79,8 @@ async def on_ready():
 
 greets = ["What's up!","How's it going!","Howdy!","Welcome!"]
 signatures = [
-    "Although I am an emotionless bot, this form letter was human-written with love.",
-    "I was able to greet you so fast because I'm a bot. A human should acknowledge your arrival soon.",
-    "I'm a bot with only a few programmed behaviors, so I'll have to leave any question-answering to the humans."
+    "I am merely a bot, but a human should acknowledge your arrival soon.",
+    "I'm a bot with only a few programmed behaviors. I'll have to leave any question-answering to the humans."
 ]
 invitation_template = '''
 Feel free to introduce yourself, ask questions, or just look around.
@@ -106,6 +106,8 @@ async def greet(member,channel):
 @client.event
 async def on_member_join(member):
     general_channel = get(member.guild.channels,name='general')
+    # Give the new member a few seconds to get oriented
+    await sleep(13)
     await greet(member,general_channel)
 
 ############
@@ -167,6 +169,24 @@ async def on_message(message):
         await message.channel.send('Emoji now useable by:\n{}'.format(
             role_list
         ))
+
+#@client.event
+#async def on_raw_reaction_add(event):
+#    '''
+#    event: is an instance of RawReactionActionEvent
+#    '''
+#    message_id = event.message_id
+#    emoji = event.
+#
+#
+#
+#@client.event
+#async def on_raw_reaction_clear_emoji(event):
+#    '''
+#    event: is an instance of RawReactionClearEmojiEvent
+#    '''
+
+
 
 #######
 # Run #

@@ -24,7 +24,7 @@ fpat = f'{hpat} ?(?:{mpat} ?{apat}|{mpat}|{apat})'
 pat = re.compile(fpat,re.I)
 
 def get_time(s):
-    # Find the time, if any, in s
+    # Find the time, if any: hours,minutes
     mat = pat.search(s)
     if mat is None:
         print(f'search on "{s}" got nuthin')
@@ -51,4 +51,5 @@ def get_time(s):
     return h,m
 
 if __name__=='__main__':
-    print(get_time('3:00'))
+    from sys import argv
+    print(get_time(argv[1]))
