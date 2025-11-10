@@ -93,32 +93,34 @@ async def command_in(message):
         )
     )
 
-async def role_request(message,name,value):
-    name = name.strip()
+async def role_request(message,role_name,value):
+    role_name = role_name.strip()
     author = message.author
-    name = name.lower()
-    if name in ('teacher','beginner'):
-        role = await member_role_set(author,name,value)
+    role_name = role_name.lower()
+    if role_name in ('teacher','beginner'):
+        role = await member_role_set(author,role_name,value)
         if value:
             await message.channel.send(
-                '{} is now listed as a {}.'.format(
+                '{} is now listed as a {}. Say "nota {}" to be removed."'.format(
                     author.mention,
-                    role.mention
+                    role_name,
+                    role_name
                 )
             )
         else:
             await message.channel.send(
-                '{} is no longer listed as a {}.'.format(
+                '{} is no longer listed as a {}. Say "ima {}" to rejoin.'.format(
                     author.mention,
-                    name
+                    role_name,
+                    role_name
                 )
             )
     else:
-        if len(name) > 13:
-            name = name[:13]+'...'
+        if len(role_name) > 13:
+            role_name = role_name[:13]+'...'
         await message.channel.send(
             '"{}" is not a role that I can assign.'.format(
-                name
+                role_name
             )
         )
         return

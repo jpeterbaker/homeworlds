@@ -77,13 +77,17 @@ async def on_ready():
         '{} is connected'.format(client.user)
     )
 
-greets = ["What's up!","How's it going!","Howdy!","Welcome!"]
+greets = ["What's up!","How's it going!","Howdy!","Welcome aboard!","Greetings, cadet!"]
 signatures = [
     "I am merely a bot, but a human should acknowledge your arrival soon.",
-    "I'm a bot with only a few programmed behaviors. I'll have to leave any question-answering to the humans."
+    "I'm a bot with only a few programmed behaviors. I'll have to leave any question-answering to the humans.",
+    "I'm a bot, but I don't have an LLM. My main job is sending this message to newcomers.",
+
 ]
 invitation_template = '''
 Feel free to introduce yourself, ask questions, or just look around.
+
+If you're a new player, you can say "ima beginner" to help others find you.
 
 The {} channel is a good place for self-service Homeworlds info.'''
 
@@ -138,7 +142,7 @@ async def on_message(message):
         await rc.role_request(message,text[4:],True)
         return
     elif text[:5].lower() == 'nota ':
-        await rc.nota_command(message,text[5:],False)
+        await rc.role_request(message,text[5:],False)
         return
 
     # Admin commands
@@ -185,7 +189,6 @@ async def on_message(message):
 #    '''
 #    event: is an instance of RawReactionClearEmojiEvent
 #    '''
-
 
 
 #######
