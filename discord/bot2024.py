@@ -87,9 +87,7 @@ signatures = [
 invitation_template = '''
 Feel free to introduce yourself, ask questions, or just look around.
 
-If you're a new player, you can say "ima beginner" to help others find you.
-
-The {} channel is a good place for self-service Homeworlds info.'''
+The {} channel is a good place for self-service info.'''
 
 async def greet(member,channel):
     # Send a random greeting

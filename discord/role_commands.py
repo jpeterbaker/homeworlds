@@ -101,7 +101,7 @@ async def role_request(message,role_name,value):
         role = await member_role_set(author,role_name,value)
         if value:
             await message.channel.send(
-                '{} is now listed as a {}. Say "nota {}" to be removed."'.format(
+                '{} is now listed as a {}. Say "nota {}" to be removed.'.format(
                     author.mention,
                     role_name,
                     role_name
